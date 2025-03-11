@@ -26,23 +26,42 @@ function* handleLogin(action) {
     const response = yield call(login, action.payload);
     yield put(loginSuccess(response.data));
     localStorage.setItem("user", response.data.accessToken);
-    Cookies.set("user", response.data.accessToken);
+    Cookies.set("accessToken", response.data.accessToken);
+    Cookies.set("refreshToken", response.data.refreshToken);
+    Cookies.set("userType", response.data.userType);
+
+    if (action.payload.toastCallback) {
+      action.payload.toastCallback("Login successful!", "success");
+    }
   } catch (error) {
     console.log("Login Error:", error.message);
     yield put(loginFailure(error.message));
+
+    if (action.payload.toastCallback) {
+      action.payload.toastCallback("Login failed", "error");
+    }
   }
 }
 
-// Handle Traveler Login (Fixed Action Dispatch)
 function* handleTravelerLogin(action) {
   try {
     const response = yield call(travelerlogin, action.payload);
     yield put(TravelerloginSuccess(response.data));
     localStorage.setItem("user", response.data.accessToken);
-    Cookies.set("user", response.data.accessToken);
+    Cookies.set("accessToken", response.data.accessToken);
+    Cookies.set("refreshToken", response.data.refreshToken);
+    Cookies.set("userType", response.data.userType);
+
+    if (action.payload.toastCallback) {
+      action.payload.toastCallback("Traveler login successful!", "success");
+    }
   } catch (error) {
     console.log("Traveler Login Error:", error.message);
     yield put(TravelerloginFailure(error.message));
+
+    if (action.payload.toastCallback) {
+      action.payload.toastCallback("Traveler login failed", "error");
+    }
   }
 }
 
@@ -53,9 +72,15 @@ function* handleSignup(action) {
     yield put(SignupSuccess(response.data));
     localStorage.setItem("user", response.data.accessToken);
     Cookies.set("user", response.data.accessToken);
+    if (action.payload.toastCallback) {
+      action.payload.toastCallback(" Signup successful!", "success");
+    }
   } catch (error) {
     console.log("Signup Error:", error.message);
     yield put(SignupFailure(error.message));
+    if (action.payload.toastCallback) {
+      action.payload.toastCallback("Login failed", "error");
+    }
   }
 }
 
@@ -66,16 +91,22 @@ function* handleTravelerSignup(action) {
     yield put(TravelerSignupSuccess(response.data));
     localStorage.setItem("user", response.data.accessToken);
     Cookies.set("user", response.data.accessToken);
+    if (action.payload.toastCallback) {
+      action.payload.toastCallback(" Signup successful!", "success");
+    }
   } catch (error) {
     console.log("Traveler Signup Error:", error.message);
     yield put(TravelerSignupFailure(error.message));
+    if (action.payload.toastCallback) {
+      action.payload.toastCallback("Signup Failed!", "success");
+    }
   }
 }
 
 // Handle Restore Session
 function* handleRestoreSession() {
   try {
-    const token = localStorage.getItem("user");
+    const token = localStorage.getItem("accessToken");
     if (token) {
       yield put(loginSuccess({ accessToken: token }));
     }
@@ -88,8 +119,8 @@ function* handleRestoreSession() {
 // Logout Function (Fixed to Remove Local Storage)
 function* logout() {
   try {
-    Cookies.remove("user");
-    localStorage.removeItem("user");
+    Cookies.remove("accessToken");
+    localStorage.removeItem("accessToken");
   } catch (error) {
     console.log("Logout Error:", error.message);
   }

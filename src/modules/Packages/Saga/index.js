@@ -12,9 +12,10 @@ import {
 import { Allpackages, detailpackages } from "../Api";
 
 function* handleGetAllPackages(action) {
+  const { pagination } = action.payload;
   try {
-    const response = yield call(Allpackages, action.payload);
-    yield put(allPackagesSuccess(response.data));
+    const response = yield call(Allpackages, pagination);
+    yield put(allPackagesSuccess(response?.data.packages));
   } catch (error) {
     console.log("Login Error:", error.message);
     yield put(allPackagesFailure(error.message));

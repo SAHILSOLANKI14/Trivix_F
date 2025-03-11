@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 import CustomIcon from "../../shared/Icon";
 import CommentSection from "../Comments";
 import { theme } from "../../Theme/theme";
+import LikeButton from "../Like";
 
 const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
   const settings = {
@@ -52,13 +53,6 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
     }
   };
   const [commentOpen, setCommentOpen] = useState(null);
-  const [likesCount, setLikesCount] = useState(
-    posts.reduce((acc, post, index) => {
-      acc[index] = post.likes || 0; // Initialize with post's likes count
-      return acc;
-    }, {})
-  );
-  const [likedPosts, setLikedPosts] = useState({});
 
   const toggleCommentField = (postId) => {
     if (commentOpen === postId) {
@@ -67,24 +61,7 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
       setCommentOpen(postId);
     }
   };
-
-  const handleLikeToggle = (postIndex) => {
-    setLikedPosts((prevLiked) => {
-      const isCurrentlyLiked = prevLiked[postIndex] || false;
-      setLikesCount((prevLikes) => ({
-        ...prevLikes,
-        [postIndex]: isCurrentlyLiked
-          ? prevLikes[postIndex] - 1
-          : prevLikes[postIndex] + 1,
-      }));
-
-      return {
-        ...prevLiked,
-        [postIndex]: !isCurrentlyLiked,
-      };
-    });
-  };
-
+  const avatar = "https://react.semantic-ui.com/images/avatar/small/matt.jpg";
   return (
     <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
       <div
@@ -118,10 +95,10 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
               <Comment
                 style={{ display: "flex", alignItems: "center", gap: "10px" }}
               >
-                <Image src={post.userAvatar} avatar />
+                <Image src={avatar || post.ownerDetails?.avatar} avatar />
                 <Comment.Content>
                   <Header as={"h5"} style={{ margin: 0 }}>
-                    {post.username}
+                    {post?.ownerDetails?.userName}
                   </Header>
                   <Header
                     as={"h5"}
@@ -138,23 +115,34 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
               <CustomIcon name="ellipsis vertical" />
             </div>
 
-            {/* Image Slider */}
-            <Slider {...settings}>
-              {post.images.map((src, index) => (
-                <div key={index}>
-                  <Image
-                    src={src}
-                    alt={`slide-${index}`}
-                    style={{
-                      width: "100%",
-                      height: responsiveHeight(),
-                      objectFit: "cover",
-                      marginBottom: "-20px",
-                    }}
-                  />
-                </div>
-              ))}
-            </Slider>
+            {Array.isArray(post.image) && post.image.length > 1 ? (
+              <Slider {...settings}>
+                {post.image.map((src, index) => (
+                  <div key={index} style={{ marginBottom: "20px !important" }}>
+                    <Image
+                      src={src}
+                      alt={`slide-${index}`}
+                      style={{
+                        width: "100%",
+                        height: responsiveHeight(),
+                        objectFit: "cover",
+                      }}
+                    />
+                  </div>
+                ))}
+              </Slider>
+            ) : (
+              <Image
+                src={Array.isArray(post.image) ? post.image[0] : post.image}
+                alt="single-image"
+                style={{
+                  width: "100%",
+                  height: responsiveHeight(),
+                  objectFit: "cover",
+                  marginBottom: "20px",
+                }}
+              />
+            )}
 
             {/* Action Icons */}
             <div
@@ -167,15 +155,7 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
               <div
                 style={{ display: "flex", alignItems: "center", gap: "15px" }}
               >
-                <CustomIcon
-                  name={`heart ${likedPosts[postIndex] ? "" : "outline"}`}
-                  style={{
-                    color: likedPosts[postIndex] ? "red" : "black",
-                    fontSize: "16px",
-                  }}
-                  onClick={() => handleLikeToggle(postIndex)}
-                />
-                <span>{likesCount[postIndex]}</span>
+                <LikeButton posts={posts} postIndex={postIndex} />
                 <CustomIcon
                   name="chat outline"
                   style={{ color: "black", fontSize: "16px" }}
@@ -188,7 +168,7 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
               />
             </div>
             <div style={{ padding: "5px 10px" }}>
-              <Header as={"h4"}>{post.captions}</Header>
+              <Header as={"h4"}>{post.caption}</Header>
             </div>
 
             {/* Comments Section */}

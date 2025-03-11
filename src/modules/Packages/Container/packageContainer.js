@@ -21,16 +21,16 @@ const PackageContainer = () => {
   };
   console.log(id);
   const { data, loading } = useSelector((state) => state.Allpackages);
-
+  const pagination = {
+    page: 1,
+  };
   useEffect(() => {
-    dispatch(allPackagesRequest());
+    dispatch(allPackagesRequest({ pagination }));
   }, [dispatch]);
 
   return (
-    <Grid columns="equal" style={{ height: "100%" }}>
-      <Grid.Row
-        style={{ display: "flex", justifyContent: "center", padding: 0 }}
-      >
+    <Grid columns="equal" style={{ height: "100%", padding: 0 }}>
+      <Grid.Row style={{ display: "flex", justifyContent: "center" }}>
         {/* Main content (Image Carousel) */}
         <GridColumn
           mobile={16}
@@ -40,12 +40,15 @@ const PackageContainer = () => {
           style={{
             marginBottom: "50px",
             display: "flex",
+            padding: 0,
             flexDirection: "column",
           }}
         >
           {!id ? (
             <>
-              <Nav />
+              <div style={{ position: "sticky" }}>
+                <Nav />
+              </div>
               {loading ? (
                 <div
                   style={{
@@ -59,7 +62,7 @@ const PackageContainer = () => {
                 >
                   <Image
                     src={loader}
-                    ui={false}
+                    ui={true}
                     style={{ width: "60px", marginLeft: "-10px" }}
                   />
                   <Header as="h2">Loading...</Header>
@@ -83,7 +86,6 @@ const PackageContainer = () => {
                     justifyContent: "center",
                     alignItems: "center",
                     flexDirection: "column",
-
                     width: "100%",
                   }}
                 />
@@ -95,6 +97,7 @@ const PackageContainer = () => {
                       justifyContent: "space-between",
                       alignItems: "center",
                       marginTop: "20px",
+                      padding: "0px 5px",
                     }}
                   >
                     <Header
@@ -109,6 +112,7 @@ const PackageContainer = () => {
                         margin: "0",
                         fontWeight: "300",
                         color: theme.colors.gray,
+                        padding: 1,
                       }}
                     >
                       See All

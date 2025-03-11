@@ -21,7 +21,7 @@ import useWindowSize from "../../hooks/Screen";
 const CustomSidebar = () => {
   const { width } = useWindowSize();
 
-  const DesktopSidebar = width <= 1026 ? "none" : "block";
+  const DesktopSidebar = width <= 1024 ? "none" : "block";
   const MobileNav = width > 1024 ? "none" : "block";
 
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ const CustomSidebar = () => {
 
   const handleLogOut = () => {
     dispatch(logout);
-    Cookies.remove("user");
+    Cookies.remove("accessToken");
     localStorage.removeItem("persist:root");
     navigate("/auth/login");
   };

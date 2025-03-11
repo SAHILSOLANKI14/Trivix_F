@@ -14,7 +14,7 @@ const Nav = () => {
       style={{
         background: "transparent",
         alignItems: "center",
-        padding: "10px",
+        padding: "10px 20px",
       }}
     >
       <Grid.Row columns={2} style={{ display: "flex", alignItems: "center" }}>

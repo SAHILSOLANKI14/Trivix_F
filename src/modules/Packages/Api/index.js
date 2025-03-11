@@ -1,8 +1,8 @@
 import { apiRequest } from "../../Api";
 
-export const Allpackages = async () => {
+export const Allpackages = async (pagination) => {
   try {
-    const result = await apiRequest(`packages`, "GET", null, null);
+    const result = await apiRequest(`packages`, "GET", null, pagination);
     return result;
   } catch (error) {
     console.log("error", error.message);

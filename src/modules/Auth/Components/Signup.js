@@ -54,8 +54,6 @@ const SignupForm = () => {
             userName: data.userName,
             password: data.password,
           };
-
-    console.log(finalData);
     try {
       dispatch(
         selected === "traveler"

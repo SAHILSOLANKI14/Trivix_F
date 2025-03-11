@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, Image, List, ListItem } from "semantic-ui-react";
 import { theme } from "../../Theme/theme";
 import Cardimg from "../../assets/images/card3.png";
 import CustomIcon from "../../shared/Icon";
 
 const TravelCard = ({ item, style = {}, handleNavigateDetailpage }) => {
+  const [wishlist, setWishlist] = useState(false);
+
   // Calculate duration from startDate to endDate
   const getDuration = (start, end) => {
     if (!start || !end) return "";
@@ -12,6 +14,11 @@ const TravelCard = ({ item, style = {}, handleNavigateDetailpage }) => {
     const endDate = new Date(end);
     const diffTime = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
     return `${diffTime} days`;
+  };
+
+  const handleWishList = () => {
+    setWishlist((prev) => !prev); 
+    console.log(wishlist);
   };
 
   return (
@@ -46,9 +53,12 @@ const TravelCard = ({ item, style = {}, handleNavigateDetailpage }) => {
             padding: 0,
           }}
         />
-        <div style={{ position: "absolute", top: 10, right: 10 }}>
+        <div
+          style={{ position: "absolute", top: 10, right: 10 }}
+          onclick={() => handleWishList()}
+        >
           <CustomIcon
-            name="heart outline"
+            name={`heart ${wishlist ? "" : "outline"}`}
             size="large"
             style={{ color: theme.colors.white }}
           />

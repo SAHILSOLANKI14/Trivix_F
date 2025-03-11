@@ -18,7 +18,7 @@ code {
 .ui.stackable.grid > .row > .column,
 .ui.stackable.grid > .row > .wide.column,
 .ui.stackable.grid > .wide.column {
-  /* padding: 5px 20px !important ; */
+  padding: 0px 10px !important ;
 }
 .slick-dots li.slick-active div {
   background-color: rgb(

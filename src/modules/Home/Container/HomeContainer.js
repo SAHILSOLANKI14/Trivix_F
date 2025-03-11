@@ -1,5 +1,5 @@
-import React from "react";
-import { Grid, GridColumn } from "semantic-ui-react";
+import React, { useEffect } from "react";
+import { Grid, GridColumn, Header, Image } from "semantic-ui-react";
 import ImageCarousel from "../../../components/PostsBlog";
 import ChatBox from "../../../components/Chat";
 import img from "../../../assets/images/pexels-souvenirpixels-414612.jpg";
@@ -8,38 +8,19 @@ import img3 from "../../../assets/images/ai-generated-mysterious-night-sky-illum
 import NotificationBar from "../../../components/Notification";
 import { useMediaQuery } from "@react-hook/media-query";
 import Nav from "../../Packages/Components/Nav";
+import { useDispatch, useSelector } from "react-redux";
+import { allPostsRequest } from "../Actions";
+import loader from "../../../assets/images/giphy.gif";
 
 const HomeContainer = () => {
-  const images = [img, img2, img3];
-  const images2 = [img2, img, img3];
-  const posts = [
-    {
-      userAvatar: "https://react.semantic-ui.com/images/avatar/small/matt.jpg",
-      username: "John Doe",
-      caption: "Enjoying the sunset!",
-      images: [...images],
-      comments: [
-        { user: "Alice", text: "Wow, amazing view!" },
-        { user: "Bob", text: "Looks so peaceful!" },
-      ],
-      captions: "Enjoying The Journey With Amazing Views",
-    },
-    {
-      userAvatar: "https://react.semantic-ui.com/images/avatar/small/steve.jpg",
-      username: "Jane Smith",
-      caption: "Weekend hiking adventure!",
-      images: [...images2],
-      comments: [
-        { user: "Charlie", text: "That looks like a great trail!" },
-        { user: "Dave", text: "Wish I was there!" },
-      ],
-      captions: "Great Experience",
-    },
-  ];
-
+  const dispatch = useDispatch();
   const isMobile = useMediaQuery("(max-width: 1024px)");
   const isLaptop = useMediaQuery("(max-width: 1440px)");
-
+  const { data, loading } = useSelector((state) => state.AllPost);
+  useEffect(() => {
+    dispatch(allPostsRequest());
+  }, [dispatch]);
+  const posts = data;
   return (
     <>
       <Grid columns="equal" style={{ height: "100%" }}>
@@ -58,12 +39,31 @@ const HomeContainer = () => {
             }}
           >
             <Nav />
-            <ImageCarousel
-              images={images}
-              posts={posts}
-              isLaptop={isLaptop}
-              isMobile={isMobile}
-            />
+            {loading ? (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column",
+                  height: "100vh",
+                  width: "100%",
+                }}
+              >
+                <Image
+                  src={loader}
+                  ui={true}
+                  style={{ width: "60px", marginLeft: "-10px" }}
+                />
+                <Header as="h2">Loading...</Header>
+              </div>
+            ) : (
+              <ImageCarousel
+                posts={posts}
+                isLaptop={isLaptop}
+                isMobile={isMobile}
+              />
+            )}
           </GridColumn>
           {!isMobile && (
             <GridColumn

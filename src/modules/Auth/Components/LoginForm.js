@@ -13,31 +13,60 @@ import {
 } from "../Actions/Actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import Cookies from "js-cookie";
 import { Radio } from "semantic-ui-react";
+import ToastMessage from "../../../utility/Toast";
+import Cookies from "js-cookie";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { Data, loading } = useSelector((state) => state.auth);
   const [selected, setSelected] = useState("traveler");
+  const [toast, setToast] = useState({ message: "", type: "", visible: false });
+
+  const showToast = (message, type) => {
+    setToast({ message, type, visible: true });
+    setTimeout(() => setToast({ ...toast, visible: false }), 3000);
+  };
 
   const schema = yup.object().shape({
     password: yup
       .string()
       .min(6, "Password must be at least 6 characters")
       .required("Password is required"),
+
     userName: yup
       .string()
-      .min(6, "Email must be at least 12 characters")
-      .required("Email is required"),
+      .test(
+        "is-valid",
+        "Enter a valid username, email, or phone number",
+        (value) =>
+          /^[a-zA-Z0-9._-]+$/.test(value) ||
+          /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value) ||
+          /^[0-9]{10,15}$/.test(value)
+      )
+      .required("Username, email, or phone number is required"),
   });
 
+  const determineInputType = (input) => {
+    if (/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(input)) {
+      return "email";
+    } else if (/^[0-9]{10,15}$/.test(input)) {
+      return "phoneNo";
+    } else {
+      return "userName";
+    }
+  };
+
   const onSubmit = async (data) => {
+    const inputType = determineInputType(data.userName);
+
     const finalData = {
-      userName: data.userName,
+      [inputType]: data.userName, // dynamically assign the correct field
       password: data.password,
+      toastCallback: showToast,
     };
+
     try {
       dispatch(
         selected === "traveler"
@@ -54,9 +83,12 @@ const LoginForm = () => {
   };
 
   useEffect(() => {
-    const token = Cookies.get("user");
+    const token = Cookies.get("accessToken");
     if (token) {
-      navigate("/");
+      showToast("Login successful!", "success");
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
     }
   }, [Data, navigate]);
 
@@ -67,7 +99,7 @@ const LoginForm = () => {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        height: "100vh",
+        height: "90vh",
         width: "100%",
       }}
     >
@@ -117,7 +149,7 @@ const LoginForm = () => {
           <Fields.Input
             name="userName"
             type="text"
-            placeholder="Enter your email"
+            placeholder="Enter Username, Email, or Phone Number"
             className="login-input"
             fluid
           />
@@ -175,6 +207,13 @@ const LoginForm = () => {
           style={{ background: theme.colors.gray, color: theme.colors.blue }}
         />
       </div>
+      {toast.visible && (
+        <ToastMessage
+          message={toast.message}
+          type={toast.type}
+          visible={toast.visible}
+        />
+      )}
     </div>
   );
 };

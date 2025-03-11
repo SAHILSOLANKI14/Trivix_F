@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid, Header, Image, TabPane } from "semantic-ui-react";
 import profilePic from "../../../assets/images/Ellipse 194.svg";
 import { Button } from "../../../shared";
 import { theme } from "../../../Theme/theme";
 import TabExampleSecondaryPointing from "../Components/Tabs";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ImageGroupSize from "../../../components/ImageGroup";
 import img from "../../../assets/images/ai-generated-mysterious-night-sky-illuminates-tranquil-forest-revealing-cosmic-beauty-generated-by-ai-photo.jpg";
 import Tweets from "../Components/Tweets";
+import { getTweetsRequest } from "../Actions";
 
 const ProfileContainer = () => {
   const { Data } = useSelector((state) => state.auth);
@@ -96,6 +97,15 @@ const ProfileContainer = () => {
       ),
     },
   ];
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const Datas = {
+      userId: "67cfc46bf50e1438ac1b15a2",
+      userType: "Traveler",
+    };
+    dispatch(getTweetsRequest(Datas));
+  }, [dispatch]);
   return (
     <>
       <Grid columns={"equal"} fluid>
