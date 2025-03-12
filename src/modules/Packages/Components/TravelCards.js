@@ -4,15 +4,15 @@ import TravelCard from "../../../components/Cards/TravelCard";
 
 const TravelCards = ({ handleNavigateDetailpage, data = [] }) => {
   const settings = {
-    dots: false, // Remove dots to avoid overflow
+    dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: 7,
+    slidesToShow: 6,
     slidesToScroll: 2,
     arrows: false,
-    lazyLoad: "ondemand", // Improves performance
+    lazyLoad: "ondemand",
     responsive: [
-      { breakpoint: 1444, settings: { slidesToShow: 6, slidesToScroll: 3 } },
+      { breakpoint: 1444, settings: { slidesToShow: 5, slidesToScroll: 3 } },
       { breakpoint: 1025, settings: { slidesToShow: 3, slidesToScroll: 1 } },
       { breakpoint: 769, settings: { slidesToShow: 3, slidesToScroll: 1 } },
       { breakpoint: 450, settings: { slidesToShow: 2, slidesToScroll: 1 } },
@@ -20,7 +20,7 @@ const TravelCards = ({ handleNavigateDetailpage, data = [] }) => {
   };
 
   return (
-    <div style={{ padding: "20px 0px" }}>
+    <div style={{ padding: "20px 20px" }}>
       <CustomSlider settings={settings}>
         {data.length > 0 ? (
           data.map((item, index) => (

@@ -54,7 +54,7 @@ const authReducer = (state = initialState, action) => {
     case RESTORE_SESSION:
       return { ...state, loading: false };
     case LOGOUT:
-      return initialState;
+      return state;
     default:
       return state;
   }

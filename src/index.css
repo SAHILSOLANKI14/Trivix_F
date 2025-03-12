@@ -3,9 +3,14 @@
 body {
   margin: 0;
   font-family: "poppins", sans-serif;
-  background-color: #f5f5f5;
+  background-color: #003049;
   padding: 0;
   overflow-x: hidden;
+}
+body,
+html {
+  overflow-x: auto; /* Allows horizontal scrolling */
+  max-width: 100%; /* Prevents content from exceeding viewport */
 }
 
 code {
@@ -18,18 +23,27 @@ code {
 .ui.stackable.grid > .row > .column,
 .ui.stackable.grid > .row > .wide.column,
 .ui.stackable.grid > .wide.column {
-  padding: 0px 10px !important ;
+  padding: 0px 0px !important;
 }
 .slick-dots li.slick-active div {
-  background-color: rgb(
-    61,
-    120,
-    187
-  ) !important; /* Change color of active dot */
-  transform: scale(1.3); /* Slightly enlarge active dot */
+  background-color: rgb(61, 120, 187) !important;
+  transform: scale(1.3);
 }
-.centered-tabs {
+.custom-tabs {
   display: flex;
   justify-content: center;
   gap: 0px;
+}
+.custom-tabs.ui.menu {
+  background-color: transparent !important;
+}
+.custom-tabs .item {
+  color: white !important;
+}
+.custom-tabs .active.item {
+  color: rgb(255, 255, 255) !important;
+  font-weight: bold;
+}
+.custom-tabs .active.item {
+  border-bottom: 3px solid #000000 !important;
 }

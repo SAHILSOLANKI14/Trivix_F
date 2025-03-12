@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import CustomIcon from "../../shared/Icon";
+import { theme } from "../../Theme/theme";
 
 const LikeButton = ({ posts, postIndex }) => {
   const [likedPosts, setLikedPosts] = useState({});
@@ -32,12 +33,13 @@ const LikeButton = ({ posts, postIndex }) => {
       <CustomIcon
         name={`heart ${likedPosts[postIndex] ? "" : "outline"}`}
         style={{
-          color: likedPosts[postIndex] ? "red" : "black",
+          color: likedPosts[postIndex] ? "red" : theme.colors.white,
           fontSize: "16px",
         }}
         onClick={() => handleLikeToggle(postIndex)}
       />
-      <span>{likesCount[postIndex]}</span>
+
+      <span style={{ color: theme.colors.white }}>{likesCount[postIndex]}</span>
     </div>
   );
 };

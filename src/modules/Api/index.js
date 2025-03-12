@@ -18,12 +18,17 @@ export const apiRequest = async (
       );
     }
 
-    // const token = localStorage.getItem("user");
+    const token = localStorage.getItem("user");
 
     const config = {
       method,
       url: url.toString(),
-      ...data,
+      headers: {
+        Authorization: token ? `Bearer ${token}` : "",
+        "Content-Type": "application/json",
+        ...headers,
+      },
+      data,
     };
     const response = await axios(config);
     return response.data;

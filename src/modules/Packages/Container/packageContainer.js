@@ -40,7 +40,6 @@ const PackageContainer = () => {
           style={{
             marginBottom: "50px",
             display: "flex",
-            padding: 0,
             flexDirection: "column",
           }}
         >
@@ -56,7 +55,7 @@ const PackageContainer = () => {
                     justifyContent: "center",
                     alignItems: "center",
                     flexDirection: "column",
-                    height: "100vh",
+                    height: "80vh",
                     width: "100%",
                   }}
                 >
@@ -65,7 +64,9 @@ const PackageContainer = () => {
                     ui={true}
                     style={{ width: "60px", marginLeft: "-10px" }}
                   />
-                  <Header as="h2">Loading...</Header>
+                  <Header as="h2" style={{ color: theme.colors.white }}>
+                    Loading...
+                  </Header>
                 </div>
               ) : (
                 <>
@@ -97,12 +98,16 @@ const PackageContainer = () => {
                       justifyContent: "space-between",
                       alignItems: "center",
                       marginTop: "20px",
-                      padding: "0px 5px",
+                      padding: "0px 25px",
                     }}
                   >
                     <Header
                       as={"h3"}
-                      style={{ margin: "0", marginLeft: "10px" }}
+                      style={{
+                        margin: "0",
+                        marginLeft: "10px",
+                        color: theme.colors.white,
+                      }}
                     >
                       Group Trips
                     </Header>

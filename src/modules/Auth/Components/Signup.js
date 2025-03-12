@@ -15,7 +15,7 @@ const SignupForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [selected, setSelected] = useState("traveler");
-
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const { Data, loading } = useSelector((state) => state.auth);
 
   // Dynamic validation schema based on selected type
@@ -90,7 +90,7 @@ const SignupForm = () => {
         }`}
         style={{
           padding: "0px",
-          color: theme.colors.black,
+          color: theme.colors.white,
           fontWeight: "bold",
           marginTop: "5px",
         }}
@@ -109,7 +109,7 @@ const SignupForm = () => {
       {/* Radio Button Selection */}
       <div style={{ marginBottom: "20px" }}>
         <Radio
-          label="Traveler"
+          label={<label style={{ color: theme.colors.white }}>Traveler</label>}
           name="loginType"
           value="traveler"
           checked={selected === "traveler"}
@@ -117,8 +117,8 @@ const SignupForm = () => {
           style={{ marginRight: "15px" }}
         />
         <Radio
-          label="Agency"
           name="loginType"
+          label={<label style={{ color: theme.colors.white }}>Agency</label>}
           value="agency"
           checked={selected === "agency"}
           onChange={() => setSelected("agency")}
@@ -185,9 +185,13 @@ const SignupForm = () => {
           />
           <Fields.Input
             name="password"
-            type="password"
+            type={passwordVisible ? "text" : "password"}
             placeholder="Enter your Password"
-            icon="eye outlined"
+            icon={{
+              name: passwordVisible ? "eye" : "eye slash outline",
+              link: true,
+              onClick: () => setPasswordVisible((prev) => !prev),
+            }}
             className="login-input"
             fluid
           />
@@ -208,17 +212,36 @@ const SignupForm = () => {
           </div>
         </Form>
       </div>
-
+      <p
+        style={{
+          marginTop: "15px",
+          fontSize: "12px",
+          color: "gray",
+        }}
+      >
+        Already have an account?{" "}
+        <a
+          href="/auth/login"
+          style={{ color: theme.colors.blue, fontWeight: "bold" }}
+        >
+          Login
+        </a>
+      </p>
       {/* Extra Links */}
-      <p style={{ fontSize: "12px" }}>
+      <p style={{ fontSize: "12px", color: "gray" }}>
         Become Our Agency{" "}
-        <a href="#" style={{ color: "#ff6b6b", fontWeight: "bold" }}>
+        <a
+          style={{ color: theme.colors.blue, fontWeight: "bold" }}
+          onClick={() => setSelected("agency")}
+        >
           Partner
         </a>
       </p>
 
       {/* Social Login */}
-      <p style={{ fontSize: "12px", marginTop: "10px" }}>OR LOG IN BY</p>
+      <p style={{ fontSize: "12px", marginTop: "10px", color: "gray" }}>
+        OR LOG IN BY
+      </p>
       <div style={{ display: "flex", gap: "10px" }}>
         <Button
           circular

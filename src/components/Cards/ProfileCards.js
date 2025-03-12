@@ -5,20 +5,31 @@ import backgroundImg from "../../assets/images/Placeholder.png";
 import { Button } from "../../shared";
 import CustomIcon from "../../shared/Icon";
 import { useSelector } from "react-redux";
+import { theme } from "../../Theme/theme";
 const ProfileCard = () => {
   const { Data } = useSelector((state) => state.auth);
   // console.log(Data.agency);
   const data = Data?.agency || Data?.traveler;
 
   return (
-    <div style={{ padding: 5, borderRadius: "15px" }}>
+    <div style={{ padding: 7, borderRadius: "15px" }}>
       <Card
         centered
-        style={{ borderRadius: "15px", overflow: "hidden", top: "70px" }}
+        style={{
+          borderRadius: "15px",
+          overflow: "hidden",
+          top: "70px",
+          background: theme.colors.main,
+          padding: "0px",
+          margin: "0px",
+        }}
       >
         <Image
           src={backgroundImg}
-          style={{ objectFit: "cover", height: "90px" }}
+          style={{
+            objectFit: "cover",
+            height: "90px",
+          }}
         />
         <Image
           src={userProfile}
@@ -34,12 +45,18 @@ const ProfileCard = () => {
           padding={"20px"}
           style={{ border: "none" }}
         >
-          <Card.Meta>100 Following &nbsp; 100 Followers</Card.Meta>
+          <Card.Meta style={{ color: theme.colors.white }}>
+            100 Following &nbsp; 100 Followers
+          </Card.Meta>
           <Card.Meta style={{ display: "flex", marginLeft: "50px" }}>
             <CustomIcon
               name="map marker alternate"
               title={data?.city || "Ahemdabad"}
-              style={{ display: "flex", gap: "10px" }}
+              style={{
+                display: "flex",
+                gap: "10px",
+                color: theme.colors.white,
+              }}
             />
           </Card.Meta>
           <div style={{ marginTop: "10px" }}>

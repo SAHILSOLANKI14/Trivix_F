@@ -48,7 +48,10 @@ const ChatApp = ({ messagesData, chatList }) => {
   };
 
   return (
-    <Grid divided style={{ border: "none", boxShadow: "none" }}>
+    <Grid
+      divided
+      style={{ border: "none", boxShadow: "none", padding: "0px 20px" }}
+    >
       {!id && <ChatSidebar chatList={chatList} openChat={openChat} />}
       {id && (
         <ChatBody

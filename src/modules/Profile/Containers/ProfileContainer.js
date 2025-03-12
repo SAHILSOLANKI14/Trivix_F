@@ -9,6 +9,8 @@ import ImageGroupSize from "../../../components/ImageGroup";
 import img from "../../../assets/images/ai-generated-mysterious-night-sky-illuminates-tranquil-forest-revealing-cosmic-beauty-generated-by-ai-photo.jpg";
 import Tweets from "../Components/Tweets";
 import { getTweetsRequest } from "../Actions";
+import { GetCurrentLogedInAgency, getFollowers, getFollowings } from "../Api";
+import Cookies from "js-cookie";
 
 const ProfileContainer = () => {
   const { Data } = useSelector((state) => state.auth);
@@ -44,6 +46,7 @@ const ProfileContainer = () => {
             background: "transparent",
             border: "none",
             boxShadow: "none",
+            color: theme.colors.white,
           }}
         >
           <ImageGroupSize PostImage={PostImage} />
@@ -100,11 +103,17 @@ const ProfileContainer = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const userID = Cookies.get("userId");
+    const userType = Cookies.get("userType");
+    const userName = Data?.agency?.userName || Data?.traveler?.userName;
     const Datas = {
-      userId: "67cfc46bf50e1438ac1b15a2",
-      userType: "Traveler",
+      userId: userID,
+      userType: userType,
     };
+    GetCurrentLogedInAgency();
     dispatch(getTweetsRequest(Datas));
+    getFollowers(userName);
+    getFollowings(userName);
   }, [dispatch]);
   return (
     <>
@@ -125,7 +134,14 @@ const ProfileContainer = () => {
                   centered
                   style={{ width: "80px", height: "80px" }}
                 />
-                <Header as={"h3"} style={{ margin: "0" }}>
+                <Header
+                  as={"h3"}
+                  style={{
+                    margin: "0",
+                    color: theme.colors.white,
+                    padding: "5px ",
+                  }}
+                >
                   {data?.agencyName || data?.fullName}
                 </Header>
                 <Header
@@ -147,7 +163,11 @@ const ProfileContainer = () => {
               >
                 <Header
                   as={"h5"}
-                  style={{ fontSize: "12px", fontWeight: "300 !important" }}
+                  style={{
+                    fontSize: "12px",
+                    fontWeight: "300 !important",
+                    color: theme.colors.white,
+                  }}
                 >
                   {data?.bio ||
                     "Explore. Dream. Discover. Your Journey Begins Here! ✈️🌍"}
@@ -169,7 +189,7 @@ const ProfileContainer = () => {
               <div style={{ gap: "30px !important" }}>
                 <Button
                   style={{
-                    background: theme.colors.blue,
+                    background: theme.colors.black,
                     color: theme.colors.white,
                     gap: "20px",
                   }}
@@ -179,7 +199,7 @@ const ProfileContainer = () => {
                 <a href="/chat">
                   <Button
                     style={{
-                      background: theme.colors.orange,
+                      background: theme.colors.black,
                       color: theme.colors.white,
                     }}
                   >
@@ -191,12 +211,20 @@ const ProfileContainer = () => {
                 style={{ display: "flex", gap: "30px", textAlign: "center" }}
               >
                 <div>
-                  <Header style={{ margin: "0" }}>100</Header>
-                  <Header style={{ margin: "0" }}>Follower</Header>
+                  <Header style={{ margin: "0", color: theme.colors.white }}>
+                    100
+                  </Header>
+                  <Header style={{ margin: "0", color: theme.colors.white }}>
+                    Follower
+                  </Header>
                 </div>
                 <div>
-                  <Header style={{ margin: "0" }}>100</Header>
-                  <Header style={{ margin: "0" }}>Following</Header>
+                  <Header style={{ margin: "0", color: theme.colors.white }}>
+                    100
+                  </Header>
+                  <Header style={{ margin: "0", color: theme.colors.white }}>
+                    Following
+                  </Header>
                 </div>
               </div>
             </div>

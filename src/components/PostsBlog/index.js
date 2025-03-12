@@ -7,8 +7,11 @@ import CustomIcon from "../../shared/Icon";
 import CommentSection from "../Comments";
 import { theme } from "../../Theme/theme";
 import LikeButton from "../Like";
+import useWindowSize from "../../hooks/Screen";
 
 const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
+  const { width } = useWindowSize();
+  const size = width < 1450 ? "0px" : "0px 20px";
   const settings = {
     dots: true,
     arrows: false,
@@ -70,17 +73,19 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
           justifyContent: "center",
           flexDirection: "column",
           width: "100%",
+          padding: size,
         }}
       >
         {posts.map((post, postIndex) => (
           <div
             key={postIndex}
             style={{
-              border: "1px solid #ddd",
-              borderRadius: "5px",
+              border: `1px solid ${theme.border.primary}`,
+              borderRadius: width < 768 ? "0px" : "15px",
               padding: "10px",
               marginBottom: "20px",
               width: "100%",
+              background: theme.colors.black,
             }}
           >
             {/* User Info and Comments */}
@@ -97,7 +102,10 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
               >
                 <Image src={avatar || post.ownerDetails?.avatar} avatar />
                 <Comment.Content>
-                  <Header as={"h5"} style={{ margin: 0 }}>
+                  <Header
+                    as={"h5"}
+                    style={{ margin: 0, color: theme.colors.white }}
+                  >
                     {post?.ownerDetails?.userName}
                   </Header>
                   <Header
@@ -105,14 +113,17 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
                     style={{
                       margin: 0,
                       fontWeight: "400",
-                      color: theme.colors.subtext,
+                      color: theme.colors.gray,
                     }}
                   >
-                    {post.caption}
+                    {post.location}
                   </Header>
                 </Comment.Content>
               </Comment>
-              <CustomIcon name="ellipsis vertical" />
+              <CustomIcon
+                name="ellipsis vertical"
+                style={{ color: theme.colors.white }}
+              />
             </div>
 
             {Array.isArray(post.image) && post.image.length > 1 ? (
@@ -158,17 +169,19 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
                 <LikeButton posts={posts} postIndex={postIndex} />
                 <CustomIcon
                   name="chat outline"
-                  style={{ color: "black", fontSize: "16px" }}
+                  style={{ color: theme.colors.white, fontSize: "16px" }}
                   onClick={() => toggleCommentField(postIndex)}
                 />
               </div>
               <CustomIcon
                 name="send outline"
-                style={{ color: "black", fontSize: "16px" }}
+                style={{ color: theme.colors.white, fontSize: "16px" }}
               />
             </div>
             <div style={{ padding: "5px 10px" }}>
-              <Header as={"h4"}>{post.caption}</Header>
+              <Header as={"h4"} style={{ color: theme.colors.gray }}>
+                {post.caption}
+              </Header>
             </div>
 
             {/* Comments Section */}

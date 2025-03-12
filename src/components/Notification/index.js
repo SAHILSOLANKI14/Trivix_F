@@ -55,80 +55,92 @@ const NotificationBar = () => {
     },
   ];
   return (
-    <List
+    <div
       style={{
-        width: "100%",
-        maxWidth: "100%",
-        margin: "auto",
-        borderRadius: "7px",
-        boxShadow: "none",
-        // border: "1px solid #ddd",
+        // border: `1px solid ${theme.border.primary}`,
+        borderRadius: "15px",
       }}
     >
-      {notifications?.map((notification) => (
-        <List.Item
-          key={notification.id}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            padding: "10px",
-            flexWrap: "wrap", // Makes sure content wraps on small screens
-          }}
-        >
-          <Image
-            avatar
-            src={notification.avatar}
-            style={{
-              border: `1px solid ${theme.colors.orange}`,
-              width: "40px",
-              height: "40px",
-            }}
-          />
-          <List.Content
+      <List
+        style={{
+          width: "100%",
+          maxWidth: "100%",
+          margin: "auto",
+          borderRadius: "7px",
+          boxShadow: "none",
+          // backgroundColor: theme.colors.black,
+          // border: "1px solid #ddd",
+        }}
+      >
+        {notifications?.map((notification) => (
+          <List.Item
+            key={notification.id}
             style={{
               display: "flex",
-              flexDirection: "column",
-              flex: 1, // Makes text take available space
-              padding: "0px 10px",
-              minWidth: "150px",
+              alignItems: "center",
+              padding: "10px",
+              flexWrap: "wrap",
             }}
           >
-            <List.Header
-              as="a"
+            <Image
+              avatar
+              src={notification.avatar}
               style={{
-                fontSize: "1rem",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
+                border: `1px solid ${theme.colors.blue}`,
+                width: "40px",
+                height: "40px",
+              }}
+            />
+            <List.Content
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                flex: 1, // Makes text take available space
+                padding: "0px 10px",
+                minWidth: "150px",
+                color: `${theme.colors.white} !important`,
               }}
             >
-              {notification.name}
-            </List.Header>
-            <List.Description style={{ fontSize: "0.85rem" }}>
-              {notification.action}{" "}
-              <span style={{ color: "gray", fontSize: "0.8rem" }}>
-                {notification.time}
-              </span>
-            </List.Description>
-          </List.Content>
-          <div style={{ minWidth: "80px", textAlign: "right" }}>
-            {notification.follow && (
-              <Button
-                primary
-                size="tiny"
+              <List.Header
+                as="a"
                 style={{
-                  fontSize: "0.8rem",
-                  padding: "10px 20px",
-                  background: theme.colors.blue,
+                  fontSize: "1rem",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  color: `${theme.colors.white} !important`,
                 }}
               >
-                Follow
-              </Button>
-            )}
-          </div>
-        </List.Item>
-      ))}
-    </List>
+                {notification.name}
+              </List.Header>
+              <List.Description
+                style={{ fontSize: "0.85rem", color: theme.colors.gray }}
+              >
+                {notification.action}{" "}
+                <span style={{ color: "gray", fontSize: "0.8rem" }}>
+                  {notification.time}
+                </span>
+              </List.Description>
+            </List.Content>
+            <div style={{ minWidth: "80px", textAlign: "right" }}>
+              {notification.follow && (
+                <Button
+                  primary
+                  size="tiny"
+                  style={{
+                    fontSize: "0.8rem",
+                    padding: "10px 20px",
+                    background: theme.colors.blue,
+                  }}
+                >
+                  Follow
+                </Button>
+              )}
+            </div>
+          </List.Item>
+        ))}
+      </List>
+    </div>
   );
 };
 

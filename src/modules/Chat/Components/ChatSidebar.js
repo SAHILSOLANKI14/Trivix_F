@@ -18,6 +18,7 @@ const ChatSidebar = ({ chatList, openChat }) => {
           display: "flex",
           alignItems: "center",
           marginBottom: "15px",
+          marginTop: "15px",
         }}
       >
         <a href="/">
@@ -25,10 +26,10 @@ const ChatSidebar = ({ chatList, openChat }) => {
             <CustomIcon
               name="arrow left"
               size="large"
-              style={{ color: theme.colors.orange, cursor: "pointer" }}
+              style={{ color: theme.colors.white, cursor: "pointer" }}
               //   color={theme.colors.orange}
             />
-            <Header style={{ margin: "0px", color: theme.colors.orange }}>
+            <Header style={{ margin: "0px", color: theme.colors.white }}>
               Chat
             </Header>
           </div>
@@ -38,8 +39,8 @@ const ChatSidebar = ({ chatList, openChat }) => {
           size="large"
           style={{
             marginLeft: "auto",
-            cursor: "pointer",
-            color: theme.colors.orange,
+            cursor: "edit outline",
+            color: theme.colors.white,
           }}
         />
       </div>
@@ -61,15 +62,17 @@ const ChatSidebar = ({ chatList, openChat }) => {
               display: "flex",
               alignItems: "center",
               padding: "10px 10px",
-              border: "1px solid #ddd",
+              borderBottom: `1px solid ${theme.colors.white}`,
               cursor: "pointer",
+              borderRadius: "10px",
+              marginBottom: "10px",
             }}
           >
             <Image src={chat.avatar} avatar />
             <div style={{ marginLeft: "10px", flex: 1 }}>
               <Header
                 as={"h4"}
-                style={{ color: theme.colors.black, margin: "0" }}
+                style={{ color: theme.colors.white, margin: "0" }}
               >
                 {chat.name}
               </Header>

@@ -17,7 +17,7 @@ const TravelCard = ({ item, style = {}, handleNavigateDetailpage }) => {
   };
 
   const handleWishList = () => {
-    setWishlist((prev) => !prev); 
+    setWishlist((prev) => !prev);
     console.log(wishlist);
   };
 
@@ -35,11 +35,12 @@ const TravelCard = ({ item, style = {}, handleNavigateDetailpage }) => {
           backgroundColor: theme.colors.white,
           color: theme.colors.white,
           width: "250px",
-          height: "320px",
+          minHeight: "310px",
           borderRadius: "15px",
           overflow: "hidden",
           boxShadow: "none",
           margin: 0,
+          padding: 0,
           position: "relative",
         }}
       >
@@ -51,6 +52,7 @@ const TravelCard = ({ item, style = {}, handleNavigateDetailpage }) => {
             objectFit: "cover",
             maxHeight: "120px",
             padding: 0,
+            margin: 0,
           }}
         />
         <div

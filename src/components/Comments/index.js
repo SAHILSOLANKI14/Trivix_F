@@ -13,6 +13,8 @@ import {
 } from "semantic-ui-react";
 import CustomButton from "../../shared/Button";
 import { theme } from "../../Theme/theme";
+import CustomIcon from "../../shared/Icon";
+import { Button } from "../../shared";
 const CommentSection = () => {
   // State to store comments
   const [comments, setComments] = useState([
@@ -81,26 +83,28 @@ const CommentSection = () => {
     );
 
     setReplyText((prev) => ({ ...prev, [commentId]: "" }));
-    setReplyOpen((prev) => ({ ...prev, [commentId]: false })); // Close reply box
+    setReplyOpen((prev) => ({ ...prev, [commentId]: false }));
   };
 
   return (
     <CommentGroup>
       {/* Add new comment */}
       <Form reply>
-        <Input
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-          placeholder="Write a comment..."
-          fluid
-          style={{ marginBottom: "10px" }}
-        />
-        <CustomButton
-          content="Add Comment"
-          style={{ background: theme.colors.black }}
-          primary
-          onClick={handleAddComment}
-        />
+        <div style={{ display: "flex", gap: "10px" }}>
+          <Input
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="Write a comment..."
+            fluid
+            style={{ marginBottom: "0px", width: "100%" }}
+          />
+          <Button
+            icon="send"
+            color="blue"
+            style={{ padding: "10px" }}
+            onClick={handleAddComment}
+          />
+        </div>
       </Form>
 
       {/* Display comments dynamically */}
@@ -108,32 +112,53 @@ const CommentSection = () => {
         <Comment key={comment.id}>
           <CommentAvatar src={comment.avatar} />
           <CommentContent>
-            <CommentAuthor>{comment.author}</CommentAuthor>
-            <CommentMetadata>{comment.time}</CommentMetadata>
-            <CommentText>{comment.text}</CommentText>
-            <CommentActions>
-              <a onClick={() => handleReplyClick(comment.id)}>Reply</a>
-            </CommentActions>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <CommentAuthor style={{ color: theme.colors.white }}>
+                {comment.author}
+              </CommentAuthor>
+              <CommentActions>
+                <a
+                  style={{ color: theme.colors.white }}
+                  onClick={() => handleReplyClick(comment.id)}
+                >
+                  Reply
+                </a>
+              </CommentActions>
+            </div>
+            <CommentMetadata style={{ color: theme.colors.white }}>
+              {comment.time}
+            </CommentMetadata>
+            <CommentText style={{ color: theme.colors.white }}>
+              {comment.text}
+            </CommentText>
           </CommentContent>
 
           {/* Reply TextArea for Comments */}
           {replyOpen[comment.id] && (
             <Form reply>
-              <Input
-                value={replyText[comment.id] || ""}
-                onChange={(e) =>
-                  setReplyText({ ...replyText, [comment.id]: e.target.value })
-                }
-                placeholder="Write a reply..."
-                fluid
-                style={{ marginBottom: "10px" }}
-              />
-              <CustomButton
-                content="Add Reply"
-                style={{ background: theme.colors.black }}
-                primary
-                onClick={() => handleAddReply(comment.id)}
-              />
+              <div style={{ display: "flex", gap: "10px" }}>
+                <Input
+                  value={replyText[comment.id] || ""}
+                  onChange={(e) =>
+                    setReplyText({ ...replyText, [comment.id]: e.target.value })
+                  }
+                  placeholder="Write a reply..."
+                  fluid
+                  style={{ marginBottom: "0px", width: "100%" }}
+                />
+                <Button
+                  icon="send"
+                  color="blue"
+                  style={{ padding: "10px" }}
+                  onClick={() => handleAddReply(comment.id)}
+                />
+              </div>
             </Form>
           )}
 
@@ -144,9 +169,15 @@ const CommentSection = () => {
                 <Comment key={reply.id}>
                   <CommentAvatar src={reply.avatar} />
                   <CommentContent>
-                    <CommentAuthor>{reply.author}</CommentAuthor>
-                    <CommentMetadata>{reply.time}</CommentMetadata>
-                    <CommentText>{reply.text}</CommentText>
+                    <CommentAuthor style={{ color: theme.colors.white }}>
+                      {reply.author}
+                    </CommentAuthor>
+                    <CommentMetadata style={{ color: theme.colors.white }}>
+                      {reply.time}
+                    </CommentMetadata>
+                    <CommentText style={{ color: theme.colors.white }}>
+                      {reply.text}
+                    </CommentText>
                   </CommentContent>
                 </Comment>
               ))}

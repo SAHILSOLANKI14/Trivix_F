@@ -1,11 +1,11 @@
-import React, { useState } from "react";
 import { debounce } from "lodash";
-import { Image, Search, Popup, Input, Icon, Grid } from "semantic-ui-react";
+import React from "react";
+import { Grid, Image, Search } from "semantic-ui-react";
 import FilterImage from "../../assets/images/filterIcon.svg";
-import { theme } from "../../Theme/theme";
-import { Button } from "../../shared";
 import useWindowSize from "../../hooks/Screen";
+import { Button } from "../../shared";
 import CustomIcon from "../../shared/Icon";
+import { theme } from "../../Theme/theme";
 
 const CustomeSearch = ({
   isLoading,
@@ -19,8 +19,6 @@ const CustomeSearch = ({
 
   const Desktop = width <= 1026 ? "none" : "block";
   const Mobile = width > 1024 ? "none" : "block";
-
-  const [open, setOpen] = useState(false);
 
   return (
     <>
@@ -86,14 +84,14 @@ const CustomeSearch = ({
                   <CustomIcon
                     name="bell outline"
                     size={"large"}
-                    style={{ color: theme.colors.orange }}
+                    style={{ color: theme.colors.white }}
                   />
                 </a>
                 <a href="/chat">
                   <CustomIcon
                     name="comments outline"
                     size={"large"}
-                    style={{ color: theme.colors.orange }}
+                    style={{ color: theme.colors.white }}
                   />
                 </a>
               </div>
@@ -101,22 +99,6 @@ const CustomeSearch = ({
           </Grid.Column>
         </Grid.Row>
       </Grid>
-      {/* <Grid>
-        <Grid.Row>
-          <div style={{ display: Mobile }}>
-            <Search
-              fluid
-              loading={isLoading}
-              onResultSelect={handleResultSelect}
-              onSearchChange={debounce(handleSearchChange, 500, {
-                leading: true,
-              })}
-              results={results}
-              value={value}
-            />
-          </div>
-        </Grid.Row>
-      </Grid> */}
     </>
   );
 };

@@ -1,9 +1,60 @@
 import { apiRequest } from "../../Api";
 
 export const AllTweetsByID = async (Datas) => {
-  // userId=67cfc46bf50e1438ac1b15a2&userType=Traveler
   try {
     const result = await apiRequest(`tweets/user?`, "GET", null, Datas);
+    return result;
+  } catch (error) {
+    console.log("error", error.message);
+  }
+};
+export const AllTweets = async () => {
+  try {
+    const result = await apiRequest(`tweets`, "GET", null, null);
+    return result;
+  } catch (error) {
+    console.log("error", error.message);
+  }
+};
+export const CreateTweet = async (data) => {
+  try {
+    const result = await apiRequest(`tweets/create`, "POST", data, null);
+    return result;
+  } catch (error) {
+    console.log("error", error.message);
+  }
+};
+
+export const getFollowers = async (userName) => {
+  try {
+    const result = await apiRequest(
+      `follow/${userName}/followers`,
+      "GET",
+      null,
+      null
+    );
+    return result;
+  } catch (error) {
+    console.log("error", error.message);
+  }
+};
+export const getFollowings = async (userName) => {
+  try {
+    const result = await apiRequest(
+      `follow/${userName}/followings`,
+      "GET",
+      null,
+      null
+    );
+    return result;
+  } catch (error) {
+    console.log("error", error.message);
+  }
+};
+
+export const GetCurrentLogedInAgency = async (Datas) => {
+  try {
+    const result = await apiRequest(`agency/currentAgency`, "GET", null, Datas);
     return result;
   } catch (error) {
     console.log("error", error.message);

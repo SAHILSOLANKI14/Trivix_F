@@ -29,9 +29,10 @@ function* handleLogin(action) {
     Cookies.set("accessToken", response.data.accessToken);
     Cookies.set("refreshToken", response.data.refreshToken);
     Cookies.set("userType", response.data.userType);
+    Cookies.set("userId", response.data?.agency?._id);
 
     if (action.payload.toastCallback) {
-      action.payload.toastCallback("Login successful!", "success");
+      action.payload.toastCallback("Login successfull", "success");
     }
   } catch (error) {
     console.log("Login Error:", error.message);
@@ -51,9 +52,10 @@ function* handleTravelerLogin(action) {
     Cookies.set("accessToken", response.data.accessToken);
     Cookies.set("refreshToken", response.data.refreshToken);
     Cookies.set("userType", response.data.userType);
+    Cookies.set("userId", response.data?.traveler?._id);
 
     if (action.payload.toastCallback) {
-      action.payload.toastCallback("Traveler login successful!", "success");
+      action.payload.toastCallback("Traveler login successfull", "success");
     }
   } catch (error) {
     console.log("Traveler Login Error:", error.message);
@@ -120,6 +122,9 @@ function* handleRestoreSession() {
 function* logout() {
   try {
     Cookies.remove("accessToken");
+    Cookies.remove("refreshToken");
+    Cookies.remove("userType");
+    Cookies.remove("userId");
     localStorage.removeItem("accessToken");
   } catch (error) {
     console.log("Logout Error:", error.message);

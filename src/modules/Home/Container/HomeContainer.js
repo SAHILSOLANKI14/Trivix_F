@@ -2,15 +2,13 @@ import React, { useEffect } from "react";
 import { Grid, GridColumn, Header, Image } from "semantic-ui-react";
 import ImageCarousel from "../../../components/PostsBlog";
 import ChatBox from "../../../components/Chat";
-import img from "../../../assets/images/pexels-souvenirpixels-414612.jpg";
-import img2 from "../../../assets/images/ai-generated-mysterious-dark-forest-with-stars-in-the-sky-night-forest-with-full-moon-and-stars-in-the-sky-photo.jpg";
-import img3 from "../../../assets/images/ai-generated-mysterious-night-sky-illuminates-tranquil-forest-revealing-cosmic-beauty-generated-by-ai-photo.jpg";
-import NotificationBar from "../../../components/Notification";
 import { useMediaQuery } from "@react-hook/media-query";
 import Nav from "../../Packages/Components/Nav";
 import { useDispatch, useSelector } from "react-redux";
 import { allPostsRequest } from "../Actions";
 import loader from "../../../assets/images/giphy.gif";
+import { theme } from "../../../Theme/theme";
+import { getAllTweetsRequest } from "../../Profile/Actions";
 
 const HomeContainer = () => {
   const dispatch = useDispatch();
@@ -19,12 +17,20 @@ const HomeContainer = () => {
   const { data, loading } = useSelector((state) => state.AllPost);
   useEffect(() => {
     dispatch(allPostsRequest());
+    dispatch(getAllTweetsRequest());
   }, [dispatch]);
   const posts = data;
   return (
     <>
-      <Grid columns="equal" style={{ height: "100%" }}>
-        <Grid.Row style={{ display: "flex", justifyContent: "center " }}>
+      <Nav />
+      <Grid>
+        <Grid.Row
+          style={{
+            display: "flex",
+            justifyContent: "center ",
+            margin: "0px !important",
+          }}
+        >
           <GridColumn
             mobile={16}
             tablet={16}
@@ -34,11 +40,9 @@ const HomeContainer = () => {
               marginBottom: "50px",
               display: "flex",
               flexDirection: "column",
-              justifyContent: "center ",
               gap: "10px",
             }}
           >
-            <Nav />
             {loading ? (
               <div
                 style={{
@@ -46,7 +50,7 @@ const HomeContainer = () => {
                   justifyContent: "center",
                   alignItems: "center",
                   flexDirection: "column",
-                  height: "100vh",
+                  height: "80vh",
                   width: "100%",
                 }}
               >
@@ -55,14 +59,18 @@ const HomeContainer = () => {
                   ui={true}
                   style={{ width: "60px", marginLeft: "-10px" }}
                 />
-                <Header as="h2">Loading...</Header>
+                <Header as="h2" style={{ color: theme.colors.white }}>
+                  Loading...
+                </Header>
               </div>
             ) : (
-              <ImageCarousel
-                posts={posts}
-                isLaptop={isLaptop}
-                isMobile={isMobile}
-              />
+              <div style={{ marginTop: isMobile ? "-15px" : "0px" }}>
+                <ImageCarousel
+                  posts={posts}
+                  isLaptop={isLaptop}
+                  isMobile={isMobile}
+                />
+              </div>
             )}
           </GridColumn>
           {!isMobile && (
@@ -72,12 +80,9 @@ const HomeContainer = () => {
               computer={isMobile ? 16 : 5}
               largeScreen={6}
             >
-              <div>
+              <div style={{ position: "sticky", top: "10px" }}>
                 <div style={{ marginBottom: "20px" }}>
                   <ChatBox />
-                </div>
-                <div>
-                  <NotificationBar />
                 </div>
               </div>
             </GridColumn>

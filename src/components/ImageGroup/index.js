@@ -16,6 +16,7 @@ const ImageGroupSize = ({ PostImage = [] }) => {
     overflow: "hidden",
     gap: "10px",
     padding: "10px",
+    textAlign: width < 1450 ? "center" : "left",
   };
 
   return (

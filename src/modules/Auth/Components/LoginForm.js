@@ -22,6 +22,8 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const { Data, loading } = useSelector((state) => state.auth);
   const [selected, setSelected] = useState("traveler");
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
   const [toast, setToast] = useState({ message: "", type: "", visible: false });
 
   const showToast = (message, type) => {
@@ -110,7 +112,7 @@ const LoginForm = () => {
         }`}
         style={{
           padding: "0px",
-          color: theme.colors.black,
+          color: theme.colors.white,
           fontWeight: "bold",
           marginTop: "5px",
         }}
@@ -128,7 +130,7 @@ const LoginForm = () => {
 
       <div style={{ marginBottom: "20px" }}>
         <Radio
-          label="Traveler"
+          label={<label style={{ color: theme.colors.white }}>Traveler</label>}
           name="loginType"
           value="traveler"
           checked={selected === "traveler"}
@@ -136,8 +138,8 @@ const LoginForm = () => {
           style={{ marginRight: "15px" }}
         />
         <Radio
-          label="Agency"
           name="loginType"
+          label={<label style={{ color: theme.colors.white }}>Agency</label>}
           value="agency"
           checked={selected === "agency"}
           onChange={() => setSelected("agency")}
@@ -155,9 +157,13 @@ const LoginForm = () => {
           />
           <Fields.Input
             name="password"
-            type="password"
+            type={passwordVisible ? "text" : "password"}
             placeholder="Enter your password"
-            icon="eye outlined"
+            icon={{
+              name: passwordVisible ? "eye" : "eye slash outline",
+              link: true,
+              onClick: () => setPasswordVisible((prev) => !prev),
+            }}
             className="login-input"
             fluid
           />
@@ -178,21 +184,41 @@ const LoginForm = () => {
         </Form>
       </div>
 
-      <p style={{ marginTop: "15px", fontSize: "12px" }}>
+      <p
+        style={{
+          marginTop: "15px",
+          fontSize: "12px",
+          color: "gray",
+        }}
+      >
         Don't have an account?{" "}
-        <a href="/auth/signup" style={{ color: "#ff6b6b", fontWeight: "bold" }}>
+        <a
+          href="/auth/signup"
+          style={{ color: theme.colors.blue, fontWeight: "bold" }}
+        >
           Sign up
         </a>
       </p>
 
-      <p style={{ fontSize: "12px" }}>
+      <p style={{ fontSize: "12px", color: "gray" }}>
         Become Our Agency{" "}
-        <a href="#" style={{ color: "#ff6b6b", fontWeight: "bold" }}>
+        <a
+          style={{ color: theme.colors.blue, fontWeight: "bold" }}
+          onClick={() => setSelected("agency")}
+        >
           Partner
         </a>
       </p>
 
-      <p style={{ fontSize: "12px", marginTop: "10px" }}>OR LOG IN BY</p>
+      <p
+        style={{
+          fontSize: "12px",
+          marginTop: "10px",
+          color: "gray",
+        }}
+      >
+        OR LOG IN BY
+      </p>
       <div style={{ display: "flex", gap: "10px" }}>
         <Button
           circular

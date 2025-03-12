@@ -1,27 +1,43 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Image, Segment, Comment } from "semantic-ui-react";
-import "semantic-ui-css/semantic.min.css";
 import EmojiPicker from "emoji-picker-react";
-import Form from "../../shared/Form/Form";
-import Fields from "../../shared/Form/Fields/Fields";
-import CustomIcon from "../../shared/Icon";
-import { Button } from "../../shared";
+import React, { useState } from "react";
+import "semantic-ui-css/semantic.min.css";
+import { Comment, Image, Segment } from "semantic-ui-react";
 import * as Yup from "yup";
+import { Button } from "../../shared";
+import Fields from "../../shared/Form/Fields/Fields";
+import Form from "../../shared/Form/Form";
+import CustomIcon from "../../shared/Icon";
+import { theme } from "../../Theme/theme";
+import { useSelector, useDispatch } from "react-redux";
+import { CreatTweetsRequest } from "../../modules/Profile/Actions";
+// import { addTweet } from "../../redux/actions/tweetActions";
 
 const schema = Yup.object().shape({
-  input: Yup.string(),
+  input: Yup.string().required("Tweet cannot be empty"),
 });
 
 const PostBox = () => {
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState([]);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const messagesEndRef = useRef(null);
+  const dispatch = useDispatch();
+  const tweets = useSelector(
+    (state) => state.AllTweet?.AllTWeetData?.tweets || []
+  );
+
   const handleSend = () => {
     if (input.trim() === "") return;
 
-    setMessages([...messages, { text: input, id: Date.now() }]);
-    setInput(""); // Clear input field
+    const data = {
+      content: input,
+      // owner: {
+      //   details: {
+      //     agencyName: "Current User",
+      //   },
+      // },
+    };
+
+    dispatch(CreatTweetsRequest({ ...data }));
+    setInput("");
     setShowEmojiPicker(false);
   };
 
@@ -32,51 +48,49 @@ const PostBox = () => {
   return (
     <Segment
       style={{
-        maxWidth: "400px",
+        maxWidth: "450px",
         margin: "auto",
-        borderRadius: "7px",
         boxShadow: "none",
-        padding: "20px",
-        background: "transparent",
+        minHeight: "600px",
+        background: theme.colors.black,
         position: "relative",
+        border: `1px solid ${theme.border.primary}`,
+        borderRadius: "15px",
+        padding: "10px",
       }}
     >
-      {messages.length === 0 ? (
-        <h2 style={{ textAlign: "center", marginBottom: "20px" }}>
-          Have a Good Day <br />
-        </h2>
-      ) : (
-        <div
-          style={{
-            maxHeight: "180px",
-            overflowY: "auto",
-            paddingRight: "10px",
-            display: "flex",
-            flexDirection: "column-reverse",
-          }}
-        >
-          <Comment.Group>
-            {messages.map((msg) => (
-              <Comment key={msg.id}>
-                <Comment.Content>
-                  <Comment.Author>User</Comment.Author>
-                  <Comment.Text>{msg.text}</Comment.Text>
-                </Comment.Content>
-              </Comment>
-            ))}
-          </Comment.Group>
-        </div>
-      )}
+      <div
+        style={{
+          maxHeight: "500px",
+          overflowY: "auto",
+          paddingRight: "10px",
+          display: "flex",
+          flexDirection: "column-reverse",
+        }}
+      >
+        <Comment.Group style={{ padding: "10px" }}>
+          {tweets.map((msg) => (
+            <Comment key={msg.id}>
+              <Comment.Content>
+                <Comment.Author style={{ color: theme.colors.white }}>
+                  {msg?.owner?.details?.agencyName ||
+                    msg?.owner?.details?.fullName}
+                </Comment.Author>
+                <Comment.Text style={{ color: theme.colors.gray }}>
+                  {msg.content}
+                </Comment.Text>
+              </Comment.Content>
+            </Comment>
+          ))}
+        </Comment.Group>
+      </div>
 
       <Form validateSchemas={schema} onSubmit={handleSend}>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          {/* User Avatar */}
           <Image
             src="https://react.semantic-ui.com/images/avatar/small/matt.jpg"
             avatar
           />
-
-          {/* Input Field */}
           <Fields.Input
             name="input"
             placeholder="What’s Happening?"
@@ -93,7 +107,6 @@ const PostBox = () => {
           />
         </div>
 
-        {/* Icon Section */}
         <div
           style={{
             display: "flex",
@@ -106,17 +119,20 @@ const PostBox = () => {
             <CustomIcon
               name="image outline"
               size="large"
-              style={{ fontSize: "22px" }}
+              style={{ fontSize: "22px", color: theme.colors.white }}
             />
             <CustomIcon
               name="smile outline"
               size="large"
               onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-              style={{ cursor: "pointer", fontSize: "22px" }}
+              style={{
+                cursor: "pointer",
+                fontSize: "22px",
+                color: theme.colors.white,
+              }}
             />
           </div>
 
-          {/* Post Button */}
           <Button
             content="Post"
             color="blue"

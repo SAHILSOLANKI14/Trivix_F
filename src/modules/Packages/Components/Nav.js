@@ -4,6 +4,7 @@ import userProfile from "../../../assets/images/Ellipse 194.svg";
 import CustomeSearch from "../../../components/Search";
 import CustomIcon from "../../../shared/Icon";
 import { useSelector } from "react-redux";
+import { theme } from "../../../Theme/theme";
 
 const Nav = () => {
   const { Data } = useSelector((state) => state.auth);
@@ -14,7 +15,8 @@ const Nav = () => {
       style={{
         background: "transparent",
         alignItems: "center",
-        padding: "10px 20px",
+        padding: "5px 20px",
+        marginTop: "0px",
       }}
     >
       <Grid.Row columns={2} style={{ display: "flex", alignItems: "center" }}>
@@ -22,19 +24,23 @@ const Nav = () => {
         <Grid.Column
           computer={9}
           tablet={9}
-          mobile={10}
+          mobile={8}
           style={{ display: "flex", alignItems: "center", gap: "10px" }}
         >
           <a href="/profile">
             <div style={{ display: "flex", gap: "10px" }}>
               <Image src={userProfile} circular size="mini" />
               <div>
-                <Header as="h5" style={{ margin: 0 }}>
+                <Header
+                  as="h5"
+                  style={{ margin: 0, color: theme.colors.white }}
+                >
                   Current Location
                 </Header>
                 <CustomIcon
                   name="map marker alternate"
                   title={data?.city || "Ahemdabad"}
+                  style={{ color: theme.colors.white }}
                 />
               </div>
             </div>
@@ -46,7 +52,7 @@ const Nav = () => {
         <Grid.Column
           computer={7}
           tablet={7}
-          mobile={6}
+          mobile={8}
           textAlign="right"
           style={{ display: "flex", justifyContent: "flex-end" }}
         >

@@ -67,8 +67,7 @@ export const BottomNavContainer = styled.div`
   bottom: 0;
   left: 0;
   width: 100vw;
-  background-color: white;
-  border-top: 1px solid #ddd;
+  background-color: ${theme.colors.black};
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -98,7 +97,7 @@ export const NavItem = styled.div`
 export const SidebarWrapper = styled.div`
   width: 250px;
   height: 100vh;
-  background-color: ${theme.colors.white};
+  background-color: ${theme.colors.black};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -129,7 +128,7 @@ export const SidebarItem = styled.a`
   color: ${({ active }) =>
     active
       ? theme.colors.white
-      : theme.colors.black}; /* Change color when active */
+      : theme.colors.white}; /* Change color when active */
   background-color: ${({ active }) =>
     active
       ? theme.colors.orange
@@ -163,7 +162,7 @@ export const SidebarItem = styled.a`
 export const LogoutButton = styled(SidebarItem)`
   margin-top: auto;
   font-weight: bold;
-  color: ${theme.colors.title};
+  color: ${theme.colors.white};
   .menu-icon {
     color: ${theme.colors.orange};
   }
