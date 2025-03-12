@@ -72,8 +72,8 @@ const LoginForm = () => {
     try {
       dispatch(
         selected === "traveler"
-          ? TravelerloginRequest(finalData)
-          : loginRequest(finalData)
+          ? TravelerloginRequest(...finalData)
+          : loginRequest(...finalData)
       );
     } catch (error) {
       dispatch(
