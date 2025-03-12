@@ -24,7 +24,7 @@ const TravelerSignup = async (data) => {
 const login = async (data) => {
   console.log(data, "logindata");
   try {
-    const result = await apiRequest("agency/login", "POST", { data }, null);
+    const result = await apiRequest("agency/login", "POST", { ...data }, null);
     return result;
   } catch (error) {
     console.log("error", error);
@@ -33,7 +33,7 @@ const login = async (data) => {
 const travelerlogin = async (data) => {
   console.log(data, "logindata");
   try {
-    const result = await apiRequest("traveler/login", "POST", { data }, null);
+    const result = await apiRequest("traveler/login", "POST", { ...data }, null);
     return result;
   } catch (error) {
     console.log("error", error);
