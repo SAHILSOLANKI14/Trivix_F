@@ -1,20 +1,18 @@
 import React, { useState } from "react";
 import {
-  CommentGroup,
   Comment,
+  CommentActions,
+  CommentAuthor,
   CommentAvatar,
   CommentContent,
-  CommentAuthor,
+  CommentGroup,
   CommentMetadata,
   CommentText,
-  CommentActions,
   Form,
   Input,
 } from "semantic-ui-react";
-import CustomButton from "../../shared/Button";
-import { theme } from "../../Theme/theme";
-import CustomIcon from "../../shared/Icon";
 import { Button } from "../../shared";
+import { theme } from "../../Theme/theme";
 const CommentSection = () => {
   // State to store comments
   const [comments, setComments] = useState([
@@ -28,7 +26,7 @@ const CommentSection = () => {
     },
   ]);
 
-  // State for handling new comments
+  // State for handling new comments‚
   const [newComment, setNewComment] = useState("");
 
   // State for handling reply boxes
@@ -119,22 +117,22 @@ const CommentSection = () => {
                 justifyContent: "space-between",
               }}
             >
-              <CommentAuthor style={{ color: theme.colors.white }}>
+              <CommentAuthor style={{ color: theme.colors.black }}>
                 {comment.author}
               </CommentAuthor>
               <CommentActions>
                 <a
-                  style={{ color: theme.colors.white }}
+                  style={{ color: theme.colors.black }}
                   onClick={() => handleReplyClick(comment.id)}
                 >
                   Reply
                 </a>
               </CommentActions>
             </div>
-            <CommentMetadata style={{ color: theme.colors.white }}>
+            <CommentMetadata style={{ color: theme.colors.black }}>
               {comment.time}
             </CommentMetadata>
-            <CommentText style={{ color: theme.colors.white }}>
+            <CommentText style={{ color: theme.colors.black }}>
               {comment.text}
             </CommentText>
           </CommentContent>
@@ -169,13 +167,13 @@ const CommentSection = () => {
                 <Comment key={reply.id}>
                   <CommentAvatar src={reply.avatar} />
                   <CommentContent>
-                    <CommentAuthor style={{ color: theme.colors.white }}>
+                    <CommentAuthor style={{ color: theme.colors.black }}>
                       {reply.author}
                     </CommentAuthor>
-                    <CommentMetadata style={{ color: theme.colors.white }}>
+                    <CommentMetadata style={{ color: theme.colors.black }}>
                       {reply.time}
                     </CommentMetadata>
-                    <CommentText style={{ color: theme.colors.white }}>
+                    <CommentText style={{ color: theme.colors.black }}>
                       {reply.text}
                     </CommentText>
                   </CommentContent>

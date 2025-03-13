@@ -8,10 +8,16 @@ import CommentSection from "../Comments";
 import { theme } from "../../Theme/theme";
 import LikeButton from "../Like";
 import useWindowSize from "../../hooks/Screen";
+import { useNavigate } from "react-router-dom";
+import { agencyByIdRequest } from "../../modules/Profile/Actions";
+import { useDispatch } from "react-redux";
 
 const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
   const { width } = useWindowSize();
-  const size = width < 1450 ? "0px" : "0px 20px";
+  const dispatch = useDispatch();
+  const [commentOpen, setCommentOpen] = useState(null);
+  const navigate = useNavigate();
+  const size = width < 1450 ? "0px 0px" : "0px 20px";
   const settings = {
     dots: true,
     arrows: false,
@@ -55,7 +61,6 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
       return "500px";
     }
   };
-  const [commentOpen, setCommentOpen] = useState(null);
 
   const toggleCommentField = (postId) => {
     if (commentOpen === postId) {
@@ -64,9 +69,21 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
       setCommentOpen(postId);
     }
   };
+  const handleRedirectUser = (userId) => {
+   
+    if (userId) {
+      navigate(`/profile/${userId}`);
+    }
+  };
   const avatar = "https://react.semantic-ui.com/images/avatar/small/matt.jpg";
   return (
-    <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        width: "100%",
+      }}
+    >
       <div
         style={{
           display: "flex",
@@ -74,18 +91,18 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
           flexDirection: "column",
           width: "100%",
           padding: size,
+          background: "transparent",
         }}
       >
         {posts.map((post, postIndex) => (
           <div
             key={postIndex}
             style={{
-              border: `1px solid ${theme.border.primary}`,
-              borderRadius: width < 768 ? "0px" : "15px",
-              padding: "10px",
+              // border: `1px solid ${theme.border.primary}`,
+              borderRadius: width < 768 ? "15px" : "15px",
+              padding: "00px",
               marginBottom: "20px",
               width: "100%",
-              background: theme.colors.black,
             }}
           >
             {/* User Info and Comments */}
@@ -94,17 +111,18 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
-                paddingBottom: "10px",
+                padding: "10px",
               }}
             >
               <Comment
                 style={{ display: "flex", alignItems: "center", gap: "10px" }}
+                onClick={() => handleRedirectUser(post.ownerDetails?._id)}
               >
                 <Image src={avatar || post.ownerDetails?.avatar} avatar />
                 <Comment.Content>
                   <Header
                     as={"h5"}
-                    style={{ margin: 0, color: theme.colors.white }}
+                    style={{ margin: 0, color: theme.colors.black }}
                   >
                     {post?.ownerDetails?.userName}
                   </Header>
@@ -122,7 +140,7 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
               </Comment>
               <CustomIcon
                 name="ellipsis vertical"
-                style={{ color: theme.colors.white }}
+                style={{ color: theme.colors.black }}
               />
             </div>
 
@@ -169,17 +187,17 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
                 <LikeButton posts={posts} postIndex={postIndex} />
                 <CustomIcon
                   name="chat outline"
-                  style={{ color: theme.colors.white, fontSize: "16px" }}
+                  style={{ color: theme.colors.black, fontSize: "16px" }}
                   onClick={() => toggleCommentField(postIndex)}
                 />
               </div>
               <CustomIcon
                 name="send outline"
-                style={{ color: theme.colors.white, fontSize: "16px" }}
+                style={{ color: theme.colors.black, fontSize: "16px" }}
               />
             </div>
             <div style={{ padding: "5px 10px" }}>
-              <Header as={"h4"} style={{ color: theme.colors.gray }}>
+              <Header as={"h4"} style={{ color: theme.colors.black }}>
                 {post.caption}
               </Header>
             </div>

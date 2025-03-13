@@ -9,6 +9,7 @@ import { allPostsRequest } from "../Actions";
 import loader from "../../../assets/images/giphy.gif";
 import { theme } from "../../../Theme/theme";
 import { getAllTweetsRequest } from "../../Profile/Actions";
+import Loader from "../../../utility/Loader";
 
 const HomeContainer = () => {
   const dispatch = useDispatch();
@@ -17,7 +18,7 @@ const HomeContainer = () => {
   const { data, loading } = useSelector((state) => state.AllPost);
   useEffect(() => {
     dispatch(allPostsRequest());
-    dispatch(getAllTweetsRequest());
+    // dispatch(getAllTweetsRequest());
   }, [dispatch]);
   const posts = data;
   return (
@@ -44,27 +45,13 @@ const HomeContainer = () => {
             }}
           >
             {loading ? (
+              <Loader />
+            ) : (
               <div
                 style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flexDirection: "column",
-                  height: "80vh",
-                  width: "100%",
+                  marginTop: isMobile ? "-15px" : "0px",
                 }}
               >
-                <Image
-                  src={loader}
-                  ui={true}
-                  style={{ width: "60px", marginLeft: "-10px" }}
-                />
-                <Header as="h2" style={{ color: theme.colors.white }}>
-                  Loading...
-                </Header>
-              </div>
-            ) : (
-              <div style={{ marginTop: isMobile ? "-15px" : "0px" }}>
                 <ImageCarousel
                   posts={posts}
                   isLaptop={isLaptop}

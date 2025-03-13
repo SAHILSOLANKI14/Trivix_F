@@ -49,7 +49,7 @@ const TouristCard = ({ handleNavigateDetailpage }) => {
   ];
 
   return (
-    <div style={{ padding: "20px 30px" }}>
+    <div style={{ padding: "20px" }}>
       <CustomSlider settings={settings}>
         {data.map((item, index) => (
           <div

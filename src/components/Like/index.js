@@ -33,13 +33,13 @@ const LikeButton = ({ posts, postIndex }) => {
       <CustomIcon
         name={`heart ${likedPosts[postIndex] ? "" : "outline"}`}
         style={{
-          color: likedPosts[postIndex] ? "red" : theme.colors.white,
+          color: likedPosts[postIndex] ? "red" : theme.colors.black,
           fontSize: "16px",
         }}
         onClick={() => handleLikeToggle(postIndex)}
       />
 
-      <span style={{ color: theme.colors.white }}>{likesCount[postIndex]}</span>
+      <span style={{ color: theme.colors.black }}>{likesCount[postIndex]}</span>
     </div>
   );
 };

@@ -4,12 +4,12 @@ import useWindowSize from "../../hooks/Screen/index";
 
 const ImageGroupSize = ({ PostImage = [] }) => {
   const { width } = useWindowSize();
-
+  const IsMobile = width < 768 ? "center" : "felx-start";
   const imageSize = width < 768 ? "small" : width < 1024 ? "small" : "medium";
 
   const containerStyle = {
     display: "flex",
-    justifyContent: "center",
+    justifyContent: IsMobile,
     alignItems: "center",
     flexWrap: "wrap",
     maxWidth: "100%",
@@ -26,7 +26,7 @@ const ImageGroupSize = ({ PostImage = [] }) => {
           PostImage.map((item, index) => (
             <Image
               key={index}
-              src={typeof item === "string" ? item : item.src}
+              src={typeof item === "string" ? item.src : item.image}
               alt={`Post Image ${index + 1}`}
               style={{
                 maxWidth: "100%",

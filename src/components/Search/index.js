@@ -84,14 +84,14 @@ const CustomeSearch = ({
                   <CustomIcon
                     name="bell outline"
                     size={"large"}
-                    style={{ color: theme.colors.white }}
+                    style={{ color: theme.colors.black }}
                   />
                 </a>
                 <a href="/chat">
                   <CustomIcon
                     name="comments outline"
                     size={"large"}
-                    style={{ color: theme.colors.white }}
+                    style={{ color: theme.colors.black }}
                   />
                 </a>
               </div>

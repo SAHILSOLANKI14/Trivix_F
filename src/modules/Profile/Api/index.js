@@ -8,9 +8,9 @@ export const AllTweetsByID = async (Datas) => {
     console.log("error", error.message);
   }
 };
-export const AllTweets = async () => {
+export const AllTweets = async (data) => {
   try {
-    const result = await apiRequest(`tweets`, "GET", null, null);
+    const result = await apiRequest(`tweets`, "GET", null, { ...data });
     return result;
   } catch (error) {
     console.log("error", error.message);

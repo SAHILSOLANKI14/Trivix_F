@@ -46,7 +46,7 @@ const ProfileContainer = () => {
             background: "transparent",
             border: "none",
             boxShadow: "none",
-            color: theme.colors.white,
+            color: theme.colors.black,
           }}
         >
           <ImageGroupSize PostImage={PostImage} />
@@ -105,7 +105,7 @@ const ProfileContainer = () => {
   useEffect(() => {
     const userID = Cookies.get("userId");
     const userType = Cookies.get("userType");
-    const userName = Data?.agency?.userName || Data?.traveler?.userName;
+    const userName = data?.userName || data?.userName;
     const Datas = {
       userId: userID,
       userType: userType,
@@ -138,7 +138,7 @@ const ProfileContainer = () => {
                   as={"h3"}
                   style={{
                     margin: "0",
-                    color: theme.colors.white,
+                    color: theme.colors.black,
                     padding: "5px ",
                   }}
                 >
@@ -166,7 +166,7 @@ const ProfileContainer = () => {
                   style={{
                     fontSize: "12px",
                     fontWeight: "300 !important",
-                    color: theme.colors.white,
+                    color: theme.colors.black,
                   }}
                 >
                   {data?.bio ||
@@ -211,18 +211,18 @@ const ProfileContainer = () => {
                 style={{ display: "flex", gap: "30px", textAlign: "center" }}
               >
                 <div>
-                  <Header style={{ margin: "0", color: theme.colors.white }}>
+                  <Header style={{ margin: "0", color: theme.colors.black }}>
                     100
                   </Header>
-                  <Header style={{ margin: "0", color: theme.colors.white }}>
+                  <Header style={{ margin: "0", color: theme.colors.black }}>
                     Follower
                   </Header>
                 </div>
                 <div>
-                  <Header style={{ margin: "0", color: theme.colors.white }}>
+                  <Header style={{ margin: "0", color: theme.colors.black }}>
                     100
                   </Header>
-                  <Header style={{ margin: "0", color: theme.colors.white }}>
+                  <Header style={{ margin: "0", color: theme.colors.black }}>
                     Following
                   </Header>
                 </div>

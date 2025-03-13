@@ -32,7 +32,7 @@ const TravelCard = ({ item, style = {}, handleNavigateDetailpage }) => {
     >
       <Card
         style={{
-          backgroundColor: theme.colors.white,
+          backgroundColor: theme.colors.bg6,
           color: theme.colors.white,
           width: "250px",
           minHeight: "310px",

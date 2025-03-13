@@ -10,6 +10,7 @@ import DetailpackageContainer from "./DetailpackageContainer";
 import { useDispatch, useSelector } from "react-redux";
 import { allPackagesRequest, detailPackagesRequest } from "../Actions";
 import loader from "../../../assets/images/giphy.gif";
+import Loader from "../../../utility/Loader";
 const PackageContainer = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ const PackageContainer = () => {
           computer={16}
           largeScreen={16}
           style={{
-            marginBottom: "50px",
+            marginBottom: "35px",
             display: "flex",
             flexDirection: "column",
           }}
@@ -49,25 +50,7 @@ const PackageContainer = () => {
                 <Nav />
               </div>
               {loading ? (
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flexDirection: "column",
-                    height: "80vh",
-                    width: "100%",
-                  }}
-                >
-                  <Image
-                    src={loader}
-                    ui={true}
-                    style={{ width: "60px", marginLeft: "-10px" }}
-                  />
-                  <Header as="h2" style={{ color: theme.colors.white }}>
-                    Loading...
-                  </Header>
-                </div>
+                <Loader />
               ) : (
                 <>
                   <PackageCard

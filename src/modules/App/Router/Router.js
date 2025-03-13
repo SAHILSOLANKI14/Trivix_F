@@ -1,7 +1,9 @@
 import ChatContainer from "../../Chat/Container/ChatContainer";
+import TweetContainer from "../../Chat/Container/TweetContainer";
 import HomeContainer from "../../Home/Container/HomeContainer";
 import NotificationContainer from "../../Notifications/Container/NotificationContainer";
 import PackageContainer from "../../Packages/Container/packageContainer";
+import ProfileById from "../../Profile/Containers/ProfileById";
 import ProfileContainer from "../../Profile/Containers/ProfileContainer";
 import SettingsContainer from "../../Settings/Container/SettingsContainer";
 export default [
@@ -42,9 +44,21 @@ export default [
     admin: "false",
   },
   {
+    title: "tweet",
+    url: "/tweet",
+    component: TweetContainer,
+    admin: "false",
+  },
+  {
     title: "profile",
     url: "/profile",
     component: ProfileContainer,
+    admin: "false",
+  },
+  {
+    title: "profile",
+    url: "/profile/:id",
+    component: ProfileById,
     admin: "false",
   },
   {

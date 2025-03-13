@@ -26,6 +26,7 @@ function* handleLogin(action) {
     const response = yield call(login, action.payload);
     yield put(loginSuccess(response.data));
     localStorage.setItem("user", response.data.accessToken);
+    localStorage.setItem("agency", JSON.stringify(response?.data?.agency));
     Cookies.set("accessToken", response.data.accessToken);
     Cookies.set("refreshToken", response.data.refreshToken);
     Cookies.set("userType", response.data.userType);
@@ -49,6 +50,7 @@ function* handleTravelerLogin(action) {
     const response = yield call(travelerlogin, action.payload);
     yield put(TravelerloginSuccess(response.data));
     localStorage.setItem("user", response.data.accessToken);
+    localStorage.setItem("traveler", JSON.stringify(response?.data?.traveler));
     Cookies.set("accessToken", response.data.accessToken);
     Cookies.set("refreshToken", response.data.refreshToken);
     Cookies.set("userType", response.data.userType);
@@ -100,7 +102,7 @@ function* handleTravelerSignup(action) {
     console.log("Traveler Signup Error:", error.message);
     yield put(TravelerSignupFailure(error.message));
     if (action.payload.toastCallback) {
-      action.payload.toastCallback("Signup Failed!", "success");
+      action.payload.toastCallback("Signup Failed!", "error");
     }
   }
 }
@@ -108,12 +110,34 @@ function* handleTravelerSignup(action) {
 // Handle Restore Session
 function* handleRestoreSession() {
   try {
-    const token = localStorage.getItem("accessToken");
-    if (token) {
-      yield put(loginSuccess({ accessToken: token }));
+    const accessToken = Cookies.get("accessToken");
+    const userType = Cookies.get("userType");
+    const userId = Cookies.get("userId");
+
+    // Retrieve stored agency or traveler data
+    const agencyData = localStorage.getItem("agency");
+    const travelerData = localStorage.getItem("traveler");
+
+    if (accessToken && userId) {
+      let userData = null;
+
+      if (userType === "agency" && agencyData) {
+        userData = JSON.parse(agencyData);
+      } else if (userType === "traveler" && travelerData) {
+        userData = JSON.parse(travelerData);
+      }
+
+      if (!userData) throw new Error("Session expired or user data missing");
+
+      yield put(
+        loginSuccess({ accessToken, userType, userId, [userType]: userData })
+      );
+    } else {
+      throw new Error("Session expired");
     }
   } catch (error) {
     console.error("Session Restore Error:", error.message);
+
     yield put(loginFailure(error.message));
   }
 }

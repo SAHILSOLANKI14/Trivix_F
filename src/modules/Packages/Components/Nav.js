@@ -5,10 +5,17 @@ import CustomeSearch from "../../../components/Search";
 import CustomIcon from "../../../shared/Icon";
 import { useSelector } from "react-redux";
 import { theme } from "../../../Theme/theme";
+import { useNavigate } from "react-router-dom";
 
 const Nav = () => {
   const { Data } = useSelector((state) => state.auth);
   const data = Data?.agency || Data?.traveler;
+  const navigate = useNavigate();
+  const handleClick = (id) => {
+    if (id) {
+      navigate(`/profile/${id}`);
+    }
+  };
   return (
     <Grid
       //   stackable
@@ -27,27 +34,24 @@ const Nav = () => {
           mobile={8}
           style={{ display: "flex", alignItems: "center", gap: "10px" }}
         >
-          <a href="/profile">
-            <div style={{ display: "flex", gap: "10px" }}>
-              <Image src={userProfile} circular size="mini" />
-              <div>
-                <Header
-                  as="h5"
-                  style={{ margin: 0, color: theme.colors.white }}
-                >
-                  Current Location
-                </Header>
-                <CustomIcon
-                  name="map marker alternate"
-                  title={data?.city || "Ahemdabad"}
-                  style={{ color: theme.colors.white }}
-                />
-              </div>
+          {/* <a href="/profile"> */}
+          <div
+            style={{ display: "flex", gap: "10px" }}
+            onClick={() => handleClick(data._id)}
+          >
+            <Image src={userProfile} circular size="mini" />
+            <div>
+              <Header as="h5" style={{ margin: 0, color: theme.colors.black }}>
+                Current Location
+              </Header>
+              <CustomIcon
+                name="map marker alternate"
+                title={data?.city || "Ahemdabad"}
+                style={{ color: theme.colors.black }}
+              />
             </div>
-          </a>
+          </div>
         </Grid.Column>
-
-        {/* Right Section - Search */}
 
         <Grid.Column
           computer={7}

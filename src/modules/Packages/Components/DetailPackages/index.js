@@ -1,23 +1,16 @@
 import React, { useEffect, useState } from "react";
-import {
-  Image,
-  Grid,
-  Header,
-  List,
-  Transition,
-  Divider,
-} from "semantic-ui-react";
-import CustomIcon from "../../../../shared/Icon/index";
-import bg from "../../../../assets/images/Group 1000001786 (1).png";
-import { theme } from "../../../../Theme/theme";
 import { useDispatch, useSelector } from "react-redux";
-import { detailPackagesRequest } from "../../Actions";
-import loader from "../../../../assets/images/giphy.gif";
-import useWindowSize from "../../../../hooks/Screen";
-import { Button } from "../../../../shared/index";
 import { useNavigate } from "react-router-dom";
-import CustomSlider from "../../../../components/Slider";
+import { Grid, Header, Image, List, Transition } from "semantic-ui-react";
+import loader from "../../../../assets/images/giphy.gif";
 import vector from "../../../../assets/images/Vector.svg";
+import CustomSlider from "../../../../components/Slider";
+import useWindowSize from "../../../../hooks/Screen";
+import CustomIcon from "../../../../shared/Icon/index";
+import { Button } from "../../../../shared/index";
+import { theme } from "../../../../Theme/theme";
+import { detailPackagesRequest } from "../../Actions";
+import Loader from "../../../../utility/Loader";
 
 const settings = {
   dots: false,
@@ -32,14 +25,14 @@ const settings = {
   centerPadding: "30px",
   responsive: [
     { breakpoint: 1444, settings: { slidesToShow: 3 } },
-    { breakpoint: 1025, settings: { slidesToShow: 2, centerPadding: "0px" } },
+    { breakpoint: 1025, settings: { slidesToShow: 2, centerPadding: "10px" } },
     {
       breakpoint: 768,
-      settings: { slidesToShow: 2, slidesToScroll: 1, centerPadding: "0px" },
+      settings: { slidesToShow: 3, slidesToScroll: 1, centerPadding: "60px" },
     },
     {
       breakpoint: 450,
-      settings: { slidesToShow: 2, slidesToScroll: 1, centerPadding: "12px" },
+      settings: { slidesToShow: 2, slidesToScroll: 1, centerPadding: "15px" },
     }, // Mobile: 1 Image per slide
   ],
 };
@@ -61,10 +54,9 @@ const DetailPackagePage = ({ id }) => {
   const handleBack = () => {
     navigate("/packages");
   };
-
   const styles = {
     imageContainer: {
-      padding: "5px 10px",
+      padding: "5px 0px",
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
@@ -74,11 +66,13 @@ const DetailPackagePage = ({ id }) => {
     },
     image: {
       width: isMobile ? "210px" : "270px",
-      height: " 150px",
+      height: "150px",
       objectFit: "cover",
-      padding: "0px 3px",
+      padding: "0px 10px",
+      textAlign: "center",
     },
   };
+
   return (
     <div
       style={{
@@ -90,20 +84,7 @@ const DetailPackagePage = ({ id }) => {
       }}
     >
       {loading ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-            height: "90vh",
-          }}
-        >
-          <Image src={loader} ui={false} style={{ width: "60px" }} />
-          <Header as="h2" style={{ color: theme.colors.white }}>
-            Loading...
-          </Header>
-        </div>
+        <Loader />
       ) : (
         <div
           style={{
@@ -128,7 +109,7 @@ const DetailPackagePage = ({ id }) => {
               <div
                 style={{
                   position: "relative",
-                  maxHeight: "700px",
+                  height: isMobile ? "400px" : "550px",
                   overflow: "hidden",
                 }}
               >
@@ -138,11 +119,9 @@ const DetailPackagePage = ({ id }) => {
                   style={{
                     maxWidth: "100%",
                     width: "100%",
-                    height: "auto",
-                    maxHeight: "600px",
-                    overflow: "hidden",
-                    objectFit: "contain",
-                    marginBottom: "-15px",
+                    height: "100%",
+                    objectFit: "cover",
+                    display: "block",
                   }}
                 />
                 <CustomIcon
@@ -158,7 +137,8 @@ const DetailPackagePage = ({ id }) => {
                   onClick={handleBack}
                 />
               </div>
-              <div style={{ padding: "10px 0px" }}>
+
+              <div style={{ padding: "10px 5px" }}>
                 <CustomSlider settings={settings}>
                   {detailData?.photos.map((item, index) => (
                     <div

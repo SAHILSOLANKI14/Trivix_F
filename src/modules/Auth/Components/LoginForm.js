@@ -112,7 +112,7 @@ const LoginForm = () => {
         }`}
         style={{
           padding: "0px",
-          color: theme.colors.white,
+          color: theme.colors.black,
           fontWeight: "bold",
           marginTop: "5px",
         }}
@@ -130,7 +130,7 @@ const LoginForm = () => {
 
       <div style={{ marginBottom: "20px" }}>
         <Radio
-          label={<label style={{ color: theme.colors.white }}>Traveler</label>}
+          label={<label style={{ color: theme.colors.black }}>Traveler</label>}
           name="loginType"
           value="traveler"
           checked={selected === "traveler"}
@@ -139,7 +139,7 @@ const LoginForm = () => {
         />
         <Radio
           name="loginType"
-          label={<label style={{ color: theme.colors.white }}>Agency</label>}
+          label={<label style={{ color: theme.colors.black }}>Agency</label>}
           value="agency"
           checked={selected === "agency"}
           onChange={() => setSelected("agency")}
