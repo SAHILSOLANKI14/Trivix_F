@@ -127,8 +127,8 @@ const ProfileById = () => {
                       style={{
                         width: "80px",
                         height: "80px",
-                        borderRadius: "50%", // Makes the image rounded like Instagram
-                        objectFit: "cover", // Ensures the image fits nicely within the circle
+                        borderRadius: "50%", 
+                        objectFit: "cover",
                       }}
                     />
                     <Header

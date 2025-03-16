@@ -118,7 +118,7 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
                 style={{ display: "flex", alignItems: "center", gap: "10px" }}
                 onClick={() => handleRedirectUser(post.ownerDetails?._id)}
               >
-                <Image src={avatar || post.ownerDetails?.avatar} avatar />
+                <Image src={post.ownerDetails?.avatar || avatar } avatar />
                 <Comment.Content>
                   <Header
                     as={"h5"}
