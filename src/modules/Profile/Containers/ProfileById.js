@@ -97,6 +97,7 @@ const ProfileById = () => {
     getFollowers(userName);
     getFollowings(userName);
   }, [dispatch]);
+
   return (
     <>
       {loading ? (
@@ -121,9 +122,14 @@ const ProfileById = () => {
                     }}
                   >
                     <Image
-                      src={data.avatar || profilePic }
+                      src={data.avatar || profilePic}
                       centered
-                      style={{ width: "80px", height: "80px" }}
+                      style={{
+                        width: "80px",
+                        height: "80px",
+                        borderRadius: "50%", // Makes the image rounded like Instagram
+                        objectFit: "cover", // Ensures the image fits nicely within the circle
+                      }}
                     />
                     <Header
                       as={"h3"}
