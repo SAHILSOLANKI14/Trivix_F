@@ -39,7 +39,7 @@ const Nav = () => {
             style={{ display: "flex", gap: "10px" }}
             onClick={() => handleClick(data._id)}
           >
-            <Image src={userProfile} circular size="mini" />
+            <Image src={ data.avatar || userProfile} circular size="mini" />
             <div>
               <Header as="h5" style={{ margin: 0, color: theme.colors.black }}>
                 Current Location
