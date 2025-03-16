@@ -10,7 +10,7 @@ export const Allposts = async () => {
 };
 export const GetagencyById = async (id) => {
   try {
-    const result = await apiRequest(`agency/${id}`, "GET", null);
+    const result = await apiRequest(`traveler/${id}`, "GET", null);
     return result;
   } catch (error) {
     console.log("error", error.message);
