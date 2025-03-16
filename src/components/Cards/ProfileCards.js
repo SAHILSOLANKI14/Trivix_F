@@ -32,7 +32,7 @@ const ProfileCard = () => {
           }}
         />
         <Image
-          src={data.avatar || userProfile}
+          src={userProfile}
           circular
           centered
           style={{
