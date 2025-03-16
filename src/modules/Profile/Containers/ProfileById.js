@@ -121,7 +121,7 @@ const ProfileById = () => {
                     }}
                   >
                     <Image
-                      src={profilePic}
+                      src={data.avatar || profilePic }
                       centered
                       style={{ width: "80px", height: "80px" }}
                     />
