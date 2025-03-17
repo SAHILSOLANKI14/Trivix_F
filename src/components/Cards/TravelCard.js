@@ -32,7 +32,7 @@ const TravelCard = ({ item, style = {}, handleNavigateDetailpage }) => {
     >
       <Card
         style={{
-          backgroundColor: theme.colors.bg6,
+          backgroundColor: theme.colors.white,
           color: theme.colors.white,
           width: "250px",
           minHeight: "310px",
@@ -42,6 +42,7 @@ const TravelCard = ({ item, style = {}, handleNavigateDetailpage }) => {
           margin: 0,
           padding: 0,
           position: "relative",
+          border: `1px solid  ${theme.colors.white}`,
         }}
       >
         <Image

@@ -22,6 +22,7 @@ const ProfileCard = () => {
           background: theme.colors.main,
           padding: "0px",
           margin: "0px",
+          border: `1px solid  ${theme.colors.white}`,
         }}
       >
         <Image
@@ -60,7 +61,7 @@ const ProfileCard = () => {
             />
           </Card.Meta>
           <div style={{ marginTop: "10px" }}>
-            <a href="/profile">
+            <a href={`/profile/${Data?.traveler?._id || Data?.agency?._id}`}>
               <Button color="orange" fluid style={{ borderRadius: "20px" }}>
                 Profile
               </Button>

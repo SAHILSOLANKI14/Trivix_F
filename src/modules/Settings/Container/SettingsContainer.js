@@ -10,7 +10,9 @@ const SettingsContainer = () => {
         height: "100vh",
       }}
     >
-      <p style={{ fontWeight: "800", fontSize: "28px" }}>Comming Soon.......</p>
+      <p style={{ fontWeight: "800", fontSize: "28px" }}>
+        under Development.......
+      </p>
     </div>
   );
 };

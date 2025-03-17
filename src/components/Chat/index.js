@@ -71,7 +71,7 @@ const PostBox = () => {
   return (
     <Segment
       style={{
-        height: "95vh",
+        height: "90vh",
         display: "flex",
         flexDirection: "column",
         background: theme.colors.black,
@@ -97,12 +97,14 @@ const PostBox = () => {
                 <div key={msg.id}>
                   <Comment>
                     <Comment.Content>
-                      <Comment.Author style={{ color: theme.colors.white }}>
+                      <Comment.Author style={{ color: theme.colors.gray }}>
                         {msg?.owner?.details?.agencyName ||
                           msg?.owner?.details?.fullName}
                       </Comment.Author>
-                      <Comment.Text style={{ color: theme.colors.gray }}>
-                        {msg.content}
+                      <Comment.Text
+                        style={{ color: theme.colors.white, fontSize: "12px" }}
+                      >
+                        #{msg.content}
                       </Comment.Text>
                     </Comment.Content>
                   </Comment>
@@ -115,7 +117,6 @@ const PostBox = () => {
               position: "sticky",
               bottom: "0",
               background: theme.colors.black,
-              padding: "10px",
               borderTop: `1px solid ${theme.border.primary}`,
             }}
           >
@@ -124,29 +125,34 @@ const PostBox = () => {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: "10px",
+                  gap: "5px",
                   paddingBottom: "10px",
                 }}
               >
-                <Image
-                  src="https://react.semantic-ui.com/images/avatar/small/matt.jpg"
-                  avatar
+                <CustomIcon
+                  name="image outline"
+                  size="large"
+                  style={{ fontSize: "22px", color: theme.colors.white }}
                 />
                 <Fields.Input
                   name="input"
                   placeholder="What’s Happening?"
-                  fluid
                   style={{
                     border: "none",
                     fontSize: "16px",
                     flex: 1,
                     outline: "none",
-                    padding: "10px",
                     background: "transparent",
                     color: theme.colors.white,
                   }}
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
+                />
+                <Button
+                  icon="send"
+                  color="blue"
+                  style={{ marginLeft: "10px" }}
+                  onClick={handleSend}
                 />
               </div>
 
@@ -157,34 +163,7 @@ const PostBox = () => {
                   alignItems: "center",
                 }}
               >
-                <div style={{ display: "flex", gap: "15px" }}>
-                  <CustomIcon
-                    name="image outline"
-                    size="large"
-                    style={{ fontSize: "22px", color: theme.colors.white }}
-                  />
-                  <CustomIcon
-                    name="smile outline"
-                    size="large"
-                    onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                    style={{
-                      cursor: "pointer",
-                      fontSize: "22px",
-                      color: theme.colors.white,
-                    }}
-                  />
-                </div>
-
-                <Button
-                  content="Post"
-                  color="blue"
-                  style={{
-                    borderRadius: "20px",
-                    padding: "10px 20px",
-                    fontWeight: "bold",
-                  }}
-                  onClick={handleSend}
-                />
+                <div style={{ display: "flex", gap: "15px" }}></div>
               </div>
             </Form>
 

@@ -2,10 +2,14 @@ import {
   GET_ALL_POSTS_REQUEST,
   GET_ALL_POSTS_SUCCESS,
   GET_ALL_POSTS_FAILURE,
+  GET_COMMENTS_BY_ID_REQUEST,
+  GET_COMMENTS_BY_ID_SUCCESS,
+  GET_COMMENTS_BY_ID_FAILURE,
 } from "../Types";
 
 const initialData = {
   data: [],
+  comments: [],
   loading: false,
   error: null,
 };
@@ -25,6 +29,25 @@ export const AllPostsReducer = (state = initialData, action) => {
         error: null,
       };
     case GET_ALL_POSTS_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case GET_COMMENTS_BY_ID_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case GET_COMMENTS_BY_ID_SUCCESS:
+      return {
+        ...state,
+        comments: action.payload,
+        loading: false,
+        error: null,
+      };
+    case GET_COMMENTS_BY_ID_FAILURE:
       return {
         ...state,
         loading: false,

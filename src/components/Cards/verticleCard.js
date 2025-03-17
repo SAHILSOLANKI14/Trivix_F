@@ -23,6 +23,7 @@ const CustomCard = ({ item, style = {} }) => {
           overflow: "hidden",
           boxShadow: "none",
           margin: 0, // Remove extra margin
+          border: `1px solid  ${theme.colors.white}`,
         }}
       >
         <Image

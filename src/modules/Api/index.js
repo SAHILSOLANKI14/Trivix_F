@@ -1,28 +1,30 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://trivix-b.vercel.app/api/v1";
+const BASE_URL = "http://localhost:8000/api/v1/";
+const client = axios.create({
+  withCredentials: true,
+  baseURL: BASE_URL,
+});
+
+console.log(process.env.BASE_URL);
 
 export const apiRequest = async (
-  endpoint,
+  url,
   method = "GET",
   data = null,
   params = null,
   headers = {}
 ) => {
+  console.log(url);
   try {
-    const url = new URL(`${API_BASE_URL}/${endpoint}`);
-
-    if (params) {
-      Object.keys(params).forEach((key) =>
-        url.searchParams.append(key, params[key])
-      );
-    }
+    console.log(url);
 
     const token = localStorage.getItem("user");
 
     const config = {
       method,
-      url: url.toString(),
+      url,
+      params,
       headers: {
         Authorization: token ? `Bearer ${token}` : "",
         "Content-Type": "application/json",
@@ -30,7 +32,7 @@ export const apiRequest = async (
       },
       data,
     };
-    const response = await axios(config);
+    const response = await client.request(config);
     return response.data;
   } catch (error) {
     console.error("API Request Error:", error.response?.data || error.message);

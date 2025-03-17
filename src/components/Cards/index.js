@@ -21,7 +21,7 @@ const CustomCard = ({ item, style = {} }) => {
     >
       <Card
         style={{
-          // backgroundColor: theme.colors.gray,
+          border: `1px solid  ${theme.colors.white}`,
           color: theme.colors.white,
           width: "350px",
           height: "220px",

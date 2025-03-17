@@ -1,6 +1,5 @@
 import React from "react";
 import { Grid, Header, Image } from "semantic-ui-react";
-import userProfile from "../../../assets/images/Ellipse 194.svg";
 import CustomeSearch from "../../../components/Search";
 import CustomIcon from "../../../shared/Icon";
 import { useSelector } from "react-redux";
@@ -22,7 +21,7 @@ const Nav = () => {
       style={{
         background: "transparent",
         alignItems: "center",
-        padding: "5px 20px",
+        padding: "0px 20px",
         marginTop: "0px",
       }}
     >
@@ -39,15 +38,19 @@ const Nav = () => {
             style={{ display: "flex", gap: "10px" }}
             onClick={() => handleClick(data._id)}
           >
-            <Image src={ userProfile} circular size="mini" />
+            <Image
+              src={data?.avatar}
+              style={{ width: "40px", height: "40px" }}
+              avatar
+            />
             <div>
-              <Header as="h5" style={{ margin: 0, color: theme.colors.black }}>
+              <Header as="h5" style={{ margin: 0, color: theme.colors.white }}>
                 Current Location
               </Header>
               <CustomIcon
                 name="map marker alternate"
                 title={data?.city || "Ahemdabad"}
-                style={{ color: theme.colors.black }}
+                style={{ color: theme.colors.gray }}
               />
             </div>
           </div>

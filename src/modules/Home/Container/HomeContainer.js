@@ -1,15 +1,13 @@
-import React, { useEffect } from "react";
-import { Grid, GridColumn, Header, Image } from "semantic-ui-react";
-import ImageCarousel from "../../../components/PostsBlog";
-import ChatBox from "../../../components/Chat";
 import { useMediaQuery } from "@react-hook/media-query";
-import Nav from "../../Packages/Components/Nav";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { allPostsRequest } from "../Actions";
-import loader from "../../../assets/images/giphy.gif";
-import { theme } from "../../../Theme/theme";
-import { getAllTweetsRequest } from "../../Profile/Actions";
+import { Grid, GridColumn } from "semantic-ui-react";
+import ChatBox from "../../../components/Chat";
+import ImageCarousel from "../../../components/PostsBlog";
 import Loader from "../../../utility/Loader";
+import Nav from "../../Packages/Components/Nav";
+import { allPostsRequest } from "../Actions";
+import { theme } from "../../../Theme/theme";
 
 const HomeContainer = () => {
   const dispatch = useDispatch();
@@ -18,7 +16,6 @@ const HomeContainer = () => {
   const { data, loading } = useSelector((state) => state.AllPost);
   useEffect(() => {
     dispatch(allPostsRequest());
-    // dispatch(getAllTweetsRequest());
   }, [dispatch]);
   const posts = data;
   return (
@@ -42,6 +39,11 @@ const HomeContainer = () => {
               display: "flex",
               flexDirection: "column",
               gap: "10px",
+
+              borderRight: !isMobile
+                ? `1px solid ${theme.colors.white}`
+                : "none",
+              borderTop: !isMobile ? `1px solid ${theme.colors.white}` : "none",
             }}
           >
             {loading ? (
@@ -66,9 +68,21 @@ const HomeContainer = () => {
               tablet={16}
               computer={isMobile ? 16 : 5}
               largeScreen={6}
+              style={{ padding: 0 }}
             >
-              <div style={{ position: "sticky", top: "10px" }}>
-                <div style={{ marginBottom: "20px" }}>
+              <div
+                style={{
+                  position: "sticky",
+                  top: "0px",
+                  padding: 0,
+                  borderTop: `1px solid ${theme.colors.white}`,
+                }}
+              >
+                <div
+                  style={{
+                    marginBottom: "20px",
+                  }}
+                >
                   <ChatBox />
                 </div>
               </div>

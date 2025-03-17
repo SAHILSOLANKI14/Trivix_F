@@ -7,7 +7,11 @@ import TabExampleSecondaryPointing from "../Components/Tabs";
 import { useDispatch, useSelector } from "react-redux";
 import ImageGroupSize from "../../../components/ImageGroup";
 import Tweets from "../Components/Tweets";
-import { agencyByIdRequest, getTweetsRequest } from "../Actions";
+import {
+  agencyByIdRequest,
+  getTweetsRequest,
+  travelerByIdRequest,
+} from "../Actions";
 import { GetCurrentLogedInAgency, getFollowers, getFollowings } from "../Api";
 import Cookies from "js-cookie";
 import Loader from "../../../utility/Loader";
@@ -28,6 +32,7 @@ const ProfileById = () => {
             border: "none",
             boxShadow: "none",
             color: theme.colors.black,
+            marginBottom: "30px",
           }}
         >
           <ImageGroupSize PostImage={data?.posts} />
@@ -43,7 +48,7 @@ const ProfileById = () => {
             background: "transparent",
             border: "none",
             boxShadow: "none",
-            marginBottom: "50px",
+            marginBottom: "30px",
           }}
         >
           <Tweets tweets={data.tweets} />
@@ -60,24 +65,7 @@ const ProfileById = () => {
             border: "none",
             boxShadow: "none",
           }}
-        >
-          In Development
-        </TabPane>
-      ),
-    },
-    {
-      menuItem: "Tag",
-      render: () => (
-        <TabPane
-          attached={false}
-          style={{
-            background: "transparent",
-            border: "none",
-            boxShadow: "none",
-          }}
-        >
-          In Development
-        </TabPane>
+        ></TabPane>
       ),
     },
   ];
@@ -86,18 +74,16 @@ const ProfileById = () => {
   useEffect(() => {
     const userID = Cookies.get("userId");
     const userType = Cookies.get("userType");
-    const userName = data?.userName || data?.userName;
     const Datas = {
       userId: userID,
       userType: userType,
     };
-    GetCurrentLogedInAgency();
-    dispatch(agencyByIdRequest(id));
-    dispatch(getTweetsRequest(Datas));
-    getFollowers(userName);
-    getFollowings(userName);
-  }, [dispatch]);
-
+    if (userType === "Traveler") {
+      dispatch(travelerByIdRequest(id));
+    } else {
+      dispatch(agencyByIdRequest(id));
+    }
+  }, [dispatch, id]);
   return (
     <>
       {loading ? (
@@ -122,20 +108,19 @@ const ProfileById = () => {
                     }}
                   >
                     <Image
-                      src={data.avatar || profilePic}
+                      src={data?.avatar}
                       centered
+                      circular
                       style={{
                         width: "80px",
                         height: "80px",
-                        borderRadius: "50%", 
-                        objectFit: "cover",
                       }}
                     />
                     <Header
                       as={"h3"}
                       style={{
                         margin: "0",
-                        color: theme.colors.black,
+                        color: theme.colors.white,
                         padding: "5px ",
                       }}
                     >
@@ -163,7 +148,7 @@ const ProfileById = () => {
                       style={{
                         fontSize: "12px",
                         fontWeight: "300 !important",
-                        color: theme.colors.black,
+                        color: theme.colors.gray,
                       }}
                     >
                       {data?.bio ||
@@ -186,8 +171,8 @@ const ProfileById = () => {
                   <div style={{ gap: "30px !important" }}>
                     <Button
                       style={{
-                        background: theme.colors.black,
-                        color: theme.colors.white,
+                        background: theme.colors.white,
+                        color: theme.colors.black,
                         gap: "20px",
                       }}
                     >
@@ -196,8 +181,8 @@ const ProfileById = () => {
                     <a href="/chat">
                       <Button
                         style={{
-                          background: theme.colors.black,
-                          color: theme.colors.white,
+                          background: theme.colors.white,
+                          color: theme.colors.black,
                         }}
                       >
                         Message
@@ -213,29 +198,25 @@ const ProfileById = () => {
                   >
                     <div>
                       <Header
-                        style={{ margin: "0", color: theme.colors.black }}
+                        style={{ margin: "0", color: theme.colors.white }}
                       >
                         {data?.followerCount?.length >= 1
                           ? data?.followerCount
                           : 0}
                       </Header>
-                      <Header
-                        style={{ margin: "0", color: theme.colors.black }}
-                      >
+                      <Header style={{ margin: "0", color: theme.colors.gray }}>
                         Follower
                       </Header>
                     </div>
                     <div>
                       <Header
-                        style={{ margin: "0", color: theme.colors.black }}
+                        style={{ margin: "0", color: theme.colors.white }}
                       >
                         {data?.followingCount?.length >= 1
                           ? data?.followingCount
                           : 0}
                       </Header>
-                      <Header
-                        style={{ margin: "0", color: theme.colors.black }}
-                      >
+                      <Header style={{ margin: "0", color: theme.colors.gray }}>
                         Following
                       </Header>
                     </div>

@@ -26,10 +26,10 @@ const ChatSidebar = ({ chatList, openChat }) => {
             <CustomIcon
               name="arrow left"
               size="large"
-              style={{ color: theme.colors.black, cursor: "pointer" }}
+              style={{ color: theme.colors.white, cursor: "pointer" }}
               //   color={theme.colors.orange}
             />
-            <Header style={{ margin: "0px", color: theme.colors.black }}>
+            <Header style={{ margin: "0px", color: theme.colors.white }}>
               Chat
             </Header>
           </div>
@@ -40,7 +40,7 @@ const ChatSidebar = ({ chatList, openChat }) => {
           style={{
             marginLeft: "auto",
             cursor: "edit outline",
-            color: theme.colors.black,
+            color: theme.colors.white,
           }}
         />
       </div>
@@ -72,7 +72,7 @@ const ChatSidebar = ({ chatList, openChat }) => {
             <div style={{ marginLeft: "10px", flex: 1 }}>
               <Header
                 as={"h4"}
-                style={{ color: theme.colors.black, margin: "0" }}
+                style={{ color: theme.colors.white, margin: "0" }}
               >
                 {chat.name}
               </Header>

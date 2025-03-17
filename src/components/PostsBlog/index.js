@@ -1,22 +1,22 @@
 import React, { useState } from "react";
-import { Comment, Header, Image, Transition } from "semantic-ui-react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import CustomIcon from "../../shared/Icon";
-import CommentSection from "../Comments";
-import { theme } from "../../Theme/theme";
-import LikeButton from "../Like";
-import useWindowSize from "../../hooks/Screen";
 import { useNavigate } from "react-router-dom";
-import { agencyByIdRequest } from "../../modules/Profile/Actions";
+import Slider from "react-slick";
+import { Comment, Header, Image, Transition } from "semantic-ui-react";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
+import useWindowSize from "../../hooks/Screen";
+import CustomIcon from "../../shared/Icon";
+import { theme } from "../../Theme/theme";
+import CommentSection from "../Comments";
+import LikeButton from "../Like";
 import { useDispatch } from "react-redux";
+import { CommentsByIdRequest } from "../../modules/Home/Actions";
 
 const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
   const { width } = useWindowSize();
-  const dispatch = useDispatch();
   const [commentOpen, setCommentOpen] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const size = width < 1450 ? "0px 0px" : "0px 20px";
   const settings = {
     dots: true,
@@ -53,7 +53,7 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
       />
     ),
   };
-
+  console.log(posts);
   const responsiveHeight = () => {
     if (isLaptop) return "350px";
     if (isMobile) return "300px";
@@ -63,14 +63,15 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
   };
 
   const toggleCommentField = (postId) => {
+    dispatch(CommentsByIdRequest(postId));
     if (commentOpen === postId) {
-      setTimeout(() => setCommentOpen(null), 300);
-    } else {
-      setCommentOpen(postId);
+      console.log("Toggled Comment for Post ID:", postId);
+      setCommentOpen((prev) => (prev === postId ? null : postId));
     }
   };
+
+  // console.log(postId);
   const handleRedirectUser = (userId) => {
-   
     if (userId) {
       navigate(`/profile/${userId}`);
     }
@@ -99,10 +100,12 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
             key={postIndex}
             style={{
               // border: `1px solid ${theme.border.primary}`,
-              borderRadius: width < 768 ? "15px" : "15px",
+              // borderRadius: width < 768 ? "15px" : "15px",
               padding: "00px",
               marginBottom: "20px",
               width: "100%",
+              // borderTop: `1px solid ${theme.colors.white}`,
+              // borderBottom: `1px solid ${theme.colors.white}`,
             }}
           >
             {/* User Info and Comments */}
@@ -118,11 +121,11 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
                 style={{ display: "flex", alignItems: "center", gap: "10px" }}
                 onClick={() => handleRedirectUser(post.ownerDetails?._id)}
               >
-                <Image src={post.ownerDetails?.avatar || avatar } avatar />
+                <Image src={post.ownerDetails?.avatar || avatar} avatar />
                 <Comment.Content>
                   <Header
                     as={"h5"}
-                    style={{ margin: 0, color: theme.colors.black }}
+                    style={{ margin: 0, color: theme.colors.white }}
                   >
                     {post?.ownerDetails?.userName}
                   </Header>
@@ -140,7 +143,7 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
               </Comment>
               <CustomIcon
                 name="ellipsis vertical"
-                style={{ color: theme.colors.black }}
+                style={{ color: theme.colors.white }}
               />
             </div>
 
@@ -187,8 +190,8 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
                 <LikeButton posts={posts} postIndex={postIndex} />
                 <CustomIcon
                   name="chat outline"
-                  style={{ color: theme.colors.black, fontSize: "16px" }}
-                  onClick={() => toggleCommentField(postIndex)}
+                  style={{ color: theme.colors.white, fontSize: "16px" }}
+                  onClick={() => toggleCommentField(post._id)}
                 />
               </div>
               <CustomIcon
@@ -197,19 +200,19 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
               />
             </div>
             <div style={{ padding: "5px 10px" }}>
-              <Header as={"h4"} style={{ color: theme.colors.black }}>
+              <Header as={"h4"} style={{ color: theme.colors.gray }}>
                 {post.caption}
               </Header>
             </div>
 
             {/* Comments Section */}
             <Transition
-              visible={commentOpen === postIndex}
+              visible={commentOpen === post._id}
               animation="scale"
               duration={300}
             >
               <div>
-                {commentOpen === postIndex && (
+                {commentOpen === post._id && (
                   <CommentSection comments={post.comments} />
                 )}
               </div>

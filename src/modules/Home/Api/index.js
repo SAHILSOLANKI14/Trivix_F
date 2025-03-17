@@ -24,3 +24,15 @@ export const GettravelerById = async (id) => {
     console.log("error", error.message);
   }
 };
+export const GetCommentsById = async (id) => {
+  try {
+    const result = await apiRequest(
+      `comment/${id}?page=1&limit=10`,
+      "GET",
+      null
+    );
+    return result;
+  } catch (error) {
+    console.log("error", error.message);
+  }
+};

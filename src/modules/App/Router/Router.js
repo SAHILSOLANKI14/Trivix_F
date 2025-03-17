@@ -2,6 +2,7 @@ import ChatContainer from "../../Chat/Container/ChatContainer";
 import TweetContainer from "../../Chat/Container/TweetContainer";
 import HomeContainer from "../../Home/Container/HomeContainer";
 import NotificationContainer from "../../Notifications/Container/NotificationContainer";
+import CreatePackages from "../../Packages/Container/CreatePackages";
 import PackageContainer from "../../Packages/Container/packageContainer";
 import ProfileById from "../../Profile/Containers/ProfileById";
 import ProfileContainer from "../../Profile/Containers/ProfileContainer";
@@ -23,6 +24,12 @@ export default [
     title: "packages",
     url: "/packages/:id",
     component: PackageContainer,
+    admin: "false",
+  },
+  {
+    title: "createpackage",
+    url: "/createpackages",
+    component: CreatePackages,
     admin: "false",
   },
   {

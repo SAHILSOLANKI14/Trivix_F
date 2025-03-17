@@ -37,13 +37,13 @@ const Tweets = ({ tweets }) => {
           }}
         >
           <Card.Content style={{ flexGrow: 1 }}>
-            <Card.Header style={{ color: theme.colors.black }}>
+            <Card.Header style={{ color: theme.colors.white }}>
               {tweet?.owner?.details?.agencyName}
             </Card.Header>
-            <Card.Meta style={{ color: theme.colors.black }}>
+            <Card.Meta style={{ color: theme.colors.white }}>
               {tweet?.owner?.details?.userName}
             </Card.Meta>
-            <Card.Description style={{ color: theme.colors.black }}>
+            <Card.Description style={{ color: theme.colors.white }}>
               {tweet.content}
             </Card.Description>
           </Card.Content>
@@ -51,18 +51,18 @@ const Tweets = ({ tweets }) => {
             extra
             style={{
               display: "flex",
-              color: theme.colors.black,
+              color: theme.colors.white,
               alignItems: "center",
             }}
           >
             <CustomIcon
               name="heart"
               color="red"
-              style={{ color: theme.colors.black }}
+              style={{ color: theme.colors.white }}
             />
             <span>{tweet.likes} Likes</span>
 
-            <CustomIcon name="clock outline" style={{ marginLeft: "10px" }} />
+            <CustomIcon name="clock outline" style={{ marginLeft: "10px" ,color:theme.colors.white}} />
             {tweet?.createdAt}
           </Card.Content>
         </Card>

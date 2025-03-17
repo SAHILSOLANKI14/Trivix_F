@@ -2,6 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://trivix-b.vercel.app/api/v1/",
   "dependencies": {
     "@fontsource/montserrat": "^5.1.1",
     "@fontsource/poppins": "^5.1.1",
@@ -12,6 +13,7 @@
     "cra-template": "1.2.0",
     "dotenv": "^16.4.7",
     "emoji-picker-react": "^4.12.0",
+    "env-cmd": "^10.1.0",
     "js-cookie": "^3.0.5",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
@@ -32,9 +34,9 @@
     "yup": "^1.6.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "env-cmd -f .env react-scripts start",
+    "build": "env-cmd -f .env react-scripts build",
+    "test": "env-cmd -f .env react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -57,6 +59,5 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
-  },
-  "proxy": "https://trivix-b.vercel.app"
+  }
 }

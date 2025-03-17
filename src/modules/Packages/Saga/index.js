@@ -16,6 +16,7 @@ function* handleGetAllPackages(action) {
   try {
     const response = yield call(Allpackages, pagination);
     yield put(allPackagesSuccess(response?.data.packages));
+    console.log("calll", response);
   } catch (error) {
     console.log("Login Error:", error.message);
     yield put(allPackagesFailure(error.message));

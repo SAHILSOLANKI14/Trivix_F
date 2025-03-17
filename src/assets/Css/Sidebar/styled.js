@@ -106,6 +106,7 @@ export const SidebarWrapper = styled.div`
   left: 0;
   top: 0;
   box-shadow: 1px 0 3px rgba(0, 0, 0, 0.15);
+  border-right: 1px solid ${theme.colors.white};
 `;
 export const SidebarHeader = styled.h2`
   color: ${theme.colors.orange};

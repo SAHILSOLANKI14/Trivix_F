@@ -16,7 +16,7 @@ import {
   travelerByIdFailure,
   travelerByIdSuccess,
 } from "../Actions/index";
-import { AllTweets, AllTweetsByID, CreateTweet, GetAgencyById } from "../Api";
+import { AllTweets, AllTweetsByID, CreateTweet } from "../Api";
 import { GetagencyById, GettravelerById } from "../../Home/Api";
 
 function* handleGetAllTWeetByID(action) {
@@ -32,7 +32,7 @@ function* handleGetAllTWeetByID(action) {
 function* handleprofileAgencyByID(action) {
   const { id } = action.payload;
   try {
-    const response = yield call(GettravelerById, id);
+    const response = yield call(GetagencyById, id);
     yield put(agencyByIdSuccess(response?.data));
   } catch (error) {
     console.log("Login Error:", error.message);

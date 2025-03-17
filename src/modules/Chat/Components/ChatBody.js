@@ -42,7 +42,7 @@ const ChatBody = ({
           style={{
             position: "sticky",
             top: 0,
-            backgroundColor: "#ffffff",
+            backgroundColor: theme.colors.black,
             zIndex: 1000,
             padding: "5px 0px",
             width: "100%",
@@ -54,12 +54,12 @@ const ChatBody = ({
           <CustomIcon
             name="arrow left"
             size="large"
-            style={{ cursor: "pointer", color: theme.colors.black }}
+            style={{ cursor: "pointer", color: theme.colors.white }}
             onClick={() => navigate("/chat")}
           />
           <Image src={selectedChat.avatar} avatar />
           <div style={{ marginLeft: "10px", flex: 1 }}>
-            <strong style={{ color: theme.colors.black }}>
+            <strong style={{ color: theme.colors.white }}>
               {selectedChat.name}
             </strong>
             <p style={{ fontSize: "12px", color: "gray" }}>Active Now</p>
@@ -67,7 +67,7 @@ const ChatBody = ({
           <CustomIcon
             name="phone"
             size="large"
-            style={{ transform: "rotate(-270deg)", color: theme.colors.black }}
+            style={{ transform: "rotate(-270deg)", color: theme.colors.white }}
           />
         </div>
       )}
@@ -77,7 +77,7 @@ const ChatBody = ({
         style={{
           flex: 1,
           overflowY: "auto",
-          paddingBottom: "60px", // Ensure space for the input field
+          paddingBottom: "60px",
           scrollbarWidth: "thin",
           scrollbarColor: "white",
           marginTop: "10px",

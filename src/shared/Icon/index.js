@@ -18,6 +18,7 @@ const CustomIcon = ({
         padding: "5px",
         display: "flex",
         alignItems: "center",
+        margin: 0,
       }}
       onClick={onClick}
     >

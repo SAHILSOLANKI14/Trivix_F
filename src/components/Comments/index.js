@@ -117,22 +117,22 @@ const CommentSection = () => {
                 justifyContent: "space-between",
               }}
             >
-              <CommentAuthor style={{ color: theme.colors.black }}>
+              <CommentAuthor style={{ color: theme.colors.white }}>
                 {comment.author}
               </CommentAuthor>
               <CommentActions>
                 <a
-                  style={{ color: theme.colors.black }}
+                  style={{ color: theme.colors.gray }}
                   onClick={() => handleReplyClick(comment.id)}
                 >
                   Reply
                 </a>
               </CommentActions>
             </div>
-            <CommentMetadata style={{ color: theme.colors.black }}>
+            <CommentMetadata style={{ color: theme.colors.gray }}>
               {comment.time}
             </CommentMetadata>
-            <CommentText style={{ color: theme.colors.black }}>
+            <CommentText style={{ color: theme.colors.white }}>
               {comment.text}
             </CommentText>
           </CommentContent>
@@ -167,13 +167,13 @@ const CommentSection = () => {
                 <Comment key={reply.id}>
                   <CommentAvatar src={reply.avatar} />
                   <CommentContent>
-                    <CommentAuthor style={{ color: theme.colors.black }}>
+                    <CommentAuthor style={{ color: theme.colors.white }}>
                       {reply.author}
                     </CommentAuthor>
-                    <CommentMetadata style={{ color: theme.colors.black }}>
+                    <CommentMetadata style={{ color: theme.colors.gray }}>
                       {reply.time}
                     </CommentMetadata>
-                    <CommentText style={{ color: theme.colors.black }}>
+                    <CommentText style={{ color: theme.colors.white }}>
                       {reply.text}
                     </CommentText>
                   </CommentContent>
