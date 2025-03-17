@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8000/api/v1/";
+const BASE_URL = "https://trivix-b.vercel.app/api/v1/";
 const client = axios.create({
   withCredentials: true,
   baseURL: BASE_URL,
