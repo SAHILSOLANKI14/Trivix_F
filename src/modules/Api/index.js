@@ -2,7 +2,7 @@ import axios from "axios";
 
 const BASE_URL = "https://trivix-b.vercel.app/api/v1/";
 const client = axios.create({
-  withCredentials: true,
+  withCredentials: false,
   baseURL: BASE_URL,
 });
 
