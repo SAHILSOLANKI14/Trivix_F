@@ -18,7 +18,14 @@ export const AllTweets = async (data) => {
 };
 export const CreateTweet = async (data) => {
   try {
-    const result = await apiRequest(`tweets/create`, "POST", data, null);
+    const result = await apiRequest(
+      `tweets/create`,
+      "POST",
+      data,
+      null,
+      {},
+      true
+    );
     return result;
   } catch (error) {
     console.log("error", error.message);
@@ -30,6 +37,34 @@ export const getFollowers = async (userName) => {
     const result = await apiRequest(
       `follow/${userName}/followers`,
       "GET",
+      null,
+      null
+    );
+    return result;
+  } catch (error) {
+    console.log("error", error.message);
+  }
+};
+export const toggleFollow = async (userName) => {
+  try {
+    const result = await apiRequest(
+      `follow/${userName}/togglefollow`,
+      "POST",
+      null,
+      null,
+      {},
+      true
+    );
+    return result;
+  } catch (error) {
+    console.log("error", error.message);
+  }
+};
+export const toggleUnFollow = async (userName) => {
+  try {
+    const result = await apiRequest(
+      `follow/${userName}/togglefollow`,
+      "POST",
       null,
       null
     );

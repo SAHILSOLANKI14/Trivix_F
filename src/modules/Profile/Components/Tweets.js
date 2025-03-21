@@ -1,13 +1,14 @@
 import React from "react";
-import { Card, Icon, Grid } from "semantic-ui-react";
-import "semantic-ui-css/semantic.min.css";
 import { useSelector } from "react-redux";
+import "semantic-ui-css/semantic.min.css";
+import { Card } from "semantic-ui-react";
 import { theme } from "../../../Theme/theme";
 import CustomIcon from "../../../shared/Icon";
 
 const Tweets = ({ tweets }) => {
   const { data } = useSelector((state) => state.AllTweet);
   const Data = tweets ? tweets : data;
+
   return (
     <div
       style={{
@@ -62,7 +63,10 @@ const Tweets = ({ tweets }) => {
             />
             <span>{tweet.likes} Likes</span>
 
-            <CustomIcon name="clock outline" style={{ marginLeft: "10px" ,color:theme.colors.white}} />
+            <CustomIcon
+              name="clock outline"
+              style={{ marginLeft: "10px", color: theme.colors.white }}
+            />
             {tweet?.createdAt}
           </Card.Content>
         </Card>

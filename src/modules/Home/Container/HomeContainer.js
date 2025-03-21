@@ -13,11 +13,12 @@ const HomeContainer = () => {
   const dispatch = useDispatch();
   const isMobile = useMediaQuery("(max-width: 1024px)");
   const isLaptop = useMediaQuery("(max-width: 1440px)");
-  const { data, loading } = useSelector((state) => state.AllPost);
+  const { data: posts, loading } = useSelector((state) => state.AllPost);
+
   useEffect(() => {
     dispatch(allPostsRequest());
-  }, [dispatch]);
-  const posts = data;
+  }, []);
+  
   return (
     <>
       <Nav />
@@ -32,14 +33,13 @@ const HomeContainer = () => {
           <GridColumn
             mobile={16}
             tablet={16}
-            computer={isMobile ? 16 : 11}
+            computer={isMobile ? 16 : 10}
             largeScreen={10}
             style={{
               marginBottom: "50px",
               display: "flex",
               flexDirection: "column",
               gap: "10px",
-
               borderRight: !isMobile
                 ? `1px solid ${theme.colors.white}`
                 : "none",

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import { Comment, Header, Image, Transition } from "semantic-ui-react";
@@ -9,14 +9,15 @@ import CustomIcon from "../../shared/Icon";
 import { theme } from "../../Theme/theme";
 import CommentSection from "../Comments";
 import LikeButton from "../Like";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { CommentsByIdRequest } from "../../modules/Home/Actions";
 
 const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
-  const { width } = useWindowSize();
-  const [commentOpen, setCommentOpen] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { width } = useWindowSize();
+  const [commentOpen, setCommentOpen] = useState(null);
+  const { comments } = useSelector((state) => state.AllPost);
   const size = width < 1450 ? "0px 0px" : "0px 20px";
   const settings = {
     dots: true,
@@ -53,7 +54,7 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
       />
     ),
   };
-  console.log(posts);
+
   const responsiveHeight = () => {
     if (isLaptop) return "350px";
     if (isMobile) return "300px";
@@ -61,12 +62,17 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
       return "500px";
     }
   };
+  const handleCommentsFetch = (postId) => {
+    dispatch(CommentsByIdRequest(postId));
+  };
 
   const toggleCommentField = (postId) => {
-    dispatch(CommentsByIdRequest(postId));
+    console.log(postId);
     if (commentOpen === postId) {
-      console.log("Toggled Comment for Post ID:", postId);
-      setCommentOpen((prev) => (prev === postId ? null : postId));
+      setCommentOpen(null);
+    } else {
+      handleCommentsFetch(postId);
+      setCommentOpen(postId);
     }
   };
 
@@ -77,6 +83,7 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
     }
   };
   const avatar = "https://react.semantic-ui.com/images/avatar/small/matt.jpg";
+
   return (
     <div
       style={{
@@ -99,13 +106,9 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
           <div
             key={postIndex}
             style={{
-              // border: `1px solid ${theme.border.primary}`,
-              // borderRadius: width < 768 ? "15px" : "15px",
-              padding: "00px",
+              padding: "0px",
               marginBottom: "20px",
               width: "100%",
-              // borderTop: `1px solid ${theme.colors.white}`,
-              // borderBottom: `1px solid ${theme.colors.white}`,
             }}
           >
             {/* User Info and Comments */}
@@ -114,7 +117,7 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
-                padding: "10px",
+                padding: "10px 15px",
               }}
             >
               <Comment
@@ -182,6 +185,7 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
+                padding: "10px 15px",
               }}
             >
               <div
@@ -199,7 +203,7 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
                 style={{ color: theme.colors.black, fontSize: "16px" }}
               />
             </div>
-            <div style={{ padding: "5px 10px" }}>
+            <div style={{ padding: "5px 20px" }}>
               <Header as={"h4"} style={{ color: theme.colors.gray }}>
                 {post.caption}
               </Header>
@@ -213,7 +217,10 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
             >
               <div>
                 {commentOpen === post._id && (
-                  <CommentSection comments={post.comments} />
+                  <CommentSection
+                    comments={comments[post._id] || []}
+                    postId={post._id}
+                  />
                 )}
               </div>
             </Transition>

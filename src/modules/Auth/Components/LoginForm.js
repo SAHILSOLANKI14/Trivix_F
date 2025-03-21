@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Form from "../../../shared/Form/Form";
 import Fields from "../../../shared/Form/Fields/Fields";
 import * as yup from "yup";
@@ -26,6 +26,7 @@ const LoginForm = () => {
 
   const [toast, setToast] = useState({ message: "", type: "", visible: false });
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const showToast = (message, type) => {
     setToast({ message, type, visible: true });
     setTimeout(() => setToast({ ...toast, visible: false }), 3000);
@@ -75,6 +76,7 @@ const LoginForm = () => {
           ? TravelerloginRequest(finalData)
           : loginRequest(finalData)
       );
+      // window.location.reload();
     } catch (error) {
       dispatch(
         selected === "traveler"
@@ -88,11 +90,12 @@ const LoginForm = () => {
     const token = Cookies.get("accessToken");
     if (token) {
       showToast("Login successful!", "success");
+
       setTimeout(() => {
         navigate("/");
-      }, 1000);
+      }, 2000);
     }
-  }, [Data, navigate]);
+  }, [Data, navigate, showToast]);
 
   return (
     <div

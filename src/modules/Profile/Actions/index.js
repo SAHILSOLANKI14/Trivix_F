@@ -29,9 +29,9 @@ export const getTweetsFailure = (payload) => ({
   payload: payload,
 });
 
-export const getAllTweetsRequest = (page, limit) => ({
+export const getAllTweetsRequest = (page, limit, sort) => ({
   type: GET_ALL_TWEET_REQUEST,
-  payload: { page, limit },
+  payload: { page, limit, sort },
 });
 export const getAllTweetsSuccess = (data) => ({
   type: GET_ALL_TWEET_SUCCESS,

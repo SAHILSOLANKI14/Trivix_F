@@ -24,13 +24,17 @@ const CustomSidebar = () => {
   const DesktopSidebar = width <= 1035 ? "none" : "block";
   const MobileNav = width > 1024 ? "none" : "block";
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
 
   const handleLogOut = () => {
-    dispatch(logout());
-    // Cookies.remove("accessToken");
+    // dispatch(logout());
+    Cookies.remove("accessToken");
+    Cookies.remove("refreshToken");
+    Cookies.remove("userType");
+    Cookies.remove("userId");
+    Cookies.remove("user");
     localStorage.removeItem("persist:root");
     navigate("/auth/login");
   };
@@ -64,11 +68,10 @@ const CustomSidebar = () => {
         </SidebarWrapper>
       </div>
       {/* Bottom Navigation for Mobile */}
-      {!location.pathname.startsWith("/chat") && (
-        <div style={{ display: MobileNav }}>
-          <BottomNav handleLogOut={handleLogOut} />
-        </div>
-      )}
+      {MobileNav === "block" &&
+        !["/chat", "/tweet"].some((path) =>
+          location.pathname.startsWith(path)
+        ) && <BottomNav handleLogOut={handleLogOut} />}
     </>
   );
 };

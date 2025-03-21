@@ -4,7 +4,7 @@ import useWindowSize from "../../hooks/Screen/index";
 
 const ImageGroupSize = ({ PostImage = [] }) => {
   const { width } = useWindowSize();
-  const IsMobile = width < 768 ? "center" : "felx-start";
+  const IsMobile = width < 768 ? "center" : "flex-start";
   const imageSize = width < 768 ? "small" : width < 1024 ? "small" : "medium";
 
   const containerStyle = {
@@ -19,14 +19,18 @@ const ImageGroupSize = ({ PostImage = [] }) => {
     textAlign: width < 1450 ? "center" : "left",
   };
 
+  // Flatten PostImage in case some posts contain multiple images in an array
+  const flattenedImages = PostImage.flatMap((post) =>
+    Array.isArray(post.image) ? post.image : [post.image]
+  );
   return (
     <div style={containerStyle}>
       <ImageGroup size={imageSize}>
-        {PostImage.length > 0 ? (
-          PostImage.map((item, index) => (
+        {flattenedImages.length > 0 ? (
+          flattenedImages.map((item, index) => (
             <Image
               key={index}
-              src={typeof item === "string" ? item.src : item.image}
+              src={typeof item === "string" ? item : item.image} // Ensure correct src extraction
               alt={`Post Image ${index + 1}`}
               style={{
                 maxWidth: "100%",

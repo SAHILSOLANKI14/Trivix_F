@@ -51,10 +51,11 @@ function* handleprofileTravelerByID(action) {
 }
 function* handleGetAllTweet(action) {
   try {
-    const { page, limit } = action.payload;
+    const { page, limit, sort } = action.payload;
     const data = {
       page,
       limit,
+      sort,
     };
     const response = yield call(AllTweets, data);
 

@@ -37,14 +37,12 @@ export const AllPostsReducer = (state = initialData, action) => {
     case GET_COMMENTS_BY_ID_REQUEST:
       return {
         ...state,
-        loading: true,
         error: null,
       };
     case GET_COMMENTS_BY_ID_SUCCESS:
       return {
         ...state,
         comments: action.payload,
-        loading: false,
         error: null,
       };
     case GET_COMMENTS_BY_ID_FAILURE:

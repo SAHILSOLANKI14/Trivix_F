@@ -29,7 +29,10 @@ export const GetCommentsById = async (id) => {
     const result = await apiRequest(
       `comment/${id}?page=1&limit=10`,
       "GET",
-      null
+      null,
+      null,
+      {},
+      true
     );
     return result;
   } catch (error) {

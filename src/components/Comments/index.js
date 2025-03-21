@@ -13,33 +13,33 @@ import {
 } from "semantic-ui-react";
 import { Button } from "../../shared";
 import { theme } from "../../Theme/theme";
-const CommentSection = () => {
-  // State to store comments
-  const [comments, setComments] = useState([
-    {
-      id: 1,
-      author: "Matt",
-      avatar: "https://react.semantic-ui.com/images/avatar/small/matt.jpg",
-      time: "Today at 5:42PM",
-      text: "How artistic!",
-      replies: [],
-    },
-  ]);
+import { useSelector } from "react-redux";
 
-  // State for handling new comments‚
+const CommentSection = () => {
+  // const [comments, setComments] = useState([
+  //   {
+  //     id: 1,
+  //     author: "Matt",
+  //     avatar: "https://react.semantic-ui.com/images/avatar/small/matt.jpg",
+  //     time: "Today at 5:42PM",
+  //     text: "How artistic!",
+  //     replies: [],
+  //   },
+  // ]);
+
+  const { comments } = useSelector((state) => state.AllPost);
+
+  // State for handling new comments
   const [newComment, setNewComment] = useState("");
 
-  // State for handling reply boxes
-  const [replyOpen, setReplyOpen] = useState({});
+  // State for managing reply toggles and texts
+  const [replyData, setReplyData] = useState({});
 
-  // State for storing reply text
-  const [replyText, setReplyText] = useState({});
-
-  // Function to handle reply click
-  const handleReplyClick = (commentId) => {
-    setReplyOpen((prev) => ({
+  // Function to handle reply toggle
+  const handleReplyToggle = (commentId) => {
+    setReplyData((prev) => ({
       ...prev,
-      [commentId]: !prev[commentId],
+      [commentId]: { ...prev[commentId], isOpen: !prev[commentId]?.isOpen },
     }));
   };
 
@@ -56,34 +56,38 @@ const CommentSection = () => {
       replies: [],
     };
 
-    setComments([newCommentObj, ...comments]);
+    // setComments([newCommentObj, ...comments]);
     setNewComment(""); // Clear input field
   };
 
   // Function to handle adding a reply
   const handleAddReply = (commentId) => {
-    if (!replyText[commentId] || replyText[commentId].trim() === "") return;
+    const replyText = replyData[commentId]?.text || "";
+    if (replyText.trim() === "") return;
 
     const newReply = {
       id: Date.now(),
       author: "New User",
       avatar: "https://react.semantic-ui.com/images/avatar/small/steve.jpg",
       time: "Just now",
-      text: replyText[commentId],
+      text: replyText,
     };
 
-    setComments((prevComments) =>
-      prevComments.map((comment) =>
-        comment.id === commentId
-          ? { ...comment, replies: [...comment.replies, newReply] }
-          : comment
-      )
-    );
+    // setComments((prevComments) =>
+    //   prevComments.map((comment) =>
+    //     comment.id === commentId
+    //       ? { ...comment, replies: [...comment.replies, newReply] }
+    //       : comment
+    //   )
+    // );
 
-    setReplyText((prev) => ({ ...prev, [commentId]: "" }));
-    setReplyOpen((prev) => ({ ...prev, [commentId]: false }));
+    // Reset the reply input field and close it
+    setReplyData((prev) => ({
+      ...prev,
+      [commentId]: { isOpen: false, text: "" },
+    }));
   };
-
+  console.log(comments);
   return (
     <CommentGroup>
       {/* Add new comment */}
@@ -107,8 +111,18 @@ const CommentSection = () => {
 
       {/* Display comments dynamically */}
       {comments.map((comment) => (
-        <Comment key={comment.id}>
-          <CommentAvatar src={comment.avatar} />
+        <Comment key={comment.id} style={{ padding: "10px 15px" }}>
+          <CommentAvatar
+            src={comment?.ownerDetails?.avatar}
+            style={{
+              paddingTop: "5px",
+              borderRadius: "50% !important",
+              width: "40px", // Adjust size as needed
+              height: "40px",
+              objectFit: "cover",
+            }}
+          />
+
           <CommentContent>
             <div
               style={{
@@ -118,33 +132,39 @@ const CommentSection = () => {
               }}
             >
               <CommentAuthor style={{ color: theme.colors.white }}>
-                {comment.author}
+                {comment?.ownerDetails?.userName}
               </CommentAuthor>
               <CommentActions>
                 <a
-                  style={{ color: theme.colors.gray }}
-                  onClick={() => handleReplyClick(comment.id)}
+                  style={{ color: theme.colors.gray, cursor: "pointer" }}
+                  onClick={() => handleReplyToggle(comment.id)}
                 >
                   Reply
                 </a>
               </CommentActions>
             </div>
             <CommentMetadata style={{ color: theme.colors.gray }}>
-              {comment.time}
+              {comment.createdAt}
             </CommentMetadata>
             <CommentText style={{ color: theme.colors.white }}>
-              {comment.text}
+              {comment.content}
             </CommentText>
           </CommentContent>
 
           {/* Reply TextArea for Comments */}
-          {replyOpen[comment.id] && (
+          {replyData[comment.id]?.isOpen && (
             <Form reply>
-              <div style={{ display: "flex", gap: "10px" }}>
+              <div style={{ display: "flex", gap: "10px"  }}>
                 <Input
-                  value={replyText[comment.id] || ""}
+                  value={replyData[comment.id]?.text || ""}
                   onChange={(e) =>
-                    setReplyText({ ...replyText, [comment.id]: e.target.value })
+                    setReplyData({
+                      ...replyData,
+                      [comment.id]: {
+                        ...replyData[comment.id],
+                        text: e.target.value,
+                      },
+                    })
                   }
                   placeholder="Write a reply..."
                   fluid
@@ -161,7 +181,7 @@ const CommentSection = () => {
           )}
 
           {/* Show Replies */}
-          {comment.replies.length > 0 && (
+          {comment?.replies?.length > 0 && (
             <CommentGroup>
               {comment.replies.map((reply) => (
                 <Comment key={reply.id}>

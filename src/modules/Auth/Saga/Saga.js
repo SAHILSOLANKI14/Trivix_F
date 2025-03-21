@@ -143,6 +143,7 @@ function* handleRestoreSession() {
 }
 
 // Logout Function (Fixed to Remove Local Storage)
+// eslint-disable-next-line require-yield
 function* logout() {
   try {
     Cookies.remove("accessToken");

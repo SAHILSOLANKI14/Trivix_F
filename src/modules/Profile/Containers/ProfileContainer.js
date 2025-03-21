@@ -110,7 +110,7 @@ const ProfileContainer = () => {
       userId: userID,
       userType: userType,
     };
-    GetCurrentLogedInAgency();
+    // GetCurrentLogedInAgency();
     dispatch(getTweetsRequest(Datas));
     getFollowers(userName);
     getFollowings(userName);

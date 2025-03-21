@@ -21,7 +21,7 @@ function* handleCommentsByIdPost(action) {
   const { id } = action.payload;
   try {
     const response = yield call(GetCommentsById, id);
-    yield put(CommentsByIdSuccess(response?.data));
+    yield put(CommentsByIdSuccess(response?.statusCode));
   } catch (error) {
     console.log("Login Error:", error.message);
     yield put(CommentsByIdFailure(error.message));

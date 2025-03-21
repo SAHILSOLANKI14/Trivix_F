@@ -1,8 +1,9 @@
 import axios from "axios";
 
 const BASE_URL = "https://trivix-b.vercel.app/api/v1/";
+// const BASE_URL = "http://localhost:8000/api/v1/";
+
 const client = axios.create({
-  withCredentials: false,
   baseURL: BASE_URL,
 });
 
@@ -13,12 +14,10 @@ export const apiRequest = async (
   method = "GET",
   data = null,
   params = null,
-  headers = {}
+  headers = {},
+  withCredentials = false // New parameter to toggle credentials per request
 ) => {
-  console.log(url);
   try {
-    console.log(url);
-
     const token = localStorage.getItem("user");
 
     const config = {
@@ -27,11 +26,13 @@ export const apiRequest = async (
       params,
       headers: {
         Authorization: token ? `Bearer ${token}` : "",
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
         ...headers,
       },
       data,
+      withCredentials, // Dynamically set per request
     };
+
     const response = await client.request(config);
     return response.data;
   } catch (error) {

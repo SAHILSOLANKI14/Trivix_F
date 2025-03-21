@@ -1,25 +1,66 @@
-import React, { useEffect } from "react";
+import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import { Grid, Header, Image, TabPane } from "semantic-ui-react";
 import profilePic from "../../../assets/images/Ellipse 194.svg";
+import ImageGroupSize from "../../../components/ImageGroup";
 import { Button } from "../../../shared";
 import { theme } from "../../../Theme/theme";
-import TabExampleSecondaryPointing from "../Components/Tabs";
-import { useDispatch, useSelector } from "react-redux";
-import ImageGroupSize from "../../../components/ImageGroup";
-import Tweets from "../Components/Tweets";
-import {
-  agencyByIdRequest,
-  getTweetsRequest,
-  travelerByIdRequest,
-} from "../Actions";
-import { GetCurrentLogedInAgency, getFollowers, getFollowings } from "../Api";
-import Cookies from "js-cookie";
 import Loader from "../../../utility/Loader";
-import { useParams } from "react-router-dom";
+import { agencyByIdRequest, travelerByIdRequest } from "../Actions";
+import { toggleFollow } from "../Api";
+import TabExampleSecondaryPointing from "../Components/Tabs";
+import Tweets from "../Components/Tweets";
 
 const ProfileById = () => {
-  const { data, loading } = useSelector((state) => state.profile);
+  const dispatch = useDispatch();
   const { id } = useParams();
+  const userType = Cookies.get("userType");
+
+  const { data, loading } = useSelector((state) => state.profile);
+  const { Data } = useSelector((state) => state.auth);
+
+  const loggedInUserName = Data?.traveler?.userName || Data?.agency?.userName;
+  const loggedInUserNameId = Data?.traveler?._id || Data?.agency?._id;
+  const isOwnProfile = loggedInUserName === data?.userName;
+  console.log(loggedInUserNameId);
+  // State for follow status and follower count
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [followersCount, setFollowersCount] = useState(0);
+
+  useEffect(() => {
+    if (userType === "Traveler") {
+      dispatch(travelerByIdRequest(id));
+    } else {
+      dispatch(agencyByIdRequest(id));
+    }
+  }, [dispatch, id, userType]);
+
+  useEffect(() => {
+    const alreadyFollowing = data?.followers?.userId === loggedInUserNameId;
+    if (alreadyFollowing === "true") {
+      setIsFollowing(alreadyFollowing);
+    }
+    if (data) {
+      setFollowersCount(data?.followers?.length || 0);
+    }
+    console.log(isFollowing);
+  }, [data]);
+
+  const handleToggleFollow = async () => {
+    const newFollowState = !isFollowing;
+    setIsFollowing(newFollowState);
+    setFollowersCount((prev) => (newFollowState ? prev + 1 : prev - 1));
+
+    try {
+      await toggleFollow(data?.userName);
+    } catch (error) {
+      console.error("Error toggling follow:", error);
+      setIsFollowing(!newFollowState); // Revert on failure
+      setFollowersCount((prev) => (newFollowState ? prev - 1 : prev + 1));
+    }
+  };
 
   const panes = [
     {
@@ -27,13 +68,7 @@ const ProfileById = () => {
       render: () => (
         <TabPane
           attached={false}
-          style={{
-            background: "transparent",
-            border: "none",
-            boxShadow: "none",
-            color: theme.colors.black,
-            marginBottom: "30px",
-          }}
+          style={{ background: "transparent", border: "none" }}
         >
           <ImageGroupSize PostImage={data?.posts} />
         </TabPane>
@@ -44,46 +79,36 @@ const ProfileById = () => {
       render: () => (
         <TabPane
           attached={false}
-          style={{
-            background: "transparent",
-            border: "none",
-            boxShadow: "none",
-            marginBottom: "30px",
-          }}
+          style={{ background: "transparent", border: "none" }}
         >
-          <Tweets tweets={data.tweets} />
+          <Tweets tweets={data?.tweets} />
         </TabPane>
       ),
     },
+    ...(userType === "Agency"
+      ? [
+          {
+            menuItem: "Packages",
+            render: () => (
+              <TabPane
+                attached={false}
+                style={{ background: "transparent" }}
+              ></TabPane>
+            ),
+          },
+        ]
+      : []),
     {
       menuItem: "Video",
       render: () => (
         <TabPane
           attached={false}
-          style={{
-            background: "transparent",
-            border: "none",
-            boxShadow: "none",
-          }}
+          style={{ background: "transparent", border: "none" }}
         ></TabPane>
       ),
     },
   ];
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    const userID = Cookies.get("userId");
-    const userType = Cookies.get("userType");
-    const Datas = {
-      userId: userID,
-      userType: userType,
-    };
-    if (userType === "Traveler") {
-      dispatch(travelerByIdRequest(id));
-    } else {
-      dispatch(agencyByIdRequest(id));
-    }
-  }, [dispatch, id]);
   return (
     <>
       {loading ? (
@@ -102,19 +127,12 @@ const ProfileById = () => {
                 computer={8}
               >
                 <div>
-                  <div
-                    style={{
-                      marginTop: "-20px",
-                    }}
-                  >
+                  <div style={{ marginTop: "-20px" }}>
                     <Image
-                      src={data?.avatar}
+                      src={data?.avatar || profilePic}
                       centered
                       circular
-                      style={{
-                        width: "80px",
-                        height: "80px",
-                      }}
+                      style={{ width: "80px", height: "80px" }}
                     />
                     <Header
                       as={"h3"}
@@ -138,16 +156,12 @@ const ProfileById = () => {
                       {data?.userName || "Trivix__01"}
                     </Header>
                   </div>
-                  <div
-                    style={{
-                      marginBottom: "10px",
-                    }}
-                  >
+                  <div style={{ marginBottom: "10px" }}>
                     <Header
                       as={"h5"}
                       style={{
                         fontSize: "12px",
-                        fontWeight: "300 !important",
+                        fontWeight: "300",
                         color: theme.colors.gray,
                       }}
                     >
@@ -168,27 +182,6 @@ const ProfileById = () => {
                     marginBottom: "20px",
                   }}
                 >
-                  <div style={{ gap: "30px !important" }}>
-                    <Button
-                      style={{
-                        background: theme.colors.white,
-                        color: theme.colors.black,
-                        gap: "20px",
-                      }}
-                    >
-                      Follow
-                    </Button>
-                    <a href="/chat">
-                      <Button
-                        style={{
-                          background: theme.colors.white,
-                          color: theme.colors.black,
-                        }}
-                      >
-                        Message
-                      </Button>
-                    </a>
-                  </div>
                   <div
                     style={{
                       display: "flex",
@@ -200,9 +193,7 @@ const ProfileById = () => {
                       <Header
                         style={{ margin: "0", color: theme.colors.white }}
                       >
-                        {data?.followerCount?.length >= 1
-                          ? data?.followerCount
-                          : 0}
+                        {followersCount}
                       </Header>
                       <Header style={{ margin: "0", color: theme.colors.gray }}>
                         Follower
@@ -212,15 +203,49 @@ const ProfileById = () => {
                       <Header
                         style={{ margin: "0", color: theme.colors.white }}
                       >
-                        {data?.followingCount?.length >= 1
-                          ? data?.followingCount
-                          : 0}
+                        {data?.following ? data?.following?.length : 0}
                       </Header>
                       <Header style={{ margin: "0", color: theme.colors.gray }}>
                         Following
                       </Header>
                     </div>
                   </div>
+                  {isOwnProfile ? (
+                    <div style={{ gap: "30px" }}>
+                      <Button
+                        style={{
+                          background: theme.colors.white,
+                          color: theme.colors.black,
+                        }}
+                      >
+                        Edit Profile
+                      </Button>
+                    </div>
+                  ) : (
+                    <div style={{ gap: "30px" }}>
+                      <Button
+                        style={{
+                          background: isFollowing
+                            ? theme.colors.red
+                            : theme.colors.white,
+                          color: theme.colors.black,
+                        }}
+                        onClick={handleToggleFollow}
+                      >
+                        {isFollowing ? "Unfollow" : "Follow"}
+                      </Button>
+                      <a href="/chat">
+                        <Button
+                          style={{
+                            background: theme.colors.white,
+                            color: theme.colors.black,
+                          }}
+                        >
+                          Message
+                        </Button>
+                      </a>
+                    </div>
+                  )}
                 </div>
               </Grid.Column>
             </Grid.Row>
