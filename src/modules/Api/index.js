@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const BASE_URL = "https://trivix-b.vercel.app/api/v1";
-// const BASE_URL = "http://localhost:8000/api/v1";
+// const BASE_URL = "https://trivix-b.vercel.app/api/v1/";
+// const BASE_URL = "http://localhost:8000/api/v1/";
 
 const BASE_URL = process.env.REACT_APP_URL || process.env.REACT_APP_LOCAL_URL || "https://trivix-b.vercel.app/api/v1/";
 
