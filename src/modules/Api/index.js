@@ -3,7 +3,7 @@ import axios from "axios";
 // const BASE_URL = "https://trivix-b.vercel.app/api/v1";
 // const BASE_URL = "http://localhost:8000/api/v1";
 
-const BASE_URL = process.env.REACT_APP_URL || process.env.REACT_APP_LOCAL_URL || "https://trivix-b.vercel.app/api/v1";
+const BASE_URL = process.env.REACT_APP_URL || process.env.REACT_APP_LOCAL_URL || "https://trivix-b.vercel.app/api/v1/";
 
 console.log(process.env.REACT_APP_URL);
 console.log(process.env.REACT_APP_LOCAL_URL);
@@ -38,7 +38,7 @@ const refreshAccessToken = async () => {
     throw new Error("User type not available");
   }
   
-  const endpoint = userType === "Agency" ? "/agency/refresh-token" : "/traveler/refresh-token";
+  const endpoint = userType === "Agency" ? "agency/refresh-token" : "traveler/refresh-token";
   
   try {
     // Send refresh token in body as backup, primary method will be cookies
@@ -165,7 +165,7 @@ export const apiRequest = async (
 // Authentication functions
 export const login = async (credentials, userType) => {
   try {
-    const endpoint = userType === "Agency" ? "/agency/login" : "/traveler/login";
+    const endpoint = userType === "Agency" ? "agency/login" : "traveler/login";
     const response = await apiRequest(
       endpoint, 
       "POST", 
@@ -189,7 +189,7 @@ export const login = async (credentials, userType) => {
 
 export const logout = async () => {
   const userType = localStorage.getItem("userType");
-  const endpoint = userType === "Agency" ? "/agency/logout" : "/traveler/logout";
+  const endpoint = userType === "Agency" ? "agency/logout" : "traveler/logout";
   
   try {
     await apiRequest(endpoint, "POST");
