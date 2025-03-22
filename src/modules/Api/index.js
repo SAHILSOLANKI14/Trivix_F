@@ -150,7 +150,7 @@ export const apiRequest = async (
       data,
       params,
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
         ...headers
       }
     });
