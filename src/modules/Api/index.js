@@ -23,23 +23,55 @@ const onRefreshed = (token) => {
   refreshSubscribers = [];
 };
 
-// Get the userType from cookies
-const getUserTypeFromCookies = () => {
+// Parse cookie value by name
+const getCookieValue = (name) => {
   const cookies = document.cookie.split(';');
   for (let cookie of cookies) {
-    const [name, value] = cookie.trim().split('=');
-    if (name === 'userType') {
-      return value;
+    const [cookieName, cookieValue] = cookie.trim().split('=');
+    if (cookieName === name) {
+      return cookieValue;
     }
   }
-  // Fallback to localStorage if cookie is not found
-  return localStorage.getItem("userType");
+  return null;
+};
+
+// Get the user's access token (prioritize cookie, fallback to localStorage)
+const getAccessToken = () => {
+  return getCookieValue('accessToken') || localStorage.getItem("token");
+};
+
+// Get the user's refresh token (prioritize cookie, fallback to localStorage)
+const getRefreshToken = () => {
+  return getCookieValue('refreshToken') || localStorage.getItem("refreshToken");
+};
+
+// Get the userType (prioritize cookie, fallback to localStorage)
+const getUserType = () => {
+  return getCookieValue('userType') || localStorage.getItem("userType");
+};
+
+// Get userId (prioritize cookie, fallback to localStorage)
+const getUserId = () => {
+  return getCookieValue('userId') || localStorage.getItem("userId");
+};
+
+// Synchronize tokens from cookies to localStorage for backup
+const syncTokensToLocalStorage = () => {
+  const accessToken = getCookieValue('accessToken');
+  const refreshToken = getCookieValue('refreshToken');
+  const userType = getCookieValue('userType');
+  const userId = getCookieValue('userId');
+  
+  if (accessToken) localStorage.setItem("token", accessToken);
+  if (refreshToken) localStorage.setItem("refreshToken", refreshToken);
+  if (userType) localStorage.setItem("userType", userType);
+  if (userId) localStorage.setItem("userId", userId);
 };
 
 // Attempt to refresh the access token
 const refreshAccessToken = async () => {
-  const refreshToken = localStorage.getItem("refreshToken");
-  const userType = getUserTypeFromCookies();
+  const refreshToken = getRefreshToken();
+  const userType = getUserType();
   
   if (!userType) {
     throw new Error("User type not available");
@@ -60,7 +92,7 @@ const refreshAccessToken = async () => {
     
     const { accessToken, refreshToken: newRefreshToken } = response.data.data;
     
-    // Update stored tokens
+    // Update stored tokens in localStorage as backup
     localStorage.setItem("token", accessToken);
     if (newRefreshToken) {
       localStorage.setItem("refreshToken", newRefreshToken);
@@ -73,6 +105,7 @@ const refreshAccessToken = async () => {
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("userType");
     localStorage.removeItem("userData");
+    localStorage.removeItem("userId");
     throw error;
   }
 };
@@ -127,8 +160,11 @@ client.interceptors.response.use(
 // Add auth headers to all requests
 client.interceptors.request.use(
   config => {
-    const token = localStorage.getItem("token");
-    const userType = getUserTypeFromCookies();
+    // Always sync tokens from cookies to localStorage first
+    syncTokensToLocalStorage();
+    
+    const token = getAccessToken();
+    const userType = getUserType();
     
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -157,7 +193,7 @@ export const apiRequest = async (
       data,
       params,
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
         ...headers
       }
     });
@@ -170,20 +206,9 @@ export const apiRequest = async (
 };
 
 // Parse cookies after login to get values and store them in localStorage as backup
-const parseCookiesAfterLogin = () => {
-  const cookies = document.cookie.split(';');
-  let userType = null;
-  
-  for (let cookie of cookies) {
-    const [name, value] = cookie.trim().split('=');
-    if (name === 'userType') {
-      userType = value;
-      localStorage.setItem("userType", value);
-      break;
-    }
-  }
-  
-  return userType;
+const syncCookiesAfterLogin = () => {
+  syncTokensToLocalStorage();
+  return getUserType();
 };
 
 // Authentication functions
@@ -195,20 +220,26 @@ export const login = async (credentials, userType) => {
       "POST", 
       credentials, 
       null, 
-      { userType }
+      { 
+        userType,
+        "Content-Type": "application/x-www-form-urlencoded" 
+      }
     );
     
     if (response.data) {
-      // Store tokens in localStorage as backup
+      // Sync cookies to localStorage
+      syncCookiesAfterLogin();
+      
+      // Also store explicitly as backup
       localStorage.setItem("token", response.data.accessToken);
       localStorage.setItem("refreshToken", response.data.refreshToken);
-      
-      // Parse cookies to ensure userType is saved
-      const cookieUserType = parseCookiesAfterLogin() || userType;
-      localStorage.setItem("userType", cookieUserType);
+      localStorage.setItem("userType", userType);
       
       // Store user data
       const userData = response.data.user || response.data.agency || response.data.traveler;
+      if (userData && userData._id) {
+        localStorage.setItem("userId", userData._id);
+      }
       localStorage.setItem("userData", JSON.stringify(userData));
     }
     
@@ -219,7 +250,7 @@ export const login = async (credentials, userType) => {
 };
 
 export const logout = async () => {
-  const userType = getUserTypeFromCookies();
+  const userType = getUserType();
   const endpoint = userType === "Agency" ? "agency/logout" : "traveler/logout";
   
   try {
@@ -232,6 +263,7 @@ export const logout = async () => {
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("userType");
     localStorage.removeItem("userData");
+    localStorage.removeItem("userId");
   }
   
   return { success: true };
@@ -239,14 +271,19 @@ export const logout = async () => {
 
 // Utility functions
 export const isAuthenticated = () => {
-  const hasToken = !!localStorage.getItem("token");
-  const hasUserType = !!getUserTypeFromCookies() || !!localStorage.getItem("userType");
+  // Always sync first to ensure localStorage has latest values
+  syncTokensToLocalStorage();
+  
+  const hasToken = !!getAccessToken();
+  const hasUserType = !!getUserType();
   
   return hasToken && hasUserType;
 };
 
-export const getUserType = () => {
-  return getUserTypeFromCookies() || localStorage.getItem("userType");
+export const getCurrentUserType = () => {
+  // Sync first to ensure localStorage has latest values
+  syncTokensToLocalStorage();
+  return getUserType();
 };
 
 export const getUserData = () => {
@@ -254,9 +291,10 @@ export const getUserData = () => {
   return userData ? JSON.parse(userData) : null;
 };
 
-// Check what's in localStorage
-console.log("Token:", localStorage.getItem("token"));
-console.log("UserType:", localStorage.getItem("userType"));
+// Initialize by syncing tokens from cookies on load
+syncTokensToLocalStorage();
 
-// Check cookies
+// Debug logs - these should now show values from cookies
+console.log("Token:", getAccessToken());
+console.log("UserType:", getUserType());
 console.log("Cookies:", document.cookie);
