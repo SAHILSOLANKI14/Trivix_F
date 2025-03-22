@@ -45,7 +45,7 @@ const refreshAccessToken = async () => {
     throw new Error("User type not available");
   }
   
-  const endpoint = userType === "Agency" ? "agency/refresh-token" : "traveler/refresh-token";
+  const endpoint = userType === "Agency" ? "agency/refreshToken" : "traveler/refreshToken";
   
   try {
     // Send refresh token in body as backup, primary method will be cookies
