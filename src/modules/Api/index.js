@@ -8,6 +8,24 @@ const BASE_URL = process.env.REACT_APP_URL || process.env.REACT_APP_LOCAL_URL ||
 console.log(process.env.REACT_APP_URL);
 console.log(process.env.REACT_APP_LOCAL_URL);
 
+// Cookie utility functions
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+  return null;
+}
+
+function setCookie(name, value, days = 7) {
+  const date = new Date();
+  date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+  document.cookie = `${name}=${value}; expires=${date.toUTCString()}; path=/; SameSite=Strict`;
+}
+
+function deleteCookie(name) {
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Strict`;
+}
+
 // axios instance
 const client = axios.create({
   baseURL: BASE_URL,
@@ -29,10 +47,18 @@ const onRefreshed = (token) => {
   refreshSubscribers = [];
 };
 
+// Get user type from either localStorage or cookies
+export const getUserType = () => {
+  const localUserType = localStorage.getItem("userType");
+  if (localUserType) return localUserType;
+  
+  return getCookie("userType");
+};
+
 // Attempt to refresh the access token
 const refreshAccessToken = async () => {
   const refreshToken = localStorage.getItem("refreshToken");
-  const userType = localStorage.getItem("userType");
+  const userType = getUserType();
   
   if (!userType) {
     throw new Error("User type not available");
@@ -59,6 +85,11 @@ const refreshAccessToken = async () => {
       localStorage.setItem("refreshToken", newRefreshToken);
     }
     
+    // Make sure userType is in localStorage
+    if (!localStorage.getItem("userType")) {
+      localStorage.setItem("userType", userType);
+    }
+    
     return accessToken;
   } catch (error) {
     // Clear auth data on refresh failure
@@ -66,6 +97,7 @@ const refreshAccessToken = async () => {
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("userType");
     localStorage.removeItem("userData");
+    deleteCookie("userType");
     throw error;
   }
 };
@@ -121,7 +153,7 @@ client.interceptors.response.use(
 client.interceptors.request.use(
   config => {
     const token = localStorage.getItem("token");
-    const userType = localStorage.getItem("userType");
+    const userType = getUserType();
     
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -179,6 +211,9 @@ export const login = async (credentials, userType) => {
       localStorage.setItem("refreshToken", response.data.refreshToken);
       localStorage.setItem("userType", userType);
       localStorage.setItem("userData", JSON.stringify(response.data.user || response.data.agency));
+      
+      // Also set userType in cookie as backup
+      setCookie("userType", userType);
     }
     
     return response;
@@ -188,7 +223,7 @@ export const login = async (credentials, userType) => {
 };
 
 export const logout = async () => {
-  const userType = localStorage.getItem("userType");
+  const userType = getUserType();
   const endpoint = userType === "Agency" ? "agency/logout" : "traveler/logout";
   
   try {
@@ -196,11 +231,12 @@ export const logout = async () => {
   } catch (error) {
     console.error("Logout API error:", error);
   } finally {
-    // Always clear local storage
+    // Clear both localStorage and cookies
     localStorage.removeItem("token");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("userType");
     localStorage.removeItem("userData");
+    deleteCookie("userType");
   }
   
   return { success: true };
@@ -208,11 +244,7 @@ export const logout = async () => {
 
 // Utility functions
 export const isAuthenticated = () => {
-  return !!localStorage.getItem("token") && !!localStorage.getItem("userType");
-};
-
-export const getUserType = () => {
-  return localStorage.getItem("userType");
+  return !!localStorage.getItem("token") && !!getUserType();
 };
 
 export const getUserData = () => {
