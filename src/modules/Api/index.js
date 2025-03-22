@@ -253,3 +253,10 @@ export const getUserData = () => {
   const userData = localStorage.getItem("userData");
   return userData ? JSON.parse(userData) : null;
 };
+
+// Check what's in localStorage
+console.log("Token:", localStorage.getItem("token"));
+console.log("UserType:", localStorage.getItem("userType"));
+
+// Check cookies
+console.log("Cookies:", document.cookie);
