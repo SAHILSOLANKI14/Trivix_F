@@ -15,20 +15,18 @@ export const AllTweets = async (data) => {
   } catch (error) {
     console.log("error", error.message);
   }
-};
+};  
+
 export const CreateTweet = async (data) => {
   try {
-    const result = await apiRequest(
-      `tweets/create`,
-      "POST",
-      data,
-      null,
-      {},
-      true
-    );
-    return result;
+    return await apiRequest(`tweets/create`, "POST", data);
   } catch (error) {
-    console.log("error", error.message);
+    console.error("Tweet creation failed:", {
+      status: error.response?.status,
+      message: error.message,
+      data: error.response?.data
+    });
+    throw error;
   }
 };
 
