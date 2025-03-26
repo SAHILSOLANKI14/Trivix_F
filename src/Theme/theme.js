@@ -9,8 +9,8 @@ export const theme = {
     bg6: "#F5F5F5",
     white: "#FFFFFF",
     gray: "#0C0F14",
-    subtext: "#666666",
-    title: "#333333",
+    subtext: "#0C0F14",
+    title: "#0C0F14",
   },
   border: {
     primary: "#0C0F14",
