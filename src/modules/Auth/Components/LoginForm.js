@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Form from "../../../shared/Form/Form";
 import Fields from "../../../shared/Form/Fields/Fields";
 import * as yup from "yup";
@@ -65,9 +65,9 @@ const LoginForm = () => {
     const inputType = determineInputType(data.userName);
 
     const finalData = {
-      [inputType]: data.userName, // dynamically assign the correct field
+      [inputType]: data.userName,
       password: data.password,
-      toastCallback: showToast,
+      // toastCallback: showToast,
     };
 
     try {
@@ -89,13 +89,12 @@ const LoginForm = () => {
   useEffect(() => {
     const token = Cookies.get("accessToken");
     if (token) {
-      showToast("Login successful!", "success");
-
-      setTimeout(() => {
-        navigate("/");
-      }, 2000);
+      // showToast("Login successful!", "success");
+      navigate("/");
+      // setTimeout(() => {
+      // }, 1000);
     }
-  }, [Data, navigate, showToast]);
+  }, [navigate]);
 
   return (
     <div

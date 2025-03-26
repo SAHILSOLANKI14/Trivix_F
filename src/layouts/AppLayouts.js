@@ -8,23 +8,13 @@ import CustomIcon from "../shared/Icon";
 
 const AppLayouts = ({ children }) => {
   const isMobile = useMediaQuery("(max-width: 767px)");
-  const isTablet = useMediaQuery("(min-width: 768px) and (max-width: 991px)");
   const isComputer = useMediaQuery(
     "(min-width: 991px) and (max-width: 1024px)"
   );
 
-  const getPadding = () => {
-    if (isMobile) return "0px";
-    if (isTablet) return "0px";
-    return "10px";
-  };
-
   return (
     <>
-      <Grid
-        stackable
-        style={{ padding: "0 !important", margin: "0", width: "100%" }}
-      >
+      <Grid stackable style={{ padding: "0 !important", margin: "0" }}>
         <Grid.Row
           style={{
             display: "flex",
@@ -33,18 +23,12 @@ const AppLayouts = ({ children }) => {
           }}
         >
           {/* Sidebar: Hidden on mobile screens */}
-          <GridColumn
-            width={4}
-            tablet={2}
-            computer={isComputer ? 0 : 2}
-            largeScreen={3}
-          >
+          <GridColumn tablet={2} computer={isComputer ? 0 : 2} largeScreen={3}>
             <CustomeSidebar />
           </GridColumn>
 
           {/* Main Content: Uses full width on mobile */}
           <GridColumn
-            width={16}
             mobile={16}
             tablet={16}
             computer={isMobile ? 16 : 14}

@@ -120,7 +120,7 @@ const PostBox = () => {
                   position: "fixed",
                   background: theme.colors.black,
                   zIndex: 1000,
-                  marginTop: "-5px",
+                  marginTop: "-15px",
                   width: "100%",
                   padding: "10px",
                 }}

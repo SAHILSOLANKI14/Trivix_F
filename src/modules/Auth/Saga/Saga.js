@@ -2,7 +2,6 @@ import { all, fork, put, call, takeLatest } from "redux-saga/effects";
 import {
   LOGIN_REQUEST,
   LOGOUT,
-  RESTORE_SESSION,
   SIGNUP_REQUEST,
   TRAVELER_LOGIN_REQUEST,
   TRAVELER_SIGNUP_REQUEST,
@@ -23,7 +22,8 @@ import Cookies from "js-cookie";
 // Handle Login
 function* handleLogin(action) {
   try {
-    const response = yield call(login, action.payload);
+    const response = yield call(login, action.payload, "Agency");
+    if(response)
     yield put(loginSuccess(response.data));
     localStorage.setItem("user", response.data.accessToken);
     localStorage.setItem("agency", JSON.stringify(response?.data?.agency));
@@ -33,21 +33,23 @@ function* handleLogin(action) {
     Cookies.set("userId", response.data?.agency?._id);
 
     if (action.payload.toastCallback) {
-      action.payload.toastCallback("Login successfull", "success");
+      action.payload.toastCallback("Login successful", "success");
+    }
+    if(response.data?.traveler?.accessToken || response.data?.agency?.accessToken){
+      window.location.reload();
     }
   } catch (error) {
-    console.log("Login Error:", error.message);
     yield put(loginFailure(error.message));
-
     if (action.payload.toastCallback) {
       action.payload.toastCallback("Login failed", "error");
     }
   }
 }
 
+// Handle Traveler Login
 function* handleTravelerLogin(action) {
   try {
-    const response = yield call(travelerlogin, action.payload);
+    const response = yield call(travelerlogin, action.payload, "Traveler");
     yield put(TravelerloginSuccess(response.data));
     localStorage.setItem("user", response.data.accessToken);
     localStorage.setItem("traveler", JSON.stringify(response?.data?.traveler));
@@ -57,12 +59,10 @@ function* handleTravelerLogin(action) {
     Cookies.set("userId", response.data?.traveler?._id);
 
     if (action.payload.toastCallback) {
-      action.payload.toastCallback("Traveler login successfull", "success");
+      action.payload.toastCallback("Traveler login successful", "success");
     }
   } catch (error) {
-    console.log("Traveler Login Error:", error.message);
     yield put(TravelerloginFailure(error.message));
-
     if (action.payload.toastCallback) {
       action.payload.toastCallback("Traveler login failed", "error");
     }
@@ -72,34 +72,32 @@ function* handleTravelerLogin(action) {
 // Handle Signup
 function* handleSignup(action) {
   try {
-    const response = yield call(Signup, action.payload);
+    const response = yield call(Signup, action.payload, "Agency");
     yield put(SignupSuccess(response.data));
     localStorage.setItem("user", response.data.accessToken);
     Cookies.set("user", response.data.accessToken);
     if (action.payload.toastCallback) {
-      action.payload.toastCallback(" Signup successful!", "success");
+      action.payload.toastCallback("Signup successful!", "success");
     }
   } catch (error) {
-    console.log("Signup Error:", error.message);
     yield put(SignupFailure(error.message));
     if (action.payload.toastCallback) {
-      action.payload.toastCallback("Login failed", "error");
+      action.payload.toastCallback("Signup failed", "error");
     }
   }
 }
 
-// Handle Traveler Signup (Fixed Action Dispatch)
+// Handle Traveler Signup
 function* handleTravelerSignup(action) {
   try {
-    const response = yield call(TravelerSignup, action.payload);
+    const response = yield call(TravelerSignup, action.payload, "Traveler");
     yield put(TravelerSignupSuccess(response.data));
     localStorage.setItem("user", response.data.accessToken);
     Cookies.set("user", response.data.accessToken);
     if (action.payload.toastCallback) {
-      action.payload.toastCallback(" Signup successful!", "success");
+      action.payload.toastCallback("Signup successful!", "success");
     }
   } catch (error) {
-    console.log("Traveler Signup Error:", error.message);
     yield put(TravelerSignupFailure(error.message));
     if (action.payload.toastCallback) {
       action.payload.toastCallback("Signup Failed!", "error");
@@ -107,52 +105,12 @@ function* handleTravelerSignup(action) {
   }
 }
 
-// Handle Restore Session
-function* handleRestoreSession() {
+// Handle Logout
+function* handleLogout() {
   try {
-    const accessToken = Cookies.get("accessToken");
-    const userType = Cookies.get("userType");
-    const userId = Cookies.get("userId");
-
-    // Retrieve stored agency or traveler data
-    const agencyData = localStorage.getItem("agency");
-    const travelerData = localStorage.getItem("traveler");
-
-    if (accessToken && userId) {
-      let userData = null;
-
-      if (userType === "agency" && agencyData) {
-        userData = JSON.parse(agencyData);
-      } else if (userType === "traveler" && travelerData) {
-        userData = JSON.parse(travelerData);
-      }
-
-      if (!userData) throw new Error("Session expired or user data missing");
-
-      yield put(
-        loginSuccess({ accessToken, userType, userId, [userType]: userData })
-      );
-    } else {
-      throw new Error("Session expired");
-    }
+    // yield call(logoutApi);
   } catch (error) {
-    console.error("Session Restore Error:", error.message);
-
-    yield put(loginFailure(error.message));
-  }
-}
-
-// Logout Function (Fixed to Remove Local Storage)
-// eslint-disable-next-line require-yield
-function* logout() {
-  try {
-    Cookies.remove("accessToken");
-    Cookies.remove("refreshToken");
-    Cookies.remove("userType");
-    Cookies.remove("userId");
-    localStorage.removeItem("accessToken");
-  } catch (error) {
-    console.log("Logout Error:", error.message);
+    console.error("Logout Error:", error.message);
   }
 }
 
@@ -170,10 +128,7 @@ function* watchTravelerSignup() {
   yield takeLatest(TRAVELER_SIGNUP_REQUEST, handleTravelerSignup);
 }
 function* watchLogout() {
-  yield takeLatest(LOGOUT, logout);
-}
-function* watchRestoreSession() {
-  yield takeLatest(RESTORE_SESSION, handleRestoreSession);
+  yield takeLatest(LOGOUT, handleLogout);
 }
 
 // Root Saga
@@ -181,7 +136,6 @@ export default function* authSagas() {
   yield all([
     fork(watchLogin),
     fork(watchSignup),
-    fork(watchRestoreSession),
     fork(watchLogout),
     fork(watchTravelerLogin),
     fork(watchTravelerSignup),

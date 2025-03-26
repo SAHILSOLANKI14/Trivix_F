@@ -8,6 +8,15 @@ export const Allposts = async () => {
     console.log("error", error.message);
   }
 };
+export const AddComments = async (postId, data) => {
+  console.log(postId, "postIDDDDDDDDD");
+  try {
+    const result = await apiRequest(`comment/${postId}`, "POST", data, null);
+    return result;
+  } catch (error) {
+    console.log("error", error.message);
+  }
+};
 export const GetagencyById = async (id) => {
   try {
     const result = await apiRequest(`agency/${id}`, "GET", null);

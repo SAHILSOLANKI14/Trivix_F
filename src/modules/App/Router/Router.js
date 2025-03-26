@@ -2,6 +2,7 @@ import ChatContainer from "../../Chat/Container/ChatContainer";
 import TweetContainer from "../../Chat/Container/TweetContainer";
 import HomeContainer from "../../Home/Container/HomeContainer";
 import NotificationContainer from "../../Notifications/Container/NotificationContainer";
+import BookingContainer from "../../Packages/Container/BookingContainer";
 import CreatePackages from "../../Packages/Container/CreatePackages";
 import PackageContainer from "../../Packages/Container/packageContainer";
 import ProfileById from "../../Profile/Containers/ProfileById";
@@ -28,8 +29,14 @@ export default [
   },
   {
     title: "createpackage",
-    url: "/createpackages",
+    url: "/create-packages",
     component: CreatePackages,
+    admin: "false",
+  },
+  {
+    title: "packageBooking",
+    url: "/package-booking/:id",
+    component: BookingContainer,
     admin: "false",
   },
   {

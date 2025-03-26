@@ -1,18 +1,14 @@
 import React from "react";
-import { Input } from "semantic-ui-react";
+import { TextArea } from "semantic-ui-react";
 import { theme } from "../../../../Theme/theme";
-const InputComponent = ({
+
+const DynamicTextArea = ({
   placeholder,
-  icon,
-  iconPosition,
-  loading,
-  type,
-  size,
-  style,
   value,
-  className,
+  onChange,
+  rows,
+  style = {},
   label,
-  onChange = () => {},
 }) => {
   return (
     <>
@@ -27,20 +23,21 @@ const InputComponent = ({
           {label}
         </label>
       )}
-      <Input
+      <TextArea
         placeholder={placeholder}
-        icon={icon}
-        className={className}
-        type={type}
-        size={size}
         value={value}
-        iconPosition={iconPosition}
-        loading={loading}
         onChange={onChange}
-        style={{ ...style }}
+        rows={rows}
+        style={{
+          border: `1px solid rgba(34, 36, 38, .15)`,
+          borderRadius: ".28571429rem",
+          padding: ".67857143em 1em",
+          width: "100%",
+          ...style,
+        }}
       />
     </>
   );
 };
 
-export default InputComponent;
+export default DynamicTextArea;

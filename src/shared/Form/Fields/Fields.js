@@ -1,6 +1,6 @@
 import React from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import { Button, Input, Checkbox } from "../../index";
+import { Button, Input, Checkbox, TextArea, FileUploads } from "../../index";
 import { Header } from "semantic-ui-react";
 
 const Fieldsgenerate = (FormComp) => {
@@ -53,6 +53,8 @@ const Fieldsgenerate = (FormComp) => {
 };
 const Fields = {
   Input: Fieldsgenerate(Input),
+  TextArea: Fieldsgenerate(TextArea),
+  FileUploads: Fieldsgenerate(FileUploads),
   Button: Fieldsgenerate(Button),
   Checkbox: Fieldsgenerate(Checkbox),
 };

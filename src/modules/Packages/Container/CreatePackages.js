@@ -1,7 +1,8 @@
 import React from "react";
+import PackagesCreate from "../Components/CreatePackages";
 
 const CreatePackages = () => {
-  return <div>CreatePackages</div>;
+  return <PackagesCreate />;
 };
 
 export default CreatePackages;

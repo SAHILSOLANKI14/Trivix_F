@@ -131,30 +131,32 @@ const PackageContainer = () => {
         </Grid.Row>
       </Grid>
       {Data?.agency ? (
-        <div
-          style={{
-            position: "fixed",
-            bottom: IsMobile ? "50px" : "20px",
-            right: "30px",
-            backgroundColor: theme.colors.orange,
-            border: "none",
-            borderRadius: "50%",
-            width: "50px",
-            height: "50px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "24px",
-            boxShadow: "none",
-            cursor: "pointer",
-            zIndex: 1000,
-          }}
-        >
-          <CustomIcon
-            name="plus"
-            style={{ margin: 0, color: theme.colors.white }}
-          />
-        </div>
+        <a href="/create-packages">
+          <div
+            style={{
+              position: "fixed",
+              bottom: IsMobile ? "50px" : "20px",
+              right: "30px",
+              backgroundColor: theme.colors.orange,
+              border: "none",
+              borderRadius: "50%",
+              width: "50px",
+              height: "50px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "24px",
+              boxShadow: "none",
+              cursor: "pointer",
+              zIndex: 1000,
+            }}
+          >
+            <CustomIcon
+              name="plus"
+              style={{ margin: 0, color: theme.colors.white }}
+            />
+          </div>
+        </a>
       ) : null}
     </>
   );

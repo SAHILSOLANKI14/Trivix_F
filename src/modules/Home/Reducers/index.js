@@ -5,6 +5,7 @@ import {
   GET_COMMENTS_BY_ID_REQUEST,
   GET_COMMENTS_BY_ID_SUCCESS,
   GET_COMMENTS_BY_ID_FAILURE,
+  POST_COMMENTS_BY_ID_SUCCESS,
 } from "../Types";
 
 const initialData = {
@@ -51,6 +52,14 @@ export const AllPostsReducer = (state = initialData, action) => {
         loading: false,
         error: action.payload,
       };
+    case POST_COMMENTS_BY_ID_SUCCESS:
+      return {
+        ...state,
+        comments: Array.isArray(state.comments)
+          ? [...state.comments, action.payload]
+          : [action.payload],
+      };
+
     default:
       return state;
   }

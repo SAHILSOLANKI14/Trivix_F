@@ -4,9 +4,9 @@ import Cookies from "js-cookie";
 
 const ProtectedRoute = ({ children, publicRoutes }) => {
   const location = useLocation();
-  const isLoggedIn = !!Cookies.get("accessToken");
+  const isLoggedIn = Cookies.get("accessToken");
 
-  if (!isLoggedIn && publicRoutes.includes(location.pathname)) {
+  if (isLoggedIn && publicRoutes.includes(location.pathname)) {
     return children;
   }
 

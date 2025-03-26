@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Grid, Header, Image, List, Transition } from "semantic-ui-react";
-import loader from "../../../../assets/images/giphy.gif";
+import {
+  Grid,
+  Header,
+  Image,
+  List,
+  Transition
+} from "semantic-ui-react";
 import vector from "../../../../assets/images/Vector.svg";
 import CustomSlider from "../../../../components/Slider";
 import useWindowSize from "../../../../hooks/Screen";
 import CustomIcon from "../../../../shared/Icon/index";
 import { Button } from "../../../../shared/index";
 import { theme } from "../../../../Theme/theme";
-import { detailPackagesRequest } from "../../Actions";
 import Loader from "../../../../utility/Loader";
+import { detailPackagesRequest } from "../../Actions";
+import Booking from "../Booking";
 
 const settings = {
   dots: false,
@@ -41,7 +47,7 @@ const DetailPackagePage = ({ id }) => {
   const isMobile = width < 800;
   const size = width < 768 ? "14px" : "16px";
   const [showMore, setShowMore] = useState(false);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { detailData, loading } = useSelector((state) => state.Allpackages);
   const [bannerImage, setbannerImage] = useState("");
   const dispatch = useDispatch();
@@ -54,6 +60,13 @@ const DetailPackagePage = ({ id }) => {
   const handleBack = () => {
     navigate("/packages");
   };
+  const handleBooking = () => {
+    setIsModalOpen(true);
+  };
+  const handleBookingClose = () => {
+    setIsModalOpen(false);
+  };
+
   const styles = {
     imageContainer: {
       padding: "5px 0px",
@@ -138,7 +151,7 @@ const DetailPackagePage = ({ id }) => {
                 />
               </div>
 
-              <div style={{ padding: "10px 5px" }}>
+              <div style={{ padding: "20px 10px", marginLeft: "-7px" }}>
                 <CustomSlider settings={settings}>
                   {detailData?.photos.map((item, index) => (
                     <div
@@ -428,7 +441,6 @@ const DetailPackagePage = ({ id }) => {
                   </Grid.Row>
                 </Grid>
               </div>
-
               <div
                 style={{
                   textAlign: "center",
@@ -442,6 +454,7 @@ const DetailPackagePage = ({ id }) => {
                     color: theme.colors.white,
                     padding: "10px",
                   }}
+                  onClick={handleBooking}
                 >
                   Book Now
                 </Button>
@@ -450,6 +463,10 @@ const DetailPackagePage = ({ id }) => {
           </Grid>
         </div>
       )}
+      <Booking
+        handleBookingClose={handleBookingClose}
+        isModalOpen={isModalOpen}
+      />
     </div>
   );
 };

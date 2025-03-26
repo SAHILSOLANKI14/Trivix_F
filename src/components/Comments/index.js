@@ -13,29 +13,16 @@ import {
 } from "semantic-ui-react";
 import { Button } from "../../shared";
 import { theme } from "../../Theme/theme";
-import { useSelector } from "react-redux";
-
-const CommentSection = () => {
-  // const [comments, setComments] = useState([
-  //   {
-  //     id: 1,
-  //     author: "Matt",
-  //     avatar: "https://react.semantic-ui.com/images/avatar/small/matt.jpg",
-  //     time: "Today at 5:42PM",
-  //     text: "How artistic!",
-  //     replies: [],
-  //   },
-  // ]);
-
+import { useDispatch, useSelector } from "react-redux";
+import { AddComments } from "../../modules/Home/Api/index";
+import { AddCommentsByIdRequest } from "../../modules/Home/Actions";
+const CommentSection = ({ postId }) => {
   const { comments } = useSelector((state) => state.AllPost);
-
-  // State for handling new comments
+  const dispatch = useDispatch();
   const [newComment, setNewComment] = useState("");
 
-  // State for managing reply toggles and texts
   const [replyData, setReplyData] = useState({});
 
-  // Function to handle reply toggle
   const handleReplyToggle = (commentId) => {
     setReplyData((prev) => ({
       ...prev,
@@ -43,50 +30,40 @@ const CommentSection = () => {
     }));
   };
 
-  // Function to handle adding a new comment
-  const handleAddComment = () => {
+  const handleAddComment = async (postId) => {
     if (newComment.trim() === "") return;
-
-    const newCommentObj = {
-      id: comments.length + 1,
-      author: "New User",
-      avatar: "https://react.semantic-ui.com/images/avatar/small/steve.jpg",
-      time: "Just now",
-      text: newComment,
-      replies: [],
+    console.log(postId);
+    const data = {
+      content: newComment,
     };
-
-    // setComments([newCommentObj, ...comments]);
-    setNewComment(""); // Clear input field
+    try {
+      dispatch(AddCommentsByIdRequest(postId, data));
+      setNewComment("");
+    } catch (error) {
+      console.error("Error adding comment:", error);
+    }
   };
 
-  // Function to handle adding a reply
-  const handleAddReply = (commentId) => {
+  const handleAddReply = async (commentId) => {
     const replyText = replyData[commentId]?.text || "";
     if (replyText.trim() === "") return;
 
-    const newReply = {
-      id: Date.now(),
-      author: "New User",
-      avatar: "https://react.semantic-ui.com/images/avatar/small/steve.jpg",
-      time: "Just now",
-      text: replyText,
+    const newReplyObj = {
+      parentId: commentId,
+      content: replyText,
     };
 
-    // setComments((prevComments) =>
-    //   prevComments.map((comment) =>
-    //     comment.id === commentId
-    //       ? { ...comment, replies: [...comment.replies, newReply] }
-    //       : comment
-    //   )
-    // );
-
-    // Reset the reply input field and close it
-    setReplyData((prev) => ({
-      ...prev,
-      [commentId]: { isOpen: false, text: "" },
-    }));
+    try {
+      await AddComments(newReplyObj); // Send reply to API
+      setReplyData((prev) => ({
+        ...prev,
+        [commentId]: { isOpen: false, text: "" }, // Clear input field
+      }));
+    } catch (error) {
+      console.error("Error adding reply:", error);
+    }
   };
+
   console.log(comments);
   return (
     <CommentGroup>
@@ -104,105 +81,106 @@ const CommentSection = () => {
             icon="send"
             color="blue"
             style={{ padding: "10px" }}
-            onClick={handleAddComment}
+            onClick={() => handleAddComment(postId)}
           />
         </div>
       </Form>
-
-      {/* Display comments dynamically */}
-      {comments.map((comment) => (
-        <Comment key={comment.id} style={{ padding: "10px 15px" }}>
-          <CommentAvatar
-            src={comment?.ownerDetails?.avatar}
-            style={{
-              paddingTop: "5px",
-              borderRadius: "50% !important",
-              width: "40px", // Adjust size as needed
-              height: "40px",
-              objectFit: "cover",
-            }}
-          />
-
-          <CommentContent>
-            <div
+      {Array.isArray(comments) && comments.length > 0 ? (
+        comments.map((comment) => (
+          <Comment key={comment.id} style={{ padding: "10px 15px" }}>
+            <CommentAvatar
+              src={comment?.ownerDetails?.avatar}
               style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
+                paddingTop: "5px",
+                borderRadius: "50% !important",
+                width: "40px",
+                height: "40px",
+                objectFit: "cover",
               }}
-            >
-              <CommentAuthor style={{ color: theme.colors.white }}>
-                {comment?.ownerDetails?.userName}
-              </CommentAuthor>
-              <CommentActions>
-                <a
-                  style={{ color: theme.colors.gray, cursor: "pointer" }}
-                  onClick={() => handleReplyToggle(comment.id)}
-                >
-                  Reply
-                </a>
-              </CommentActions>
-            </div>
-            <CommentMetadata style={{ color: theme.colors.gray }}>
-              {comment.createdAt}
-            </CommentMetadata>
-            <CommentText style={{ color: theme.colors.white }}>
-              {comment.content}
-            </CommentText>
-          </CommentContent>
-
-          {/* Reply TextArea for Comments */}
-          {replyData[comment.id]?.isOpen && (
-            <Form reply>
-              <div style={{ display: "flex", gap: "10px"  }}>
-                <Input
-                  value={replyData[comment.id]?.text || ""}
-                  onChange={(e) =>
-                    setReplyData({
-                      ...replyData,
-                      [comment.id]: {
-                        ...replyData[comment.id],
-                        text: e.target.value,
-                      },
-                    })
-                  }
-                  placeholder="Write a reply..."
-                  fluid
-                  style={{ marginBottom: "0px", width: "100%" }}
-                />
-                <Button
-                  icon="send"
-                  color="blue"
-                  style={{ padding: "10px" }}
-                  onClick={() => handleAddReply(comment.id)}
-                />
+            />
+            <CommentContent>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <CommentAuthor style={{ color: theme.colors.white }}>
+                  {comment?.ownerDetails?.userName}
+                </CommentAuthor>
+                <CommentActions>
+                  <a
+                    style={{ color: theme.colors.gray, cursor: "pointer" }}
+                    onClick={() => handleReplyToggle(comment.id)}
+                  >
+                    Reply
+                  </a>
+                </CommentActions>
               </div>
-            </Form>
-          )}
+              <CommentMetadata style={{ color: theme.colors.gray }}>
+                {comment.createdAt}
+              </CommentMetadata>
+              <CommentText style={{ color: theme.colors.white }}>
+                {comment.content}
+              </CommentText>
+            </CommentContent>
 
-          {/* Show Replies */}
-          {comment?.replies?.length > 0 && (
-            <CommentGroup>
-              {comment.replies.map((reply) => (
-                <Comment key={reply.id}>
-                  <CommentAvatar src={reply.avatar} />
-                  <CommentContent>
-                    <CommentAuthor style={{ color: theme.colors.white }}>
-                      {reply.author}
-                    </CommentAuthor>
-                    <CommentMetadata style={{ color: theme.colors.gray }}>
-                      {reply.time}
-                    </CommentMetadata>
-                    <CommentText style={{ color: theme.colors.white }}>
-                      {reply.text}
-                    </CommentText>
-                  </CommentContent>
-                </Comment>
-              ))}
-            </CommentGroup>
-          )}
-        </Comment>
-      ))}
+            {/* Reply TextArea */}
+            {replyData[comment.id]?.isOpen && (
+              <Form reply>
+                <div style={{ display: "flex", gap: "10px" }}>
+                  <Input
+                    value={replyData[comment.id]?.text || ""}
+                    onChange={(e) =>
+                      setReplyData({
+                        ...replyData,
+                        [comment.id]: {
+                          ...replyData[comment.id],
+                          text: e.target.value,
+                        },
+                      })
+                    }
+                    placeholder="Write a reply..."
+                    fluid
+                    style={{ marginBottom: "0px", width: "100%" }}
+                  />
+                  <Button
+                    icon="send"
+                    color="blue"
+                    style={{ padding: "10px" }}
+                    onClick={() => handleAddReply(comment.id)}
+                  />
+                </div>
+              </Form>
+            )}
+
+            {/* Show Replies */}
+            {comment?.replies?.length > 0 && (
+              <CommentGroup>
+                {comment.replies.map((reply) => (
+                  <Comment key={reply.id}>
+                    <CommentAvatar src={reply.avatar} />
+                    <CommentContent>
+                      <CommentAuthor style={{ color: theme.colors.white }}>
+                        {reply.author}
+                      </CommentAuthor>
+                      <CommentMetadata style={{ color: theme.colors.gray }}>
+                        {reply.time}
+                      </CommentMetadata>
+                      <CommentText style={{ color: theme.colors.white }}>
+                        {reply.text}
+                      </CommentText>
+                    </CommentContent>
+                  </Comment>
+                ))}
+              </CommentGroup>
+            )}
+          </Comment>
+        ))
+      ) : (
+        <p style={{ color: "white" }}>No comments yet.</p>
+      )}
     </CommentGroup>
   );
 };

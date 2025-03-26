@@ -44,21 +44,6 @@ const BottomNav = ({ handleLogOut }) => {
           </MenuItem>
         );
       })}
-      {/* Logout Button */}
-      <MenuItem onClick={handleLogOut}>
-        <NavItem>
-          <CustomIcon
-            name="log out"
-            style={{
-              fontSize: "20px",
-              color: theme.colors.orange,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          />
-        </NavItem>
-      </MenuItem>
     </BottomNavContainer>
   );
 };

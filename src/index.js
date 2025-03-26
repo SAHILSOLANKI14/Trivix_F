@@ -9,9 +9,9 @@ import { Provider } from "react-redux";
 import store from "./Store/Store";
 import "./index.css";
 ReactDOM.render(
-  <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
     <Provider store={store}>
-      <App />
+        <App />
     </Provider>
   </ThemeProvider>,
   document.getElementById("root")

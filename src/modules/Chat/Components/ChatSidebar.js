@@ -30,7 +30,7 @@ const ChatSidebar = ({ chatList, openChat }) => {
               //   color={theme.colors.orange}
             />
             <Header style={{ margin: "0px", color: theme.colors.white }}>
-              Chat
+              Back
             </Header>
           </div>
         </a>
