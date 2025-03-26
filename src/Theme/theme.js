@@ -1,18 +1,18 @@
 export const theme = {
   colors: {
     primary: "#FFF",
-    main: "#0C0F14",
+    main: "#003049",
     // main: "#3772FF",
-    orange: "#1F51FF",
-    black: "#0C0F14",
-    blue: "#1F51FF",
+    orange: "#FCA311",
+    black: "#2B2B2B",
+    blue: "#4A90E2",
     bg6: "#F5F5F5",
     white: "#FFFFFF",
-    gray: "#0C0F14",
-    subtext: "#0C0F14",
-    title: "#0C0F14",
+    gray: "#B3B3B3",
+    subtext: "#666666",
+    title: "#333333",
   },
   border: {
-    primary: "#0C0F14",
+    primary: "#14213D",
   },
 };
