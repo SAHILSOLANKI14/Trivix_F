@@ -15,15 +15,15 @@ const CustomCard = ({ item, style = {} }) => {
     >
       <Card
         style={{
-          backgroundColor: theme.colors.bg6,
+          backgroundColor: theme.colors.main,
           color: theme.colors.white,
           width: "350px",
           height: "100%",
-          borderRadius: "15px",
+          borderRadius: "10px",
           overflow: "hidden",
           boxShadow: "none",
           margin: 0, // Remove extra margin
-          border: `1px solid  ${theme.colors.white}`,
+          // border: `1px solid  ${theme.colors.white}`,
         }}
       >
         <Image
@@ -39,7 +39,7 @@ const CustomCard = ({ item, style = {} }) => {
         <Card.Content>
           <Card.Header
             style={{
-              color: theme.colors.black,
+              color: theme.colors.white,
               padding: "7px",
             }}
           >
@@ -47,7 +47,7 @@ const CustomCard = ({ item, style = {} }) => {
           </Card.Header>
           <CardMeta
             style={{
-              color: theme.colors.black,
+              color: theme.colors.white,
               padding: 0,
               display: "flex",
               flexDirection: "row",
@@ -56,14 +56,14 @@ const CustomCard = ({ item, style = {} }) => {
           >
             <CustomIcon
               name={"map marker alternate"}
-              style={{ color: theme.colors.black, padding: 0 }}
+              style={{ color: theme.colors.white, padding: 0 }}
             />
             {item.meta}
           </CardMeta>
           <Card.Description>
             <div
               style={{
-                color: theme.colors.black,
+                color: theme.colors.white,
                 padding: "0px 5px",
                 display: "flex",
                 flexDirection: "row",
@@ -73,13 +73,13 @@ const CustomCard = ({ item, style = {} }) => {
               <Card.Meta style={{ display: "flex", alignItems: "center" }}>
                 <Header
                   as={"h4"}
-                  style={{ color: theme.colors.blue, margin: 0 }}
+                  style={{ color: theme.colors.white, margin: 0 }}
                 >
                   ₹40 /
                 </Header>
                 <span> Visit</span>
               </Card.Meta>
-              <CustomIcon name="heart outline" color="blue" size="large" />
+              <CustomIcon name="heart outline" color="white" size="large" />
             </div>
           </Card.Description>
         </Card.Content>

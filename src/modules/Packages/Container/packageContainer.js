@@ -49,9 +49,6 @@ const PackageContainer = () => {
           >
             {!id ? (
               <>
-                <div style={{ position: "sticky" }}>
-                  <Nav />
-                </div>
                 {loading ? (
                   <Loader />
                 ) : (

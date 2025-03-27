@@ -27,7 +27,6 @@ const ChatSidebar = ({ chatList, openChat }) => {
               name="arrow left"
               size="large"
               style={{ color: theme.colors.white, cursor: "pointer" }}
-              //   color={theme.colors.orange}
             />
             <Header style={{ margin: "0px", color: theme.colors.white }}>
               Back

@@ -3,7 +3,7 @@ import { theme } from "../Theme/theme";
 import { Header, Image } from "semantic-ui-react";
 import loader from "../assets/images/giphy.gif";
 
-const Loader = () => {
+const Loader = ({ style }) => {
   return (
     <div
       style={{
@@ -12,6 +12,7 @@ const Loader = () => {
         alignItems: "center",
         flexDirection: "column",
         height: "90vh",
+        ...style,
       }}
     >
       <Image src={loader} ui={false} style={{ width: "60px" }} />

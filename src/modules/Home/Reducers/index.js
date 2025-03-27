@@ -12,6 +12,7 @@ const initialData = {
   data: [],
   comments: [],
   loading: false,
+  Commentloading: false,
   error: null,
 };
 export const AllPostsReducer = (state = initialData, action) => {
@@ -38,11 +39,13 @@ export const AllPostsReducer = (state = initialData, action) => {
     case GET_COMMENTS_BY_ID_REQUEST:
       return {
         ...state,
+        Commentloading: true,
         error: null,
       };
     case GET_COMMENTS_BY_ID_SUCCESS:
       return {
         ...state,
+        Commentloading: false,
         comments: action.payload,
         error: null,
       };
@@ -50,6 +53,7 @@ export const AllPostsReducer = (state = initialData, action) => {
       return {
         ...state,
         loading: false,
+        Commentloading: false,
         error: action.payload,
       };
     case POST_COMMENTS_BY_ID_SUCCESS:

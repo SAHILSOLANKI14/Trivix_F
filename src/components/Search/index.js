@@ -24,7 +24,12 @@ const CustomeSearch = ({
     <>
       <Grid>
         <Grid.Row columns={"equal"}>
-          <Grid.Column width={16} mobile={6} tablet={6} computer={16}>
+          <Grid.Column
+            mobile={6}
+            tablet={6}
+            computer={16}
+            style={{ display: Desktop }}
+          >
             <div
               style={{
                 display: "flex",
@@ -84,14 +89,14 @@ const CustomeSearch = ({
                   <CustomIcon
                     name="bell outline"
                     size={"large"}
-                    style={{ color: theme.colors.white }}
+                    style={{ color: theme.colors.orange }}
                   />
                 </a>
                 <a href="/chat">
                   <CustomIcon
                     name="comments outline"
                     size={"large"}
-                    style={{ color: theme.colors.white }}
+                    style={{ color: theme.colors.orange }}
                   />
                 </a>
               </div>

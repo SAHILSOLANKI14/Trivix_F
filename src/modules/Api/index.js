@@ -135,7 +135,7 @@ export const loginApi = async (credentials, userType) => {
 
 export const signupApi = (data, userType) =>
   apiRequest(
-    `${userType === "Agency" ? "agency" : "traveler"}/signup`,
+    `${userType === "Agency" ? "agency" : "traveler"}/auth/signup`,
     "POST",
     data
   );
@@ -147,5 +147,5 @@ export const logoutApi = async () => {
     "POST"
   );
   clearAuthItems();
-  window.location.href = "/login"; // Redirect to login page after logout
+  window.location.href = "/auth/login"; // Redirect to login page after logout
 };

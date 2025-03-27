@@ -20,7 +20,7 @@ const InputComponent = ({
         <label
           style={{
             fontSize: "16px",
-            color: theme.colors.black,
+            color: theme.colors.white,
             paddingBottom: "10px",
           }}
         >

@@ -31,7 +31,7 @@ const PostBox = () => {
   );
   const tweets = AllTWeetData?.tweets || [];
   const limit = 30;
-  const sort = "asc";
+  const sort = "desc";
 
   useEffect(() => {
     dispatch(getAllTweetsRequest(page, limit, sort));
@@ -91,18 +91,41 @@ const PostBox = () => {
   return (
     <Segment
       style={{
-        height: isMobile || istablet ? "95vh" : "90vh",
+        height: isMobile || istablet ? "90vh" : "90vh",
         display: "flex",
         flexDirection: "column",
-        background: theme.colors.black,
+        background: theme.colors.mainbg,
         borderRadius: isMobile ? "0px" : "15px",
         marginLeft: isMobile ? "0px" : "15px",
+        padding: 0,
       }}
     >
       {loading ? (
         <Loader />
       ) : (
         <>
+          {isMobile || istablet ? (
+            <div
+              style={{
+                position: "sticky",
+                top: 0,
+                left: 0,
+                background: theme.colors.main,
+                zIndex: 1000,
+                marginTop: "-20px",
+                width: "100%",
+                padding: "10px 10px ",
+                marginBottom: "20px",
+              }}
+            >
+              <CustomIcon
+                name={"arrow left"}
+                size={"large"}
+                style={{ color: theme.colors.white }}
+                onClick={handleNavigate}
+              />
+            </div>
+          ) : null}
           <div
             ref={tweetsContainerRef}
             style={{
@@ -114,27 +137,12 @@ const PostBox = () => {
               position: "relative",
             }}
           >
-            {isMobile || istablet ? (
-              <div
-                style={{
-                  position: "fixed",
-                  background: theme.colors.black,
-                  zIndex: 1000,
-                  marginTop: "-15px",
-                  width: "100%",
-                  padding: "10px",
-                }}
-              >
-                <CustomIcon
-                  name={"arrow left"}
-                  size={"large"}
-                  style={{ color: theme.colors.white }}
-                  onClick={handleNavigate}
-                />
-              </div>
-            ) : null}
-
-            <Comment.Group style={{ padding: "10px", marginBottom: "70px" }}>
+            <Comment.Group
+              style={{
+                padding: "10px",
+                paddingBottom: "70px",
+              }}
+            >
               {tweets.map((msg) => (
                 <div key={msg.id}>
                   <Comment>
@@ -186,12 +194,13 @@ const PostBox = () => {
           </div>
           <div
             style={{
-              background: theme.colors.black,
+              background: theme.colors.mainbg,
               position: "absolute",
               bottom: "0",
-              left: "1",
+              left: "0",
               width: "100%",
-              padding: "10px",
+              padding: "10px ",
+
               borderTop: `1px solid ${theme.border.primary}`,
             }}
           >

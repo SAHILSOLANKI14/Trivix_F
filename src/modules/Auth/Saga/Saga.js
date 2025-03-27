@@ -23,8 +23,7 @@ import Cookies from "js-cookie";
 function* handleLogin(action) {
   try {
     const response = yield call(login, action.payload, "Agency");
-    if(response)
-    yield put(loginSuccess(response.data));
+    if (response) yield put(loginSuccess(response.data));
     localStorage.setItem("user", response.data.accessToken);
     localStorage.setItem("agency", JSON.stringify(response?.data?.agency));
     Cookies.set("accessToken", response.data.accessToken);
@@ -35,7 +34,7 @@ function* handleLogin(action) {
     if (action.payload.toastCallback) {
       action.payload.toastCallback("Login successful", "success");
     }
-    if(response.data?.traveler?.accessToken || response.data?.agency?.accessToken){
+    if (response.data?.accessToken) {
       window.location.reload();
     }
   } catch (error) {
@@ -60,6 +59,9 @@ function* handleTravelerLogin(action) {
 
     if (action.payload.toastCallback) {
       action.payload.toastCallback("Traveler login successful", "success");
+    }
+    if (response.data?.accessToken) {
+      window.location.reload();
     }
   } catch (error) {
     yield put(TravelerloginFailure(error.message));

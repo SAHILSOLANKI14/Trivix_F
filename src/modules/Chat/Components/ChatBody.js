@@ -26,23 +26,13 @@ const ChatBody = ({
   }, [messages]);
 
   return (
-    <Grid.Column
-      width={16}
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        padding: "8px",
-        height: "100vh",
-        position: "relative",
-      }}
-    >
-      {/* Chat Header */}
+    <>
       {selectedChat && (
         <div
           style={{
             position: "sticky",
             top: 0,
-            backgroundColor: theme.colors.black,
+            backgroundColor: theme.colors.mainbg,
             zIndex: 1000,
             padding: "5px 0px",
             width: "100%",
@@ -71,82 +61,94 @@ const ChatBody = ({
           />
         </div>
       )}
-
-      {/* Messages */}
-      <div
+      <Grid.Column
+        width={16}
         style={{
-          flex: 1,
-          overflowY: "auto",
-          paddingBottom: "60px",
-          scrollbarWidth: "thin",
-          scrollbarColor: "white",
-          marginTop: "10px",
-          padding: "10px",
+          display: "flex",
+          flexDirection: "column",
+          padding: "8px",
+          height: "100vh",
+          position: "relative",
         }}
       >
-        {messages.map((msg) => (
-          <div
-            key={msg.id}
-            style={{
-              display: "flex",
-              justifyContent: msg.type === "sent" ? "flex-end" : "flex-start",
-              marginBottom: "30px",
-            }}
-          >
-            {msg.type === "received" && (
-              <Image src={selectedChat?.avatar || " "} avatar />
-            )}
-            <div
-              style={{
-                background:
-                  msg.type === "sent" ? theme.colors.blue : theme.colors.bg6,
-                color: msg.type === "sent" ? "#fff" : "#000",
-                padding: "10px",
-                borderRadius: "10px",
-                maxWidth: "80%",
-                fontSize: "14px",
-                textAlign: "left",
-                marginLeft: msg.type === "received" ? "10px" : "0",
-                wordWrap: "break-word",
-                overflowWrap: "break-word",
-                whiteSpace: "pre-wrap",
-              }}
-            >
-              {msg.text}
-            </div>
-          </div>
-        ))}
-        <div ref={messagesEndRef} />
-      </div>
+        {/* Chat Header */}
 
-      {/* Chat Input */}
-      {selectedChat && (
+        {/* Messages */}
         <div
           style={{
-            position: "absolute",
-            bottom: "0",
-            left: "0",
-            width: "100%",
+            flex: 1,
+            overflowY: "auto",
+            paddingBottom: "60px",
+            scrollbarWidth: "thin",
+            scrollbarColor: "white",
+            marginTop: "10px",
             padding: "10px",
-            display: "flex",
-            alignItems: "center",
           }}
         >
-          <Input
-            placeholder="Send a message..."
-            value={inputMessage}
-            style={{ flex: 1 }}
-            onChange={(e) => setInputMessage(e.target.value)}
-          />
-          <Button
-            icon="send"
-            color="blue"
-            style={{ marginLeft: "10px" }}
-            onClick={sendMessage}
-          />
+          {messages.map((msg) => (
+            <div
+              key={msg.id}
+              style={{
+                display: "flex",
+                justifyContent: msg.type === "sent" ? "flex-end" : "flex-start",
+                marginBottom: "30px",
+              }}
+            >
+              {msg.type === "received" && (
+                <Image src={selectedChat?.avatar || " "} avatar />
+              )}
+              <div
+                style={{
+                  background:
+                    msg.type === "sent" ? theme.colors.blue : theme.colors.bg6,
+                  color: msg.type === "sent" ? "#fff" : "#000",
+                  padding: "10px",
+                  borderRadius: "10px",
+                  maxWidth: "80%",
+                  fontSize: "14px",
+                  textAlign: "left",
+                  marginLeft: msg.type === "received" ? "10px" : "0",
+                  wordWrap: "break-word",
+                  overflowWrap: "break-word",
+                  whiteSpace: "pre-wrap",
+                }}
+              >
+                {msg.text}
+              </div>
+            </div>
+          ))}
+          <div ref={messagesEndRef} />
         </div>
-      )}
-    </Grid.Column>
+
+        {/* Chat Input */}
+        {selectedChat && (
+          <div
+            style={{
+              position: "absolute",
+              bottom: "0",
+              left: "0",
+              width: "100%",
+              padding: "10px",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <Input
+              placeholder="Send a message..."
+              value={inputMessage}
+              style={{ flex: 1 }}
+              onChange={(e) => setInputMessage(e.target.value)}
+            />
+            <Button
+              icon="send"
+              color="blue"
+              style={{ marginLeft: "10px" }}
+              onClick={sendMessage}
+            />
+          </div>
+        )}
+      </Grid.Column>
+    </>
   );
 };
 

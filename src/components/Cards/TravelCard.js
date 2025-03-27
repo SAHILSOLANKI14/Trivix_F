@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Image, List, ListItem } from "semantic-ui-react";
+import { Card, Header, Image, List, ListItem } from "semantic-ui-react";
 import { theme } from "../../Theme/theme";
 import Cardimg from "../../assets/images/card3.png";
 import CustomIcon from "../../shared/Icon";
@@ -32,28 +32,28 @@ const TravelCard = ({ item, style = {}, handleNavigateDetailpage }) => {
     >
       <Card
         style={{
-          backgroundColor: theme.colors.white,
+          backgroundColor: theme.colors.main,
           color: theme.colors.white,
           width: "250px",
           minHeight: "310px",
-          borderRadius: "15px",
+          borderRadius: "10px",
           overflow: "hidden",
           boxShadow: "none",
           margin: 0,
           padding: 0,
           position: "relative",
-          border: `1px solid  ${theme.colors.white}`,
+          // border: `1px solid  ${theme.colors.white}`,
         }}
       >
         <Image
-          src={Cardimg}
+          src={item?.photos[0] || Cardimg}
           ui={true}
           style={{
             width: "100%",
             objectFit: "cover",
-            maxHeight: "120px",
-            padding: 0,
-            margin: 0,
+            maxHeight: "130px",
+            // padding: 0,
+            // margin: 0,
           }}
         />
         <div
@@ -78,20 +78,22 @@ const TravelCard = ({ item, style = {}, handleNavigateDetailpage }) => {
               style={{ cursor: "pointer" }}
               onClick={() => handleNavigateDetailpage(item._id)}
             >
-              <Card.Header
+              <Header
                 style={{
-                  color: theme.colors.orange,
+                  color: theme.colors.white,
                   padding: "0px",
-                  fontWeight: "500",
+                  fontWeight: "600",
+                  fontSize: "18px",
+                  margin: 0,
                 }}
               >
                 {item.title || "No Title"}
-              </Card.Header>
+              </Header>
               <Card.Header
                 style={{
-                  color: theme.colors.gray,
+                  color: theme.colors.white,
                   padding: "0px",
-                  fontWeight: "300",
+                  fontWeight: "400",
                   fontSize: "9px",
                 }}
               >
@@ -127,7 +129,7 @@ const TravelCard = ({ item, style = {}, handleNavigateDetailpage }) => {
                 ? item.activities[0].split(",").map((activity, index) => (
                     <ListItem
                       key={index}
-                      style={{ fontSize: "12px", color: theme.colors.gray }}
+                      style={{ fontSize: "12px", color: theme.colors.white }}
                     >
                       {activity.trim()}
                     </ListItem>
@@ -135,7 +137,7 @@ const TravelCard = ({ item, style = {}, handleNavigateDetailpage }) => {
                 : item.activities?.map((activity, index) => (
                     <ListItem
                       key={index}
-                      style={{ fontSize: "9px", color: theme.colors.gray }}
+                      style={{ fontSize: "9px", color: theme.colors.white }}
                     >
                       {activity}
                     </ListItem>

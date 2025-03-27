@@ -8,6 +8,7 @@ import { Button } from "../../../../shared";
 import Fields from "../../../../shared/Form/Fields/Fields";
 import Form from "../../../../shared/Form/Form";
 import { bookingpackagesApi } from "../../Api";
+import { theme } from "../../../../Theme/theme";
 const Booking = ({ isModalOpen, handleBookingClose }) => {
   const { reset } = useForm();
   const schema = yup.object().shape({
@@ -33,9 +34,14 @@ const Booking = ({ isModalOpen, handleBookingClose }) => {
       onClose={handleBookingClose}
       size="small"
       dimmer="blurring"
+      style={{ background: theme.colors.mainbg }}
     >
-      <Modal.Header>Confirm Booking</Modal.Header>
-      <Modal.Content>
+      <Modal.Header
+        style={{ background: theme.colors.mainbg, color: theme.colors.white }}
+      >
+        Confirm Booking
+      </Modal.Header>
+      <Modal.Content style={{ background: theme.colors.mainbg }}>
         <Form onSubmit={onSubmit} validateSchemas={schema}>
           <Fields.Input
             name="slotsBooked"
@@ -43,11 +49,11 @@ const Booking = ({ isModalOpen, handleBookingClose }) => {
             label="Book your slots"
             placeholder="select your slots"
           />
-          {/* <Fields.FileUploads
+          <Fields.FileUploads
           name="IdProofe"
           label="Upload Your IdProofe"
           placeholder="Upload Your IdProofe (AdharCard,panCard,DrivingLicence)"
-        /> */}
+        />
           <div style={{ padding: "10px 30px" }}>
             <Button type="submit" primary fluid>
               Confirm Booking
@@ -55,7 +61,7 @@ const Booking = ({ isModalOpen, handleBookingClose }) => {
           </div>
         </Form>
       </Modal.Content>
-      <Modal.Actions>
+      <Modal.Actions style={{ background: theme.colors.mainbg }}>
         <Button onClick={handleBookingClose}>Cancel</Button>
       </Modal.Actions>
     </Modal>

@@ -56,7 +56,15 @@ const PackagesCreate = ({ loading }) => {
   };
 
   return (
-    <Segment padded style={{ padding: "20px", marginBottom: "50px" }}>
+    <Segment
+      padded
+      style={{
+        padding: "20px",
+        marginBottom: "50px",
+        background: "transparent",
+        border: "none",
+      }}
+    >
       <Header as="h2" textAlign="center" style={{ marginBottom: "30px" }}>
         Create Package
       </Header>
@@ -107,19 +115,19 @@ const PackagesCreate = ({ loading }) => {
               />
             </Grid.Column>
             <Grid.Column>
-              <Fields.Input name="startDate" label="Start Date" type="date" />
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column>
-              <Fields.Input name="endDate" label="End Date" type="date" />
-            </Grid.Column>
-            <Grid.Column>
               <Fields.Input
                 name="activities"
                 label="Activities"
                 placeholder="Enter activities"
               />
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column>
+              <Fields.Input name="startDate" label="Start Date" type="date" />
+            </Grid.Column>
+            <Grid.Column>
+              <Fields.Input name="endDate" label="End Date" type="date" />
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
@@ -143,7 +151,7 @@ const PackagesCreate = ({ loading }) => {
               <Fields.TextArea
                 name="itinerary"
                 label="Itinerary"
-                rows={4}
+                rows={3}
                 placeholder="Enter itinerary"
               />
             </Grid.Column>

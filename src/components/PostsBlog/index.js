@@ -56,8 +56,8 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
   };
 
   const responsiveHeight = () => {
-    if (isLaptop) return "350px";
-    if (isMobile) return "300px";
+    if (isLaptop) return "max-content";
+    if (isMobile) return "max-content";
     else {
       return "500px";
     }
@@ -100,6 +100,7 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
           width: "100%",
           padding: size,
           background: "transparent",
+          marginTop:isMobile ? "20px" : '10px'
         }}
       >
         {posts.map((post, postIndex) => (
@@ -109,6 +110,8 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
               padding: "0px",
               marginBottom: "20px",
               width: "100%",
+              background: theme.colors.main,
+              borderRadius:'10px'
             }}
           >
             {/* User Info and Comments */}
@@ -159,8 +162,11 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
                       alt={`slide-${index}`}
                       style={{
                         width: "100%",
+                        maxHeight: "350px",
                         height: responsiveHeight(),
                         objectFit: "cover",
+                        marginBottom: "20px",
+                        // background: theme.colors.black,
                       }}
                     />
                   </div>
@@ -173,8 +179,10 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
                 style={{
                   width: "100%",
                   height: responsiveHeight(),
+                  maxHeight: "400px",
                   objectFit: "cover",
                   marginBottom: "20px",
+                  // background: theme.colors.black,
                 }}
               />
             )}
@@ -200,7 +208,7 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
               </div>
               <CustomIcon
                 name="send outline"
-                style={{ color: theme.colors.black, fontSize: "16px" }}
+                style={{ color: theme.colors.white, fontSize: "16px" }}
               />
             </div>
             <div style={{ padding: "5px 20px" }}>

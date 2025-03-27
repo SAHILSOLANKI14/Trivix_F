@@ -18,10 +18,9 @@ const HomeContainer = () => {
   useEffect(() => {
     dispatch(allPostsRequest());
   }, []);
-  
+
   return (
     <>
-      <Nav />
       <Grid>
         <Grid.Row
           style={{
@@ -43,7 +42,6 @@ const HomeContainer = () => {
               borderRight: !isMobile
                 ? `1px solid ${theme.colors.white}`
                 : "none",
-              borderTop: !isMobile ? `1px solid ${theme.colors.white}` : "none",
             }}
           >
             {loading ? (
@@ -75,7 +73,6 @@ const HomeContainer = () => {
                   position: "sticky",
                   top: "0px",
                   padding: 0,
-                  borderTop: `1px solid ${theme.colors.white}`,
                 }}
               >
                 <div

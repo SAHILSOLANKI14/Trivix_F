@@ -21,11 +21,11 @@ const CustomCard = ({ item, style = {} }) => {
     >
       <Card
         style={{
-          border: `1px solid  ${theme.colors.white}`,
+          border: `1px solid  ${theme.colors.main}`,
           color: theme.colors.white,
           width: "350px",
           height: "220px",
-          borderRadius: "15px",
+          borderRadius: "10px",
           overflow: "hidden",
           boxShadow: "none",
         }}

@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  Grid,
-  Header,
-  Image,
-  List,
-  Transition
-} from "semantic-ui-react";
+import { Grid, Header, Image, List, Transition } from "semantic-ui-react";
 import vector from "../../../../assets/images/Vector.svg";
 import CustomSlider from "../../../../components/Slider";
 import useWindowSize from "../../../../hooks/Screen";
@@ -104,7 +98,7 @@ const DetailPackagePage = ({ id }) => {
             borderRadius: isMobile ? "0px" : "12px",
             overflow: "hidden",
             boxShadow: "none",
-            background: theme.colors.black,
+            background: theme.colors.mainbg,
             marginTop: isMobile ? "0px" : "0px",
             padding: isMobile ? "0px" : "30px",
             maxWidth: "max-content",
@@ -151,7 +145,9 @@ const DetailPackagePage = ({ id }) => {
                 />
               </div>
 
-              <div style={{ padding: "20px 10px", marginLeft: "-7px" }}>
+              <div
+                style={{ padding: "15px 0px 0px 6px", marginLeft: "-7px" }}
+              >
                 <CustomSlider settings={settings}>
                   {detailData?.photos.map((item, index) => (
                     <div
@@ -182,7 +178,7 @@ const DetailPackagePage = ({ id }) => {
                   <Header
                     as="h2"
                     style={{
-                      color: theme.colors.orange,
+                      color: theme.colors.white,
                       display: "flex",
                       alignItems: "center",
                       margin: "0",
@@ -196,10 +192,11 @@ const DetailPackagePage = ({ id }) => {
                 <Header
                   as="h4"
                   style={{
-                    color: theme.colors.gray,
+                    color: theme.colors.white,
                     margin: 0,
                     paddingBottom: "20px",
                     padding: "5px 10px",
+                    fontWeight: "400",
                   }}
                 >
                   {detailData?.agency.agencyName}
@@ -221,7 +218,7 @@ const DetailPackagePage = ({ id }) => {
                       />
                       <Header
                         as="h4"
-                        style={{ margin: 0, color: theme.colors.gray }}
+                        style={{ margin: 0, color: theme.colors.white }}
                       >
                         {detailData?.mainLocation || ""}
                       </Header>
@@ -238,7 +235,7 @@ const DetailPackagePage = ({ id }) => {
                       <CustomIcon
                         name="exchange"
                         size="large"
-                        style={{ color: theme.colors.gray, padding: 0 }}
+                        style={{ color: theme.colors.white, padding: 0 }}
                       />
                     </Grid.Column>
                     <Grid.Column
@@ -256,7 +253,7 @@ const DetailPackagePage = ({ id }) => {
                       />
                       <Header
                         as="h4"
-                        style={{ margin: 0, color: theme.colors.gray }}
+                        style={{ margin: 0, color: theme.colors.white }}
                       >
                         {detailData?.fromLocation || ""}
                       </Header>
@@ -272,11 +269,12 @@ const DetailPackagePage = ({ id }) => {
                     color: theme.colors.white,
                     padding: "5px 10px",
                     margin: 0,
+                    fontSize: "16px",
                   }}
                 >
                   About Destination
                 </Header>
-                <p style={{ color: theme.colors.gray, padding: "5px 10px" }}>
+                <p style={{ color: theme.colors.white, padding: "5px 10px" }}>
                   {detailData?.description}
                 </p>
                 <Transition
@@ -287,7 +285,7 @@ const DetailPackagePage = ({ id }) => {
                   <div
                     style={{
                       marginBottom: "20px",
-                      color: theme.colors.gray,
+                      color: theme.colors.white,
                       padding: "5px 10px",
                     }}
                   >
@@ -320,6 +318,7 @@ const DetailPackagePage = ({ id }) => {
                         style={{
                           color: theme.colors.white,
                           padding: "5px 10px",
+                          fontSize: "16px",
                         }}
                       >
                         Services & Facilities
@@ -345,7 +344,7 @@ const DetailPackagePage = ({ id }) => {
                                       key={`${index}-${i}`}
                                       style={{
                                         fontSize: "14px",
-                                        color: theme.colors.gray,
+                                        color: theme.colors.white,
                                       }}
                                     >
                                       {item.trim()}
@@ -362,6 +361,7 @@ const DetailPackagePage = ({ id }) => {
                         style={{
                           color: theme.colors.white,
                           padding: "5px 10px",
+                          fontSize: "16px",
                         }}
                       >
                         Activities
@@ -387,7 +387,7 @@ const DetailPackagePage = ({ id }) => {
                                     key={`${index}-${i}`}
                                     style={{
                                       fontSize: "14px",
-                                      color: theme.colors.gray,
+                                      color: theme.colors.white,
                                     }}
                                   >
                                     {item.trim()}
@@ -402,7 +402,7 @@ const DetailPackagePage = ({ id }) => {
                 </Grid>
               </div>
 
-              <div style={{ padding: "20px" }}>
+              <div style={{ padding: "20px", marginLeft: "10px" }}>
                 <Grid columns={3}>
                   <Grid.Row>
                     <Grid.Column>
@@ -412,7 +412,7 @@ const DetailPackagePage = ({ id }) => {
                       >
                         Price:
                       </Header>
-                      <p style={{ color: theme.colors.gray }}>
+                      <p style={{ color: theme.colors.white }}>
                         ₹{detailData?.price || "N/A"}
                       </p>
                     </Grid.Column>
@@ -423,7 +423,7 @@ const DetailPackagePage = ({ id }) => {
                       >
                         Available Slots:
                       </Header>
-                      <p style={{ color: theme.colors.gray }}>
+                      <p style={{ color: theme.colors.white }}>
                         {detailData?.availableSlots || "N/A"}
                       </p>
                     </Grid.Column>
@@ -434,7 +434,7 @@ const DetailPackagePage = ({ id }) => {
                       >
                         Max Slots:
                       </Header>
-                      <p style={{ color: theme.colors.gray }}>
+                      <p style={{ color: theme.colors.white }}>
                         {detailData?.maxSlots || "N/A"}
                       </p>
                     </Grid.Column>

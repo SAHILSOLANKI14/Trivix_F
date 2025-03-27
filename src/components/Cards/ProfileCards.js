@@ -19,7 +19,7 @@ const ProfileCard = () => {
           borderRadius: "15px",
           overflow: "hidden",
           top: "70px",
-          background: theme.colors.main,
+          background: theme.colors.mainbg,
           padding: "0px",
           margin: "0px",
           border: `1px solid  ${theme.colors.white}`,
@@ -39,6 +39,8 @@ const ProfileCard = () => {
           style={{
             marginTop: "-40px",
             width: "70px",
+            height: "70px",
+            objectFit: "cover",
           }}
         />
         <Card.Content
@@ -62,7 +64,7 @@ const ProfileCard = () => {
           </Card.Meta>
           <div style={{ marginTop: "10px" }}>
             <a href={`/profile/${Data?.traveler?._id || Data?.agency?._id}`}>
-              <Button color="orange" fluid style={{ borderRadius: "20px" }}>
+              <Button fluid style={{ borderRadius: "20px" ,background:theme.colors.orange,color:theme.colors.white}}>
                 Profile
               </Button>
             </a>

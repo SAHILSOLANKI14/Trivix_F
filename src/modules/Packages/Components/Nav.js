@@ -19,10 +19,11 @@ const Nav = () => {
     <Grid
       //   stackable
       style={{
-        background: "transparent",
+        background: theme.colors.black,
         alignItems: "center",
         padding: "0px 20px",
         marginTop: "0px",
+   
       }}
     >
       <Grid.Row columns={2} style={{ display: "flex", alignItems: "center" }}>
@@ -44,7 +45,7 @@ const Nav = () => {
               avatar
             />
             <div>
-              <Header as="h5" style={{ margin: 0, color: theme.colors.white }}>
+              <Header as="h5" style={{ margin: 0, color: theme.colors.orange }}>
                 Current Location
               </Header>
               <CustomIcon

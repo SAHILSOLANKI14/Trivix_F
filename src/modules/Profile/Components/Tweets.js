@@ -20,6 +20,7 @@ const Tweets = ({ tweets }) => {
         overflow: "hidden",
         gap: "10px",
         padding: "10px",
+        marginBottom: "30px",
       }}
     >
       {Data?.map((tweet, index) => (
