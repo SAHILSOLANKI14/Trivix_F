@@ -111,7 +111,7 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
               marginBottom: "20px",
               width: "100%",
               background: theme.colors.main,
-              borderRadius:'10px'
+              borderRadius:'5px'
             }}
           >
             {/* User Info and Comments */}
@@ -193,7 +193,7 @@ const ImageCarousel = ({ posts, isLaptop, isMobile }) => {
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
-                padding: "10px 15px",
+                padding: "0px 15px 10px 15px",
               }}
             >
               <div

@@ -9,7 +9,6 @@ import {
 } from "../../modules/Profile/Actions";
 import { theme } from "../../Theme/theme";
 import CustomIcon from "../../shared/Icon";
-import EmojiPicker from "emoji-picker-react";
 import useWindowSize from "../../hooks/Screen";
 import Loader from "../../utility/Loader";
 
@@ -110,7 +109,7 @@ const PostBox = () => {
                 position: "sticky",
                 top: 0,
                 left: 0,
-                background: theme.colors.main,
+                background: theme.colors.black,
                 zIndex: 1000,
                 marginTop: "-20px",
                 width: "100%",
@@ -263,7 +262,7 @@ const PostBox = () => {
               />
             </div>
 
-            {showEmojiPicker && (
+            {/* {showEmojiPicker && (
               <div style={{ position: "absolute", bottom: "50px", zIndex: 10 }}>
                 <EmojiPicker
                   onEmojiClick={(emojiObject) =>
@@ -271,7 +270,7 @@ const PostBox = () => {
                   }
                 />
               </div>
-            )}
+            )} */}
           </div>
         </>
       )}

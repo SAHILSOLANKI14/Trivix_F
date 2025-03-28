@@ -1,8 +1,8 @@
 export const theme = {
   colors: {
     primary: "#fff",
-    main: "#5b6a78",
-    mainbg: "#455462",
+    main: "#27445D",
+    mainbg: "#153448",
     orange: "#fca311",
     black: "#2B2B2B",
     blue: "#4A90E2",
